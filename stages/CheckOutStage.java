@@ -104,9 +104,8 @@ public class CheckOutStage extends Stage {
             for (Book book : booksToSell) {
                 int quantity = quantities.get(book);
 
-                Book modifiedBook = new Book(book.getIsbn13(), book.getTitle(), book.getDescription(), book.getPrice(), book.getAuthor(), book.getGenres(), book.getQuantity() - quantity, book.isPaperback());
-                BooksController.removeBook(book);
-                BooksController.addBook(modifiedBook);
+                book.setQuantity(book.getQuantity() - quantity);
+                BooksController.updateBook(book);
             }
 
             Bill bill = null;

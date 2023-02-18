@@ -14,7 +14,7 @@ import javafx.scene.layout.HBox;
 import main.UnauthenticatedException;
 import stages.ManageAuthorsStage;
 import stages.ManageBooksStage;
-import stages.ManageLibrariansStage;
+import stages.LibrariansStatisticsStage;
 import stages.SalesStatisticsStage;
 import stages.SellBooksStage;
 
@@ -23,10 +23,10 @@ public class ManagerScene extends Scene {
     Menu manage = new Menu("Manage");
     MenuItem manageBooks = new MenuItem("Books");
     MenuItem manageAuthors = new MenuItem("Authors");
-    MenuItem manageLibrarians = new MenuItem("Librarians");
 
     Menu statistics = new Menu("Statistics");
     MenuItem salesStatistics = new MenuItem("Sales");
+    MenuItem librariansStats = new MenuItem("Librarians");
     
     public ManagerScene() {
         super(new BorderPane(), 300, 200);
@@ -43,19 +43,19 @@ public class ManagerScene extends Scene {
             manageAuthorsStage.show();
         });
 
-        manageLibrarians.setOnAction(e -> {
-            ManageLibrariansStage manageLibrariansStage = new ManageLibrariansStage();
-            manageLibrariansStage.show();
-        });
-        
         salesStatistics.setOnAction(e -> {
             SalesStatisticsStage salesStatisticsStage = new SalesStatisticsStage();
             salesStatisticsStage.show();
         });
 
+        librariansStats.setOnAction(e -> {
+            LibrariansStatisticsStage librariansStatsStage = new LibrariansStatisticsStage();
+            librariansStatsStage.show();
+        });
+
         menuBar.getMenus().addAll(manage, statistics);
-        manage.getItems().addAll(manageBooks, manageAuthors, manageLibrarians);
-        statistics.getItems().add(salesStatistics);
+        manage.getItems().addAll(manageBooks, manageAuthors);
+        statistics.getItems().addAll(salesStatistics, librariansStats);
 
         border.setTop(menuBar);
 

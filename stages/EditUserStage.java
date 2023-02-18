@@ -1,6 +1,7 @@
 package stages;
 import javafx.stage.Stage;
 import main.AccessLevel;
+import main.LastAdministratorException;
 import main.UnauthenticatedException;
 import main.User;
 import javafx.geometry.Insets;
@@ -163,7 +164,14 @@ public class EditUserStage extends Stage {
             }
 
             AccessLevel role = roleComboBox.getValue();
-            
+            try {
+                LoginController.canDemote(user, role);
+            }
+            catch (LastAdministratorException exc) {
+                status.setText("Cannot demote last administator");
+                return;
+            }
+
             user.setFirstName(firstName);
             user.setLastName(lastName);
             user.setUsername(username);

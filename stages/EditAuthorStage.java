@@ -3,7 +3,6 @@ import javafx.stage.Stage;
 import main.Author;
 import main.Book;
 import main.Gender;
-
 import controllers.AuthorsController;
 import controllers.BooksController;
 import javafx.collections.ObservableList;

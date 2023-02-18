@@ -16,9 +16,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import javafx.util.Callback;
 import main.Book;
 
 public class SellBooksStage extends Stage {
@@ -83,12 +81,6 @@ public class SellBooksStage extends Stage {
                 CheckOutStage checkOutStage = new CheckOutStage(booksToSellArray);
                 checkOutStage.show();
             }
-
-            /*Book book = tableView.getSelectionModel().getSelectedItem();
-            if (book != null) {
-                EditBookStage editBookStage = new EditBookStage(book);
-                editBookStage.show();
-            }*/
         });
 
         BorderPane pane = new BorderPane();
