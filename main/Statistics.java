@@ -33,28 +33,37 @@ public class Statistics {
             }
 
             for (String fileName : fileList) {
-                String[] parts = fileName.split("\\.");
-                LocalDate date = LocalDate.parse(parts[0], DateTimeFormatter.ofPattern("dd-MM-yyyy"));
-                if (isWithinRange(date, from, to)) {
-                    StringBuilder sb = new StringBuilder();
-                    
-                    sb.append("Date: " + parts[0] + "\n");
-                    sb.append("User: " + parts[1] + "\n");
-                    sb.append("Books sold: " + parts[2] + "\n");
+                if (!fileName.endsWith(".txt")) {
+                    continue;
+                }
 
-                    double parsed = 0;
-                    NumberFormat format = NumberFormat.getInstance(Locale.FRANCE);
-                    try {
-                        parsed = format.parse(parts[3]).doubleValue();
-                        totalMoney += parsed;
+                try {
+                    String[] parts = fileName.split("\\.");
+                    LocalDate date = LocalDate.parse(parts[0], DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+                    if (isWithinRange(date, from, to)) {
+                        StringBuilder sb = new StringBuilder();
+                        
+                        sb.append("Date: " + parts[0] + "\n");
+                        sb.append("User: " + parts[1] + "\n");
+                        sb.append("Books sold: " + parts[2] + "\n");
+
+                        double parsed = 0;
+                        NumberFormat format = NumberFormat.getInstance(Locale.FRANCE);
+                        try {
+                            parsed = format.parse(parts[3]).doubleValue();
+                            totalMoney += parsed;
+                        }
+                        catch (ParseException e) {
+                            totalMoney += 0;
+                        }
+
+                        sb.append("Money earned: " + parsed + "\n\n");
+
+                        stringStatistics = stringStatistics + sb.toString();
                     }
-                    catch (ParseException e) {
-                        totalMoney += 0;
-                    }
-
-                    sb.append("Money earned: " + parsed + "\n\n");
-
-                    stringStatistics = stringStatistics + sb.toString();
+                }
+                catch (Exception e) {
+                    continue;
                 }
             }
 

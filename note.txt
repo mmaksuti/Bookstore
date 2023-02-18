@@ -1,0 +1,4 @@
+List of users:
+- admin:admin (Administrator)
+- janedoe:janedoe (Manager)
+- johndoe:johndoe (Librarian)

@@ -8,7 +8,7 @@ import java.util.Locale;
 public class Librarian extends User {
     private int numberOfBills;
     private double totalMoney;
-
+    
     public Librarian(String firstName, String lastName, String username, String password, String email, String phone,
     int salary, LocalDate birthday) {
         super(firstName, lastName, username, password, email, phone, salary, birthday, AccessLevel.LIBRARIAN);

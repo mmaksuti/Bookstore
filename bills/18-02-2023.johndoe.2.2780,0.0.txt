@@ -1,0 +1,4 @@
+Items sold:
+	- Gulag: A History x1
+	- Crime and Punishment x1
+Total: 2780.0 lek
