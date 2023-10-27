@@ -1,0 +1,3 @@
+Items sold:
+	- Manufacturing Consent x4
+Total: 8000.0 lek
