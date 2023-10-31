@@ -25,14 +25,14 @@ public class Bill {
         StringBuilder text = new StringBuilder();
         text.append("Items sold:\n");
         for (Book book : booksSold.keySet()) {
-            text.append("\t- " + book.getTitle() + " x" + booksSold.get(book) + "\n");
+            text.append("\t- ").append(book.getTitle()).append(" x").append(booksSold.get(book)).append("\n");
         }
 
         DecimalFormat df = new DecimalFormat("#.###");
         df.setRoundingMode(RoundingMode.CEILING);
         totalPrice = Double.parseDouble(df.format(totalPrice));
 
-        text.append("Total: " + totalPrice + " lek");
+        text.append("Total: ").append(totalPrice).append(" lek");
         
         textBill = text.toString();
     }

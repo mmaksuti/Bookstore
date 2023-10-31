@@ -43,9 +43,9 @@ public class Statistics {
                     if (isWithinRange(date, from, to)) {
                         StringBuilder sb = new StringBuilder();
                         
-                        sb.append("Date: " + parts[0] + "\n");
-                        sb.append("User: " + parts[1] + "\n");
-                        sb.append("Books sold: " + parts[2] + "\n");
+                        sb.append("Date: ").append(parts[0]).append("\n");
+                        sb.append("User: ").append(parts[1]).append("\n");
+                        sb.append("Books sold: ").append(parts[2]).append("\n");
 
                         double parsed = 0;
                         NumberFormat format = NumberFormat.getInstance(Locale.FRANCE);
