@@ -31,6 +31,7 @@ public class Librarian extends User {
             }
             
             String[] fileList = file.list();
+            assert fileList != null;
             for (String fileName : fileList) {
                 String[] parts = fileName.split("\\.");
                 if (parts[1].equals(username)) {
@@ -53,6 +54,7 @@ public class Librarian extends User {
             
             String[] fileList = file.list();
             int i = 0;
+            assert fileList != null;
             for (String fileName : fileList) {
                 String[] parts = fileName.split("\\.");
                 if (parts[1].equals(username)) {
@@ -77,6 +79,7 @@ public class Librarian extends User {
             }
             
             String[] fileList = file.list();
+            assert fileList != null;
             for (String filename : fileList) {
                 String[] parts = filename.split("\\.");
                 if (parts[1].equals(username)) {
