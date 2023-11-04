@@ -186,7 +186,7 @@ public class EditUserStage extends Stage {
             try {
                 LoginController.getWelcomeMessage();
             }
-            catch (UnauthenticatedException exc) {
+            catch (UnauthenticatedException ignored) {
             }
 
             status.setText("User modified successfully");
