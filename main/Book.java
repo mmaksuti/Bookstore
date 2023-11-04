@@ -1,8 +1,10 @@
 package main;
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Book implements Serializable {
+	@Serial
 	private static final long serialVersionUID = 5296705482940410483L;
 	private String isbn13;
 	private String title;

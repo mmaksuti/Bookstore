@@ -1,8 +1,10 @@
 package main;
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDate;
 
 public class User implements Serializable {
+    @Serial
     private static final long serialVersionUID = 2865488185179662738L;
     
     protected String username;

@@ -1,7 +1,9 @@
 package main;
+import java.io.Serial;
 import java.io.Serializable;
 
 public class Author implements Serializable {
+	@Serial
 	private static final long serialVersionUID = -6015536657969848359L;
 	private String firstName;
 	private String lastName;
