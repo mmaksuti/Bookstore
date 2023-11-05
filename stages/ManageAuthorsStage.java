@@ -64,7 +64,7 @@ public class ManageAuthorsStage extends Stage {
             AtomicBoolean removeAll = new AtomicBoolean(false);
             AtomicBoolean firstTime = new AtomicBoolean(true);
             ArrayList<Book> copy = new ArrayList<Book>(books);
-            for (Book book : copy) {
+            for (Book book : new ArrayList<>(copy)) {
                 System.out.println(book);
                 if (book.getAuthor().getFirstName().equals(author.getFirstName()) && book.getAuthor().getLastName().equals(author.getLastName())) {
                     if (firstTime.get()) {
@@ -85,7 +85,7 @@ public class ManageAuthorsStage extends Stage {
                         });
                     }
                     else if (removeAll.get()) {
-                        BooksController.removeBook(book); 
+                        BooksController.removeBook(book);
                     }
                 }
             }
@@ -115,7 +115,7 @@ public class ManageAuthorsStage extends Stage {
 
         scene.addEventFilter(MouseEvent.MOUSE_CLICKED, evt -> {
             Node source = evt.getPickResult().getIntersectedNode();
-        
+
             while (source != null && !(source instanceof TableRow)) {
                 source = source.getParent();
             }
