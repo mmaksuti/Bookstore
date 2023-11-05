@@ -11,7 +11,7 @@ public class Book implements Serializable {
 	private String description;
 	private double price;
 	private Author author;
-	private ArrayList<Genre> genres = new ArrayList<>();
+	private ArrayList<Genre> genres;
 	private int quantity;
 	private boolean paperback; // or e-book
 	

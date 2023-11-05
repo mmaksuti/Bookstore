@@ -108,7 +108,7 @@ public class CheckOutStage extends Stage {
                 BooksController.updateBook(book);
             }
 
-            Bill bill = null;
+            Bill bill;
             try {
                 bill = new Bill(LoginController.getLoggedUsername(), quantities, totalPrice.get());
                 System.out.print("Bill: \n" + bill);

@@ -83,7 +83,7 @@ public class Librarian extends User {
             for (String filename : fileList) {
                 String[] parts = filename.split("\\.");
                 if (parts[1].equals(username)) {
-                    double parsed = 0;
+                    double parsed;
                     NumberFormat format = NumberFormat.getInstance(Locale.FRANCE);
                     try {
                         parsed = format.parse(parts[3]).doubleValue();

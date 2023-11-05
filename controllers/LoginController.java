@@ -111,8 +111,8 @@ public class LoginController {
         }
         
         File file = new File(SESSION);
-        String username = "";
-        String password = "";
+        String username;
+        String password;
         try {
             Scanner scanner = new Scanner(file);
             if (!scanner.hasNextLine()) {
