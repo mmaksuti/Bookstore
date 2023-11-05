@@ -72,7 +72,6 @@ public class Statistics {
             if (totalMoney == 0) {
                 stringStatistics = "No bills\n";
             }
-            stringStatistics += "Total money earned: " + totalMoney;
         }
         else {
             stringStatistics = "No bills\nTotal money earned: 0";
