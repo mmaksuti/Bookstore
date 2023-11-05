@@ -8,9 +8,9 @@ import java.util.Locale;
 public class Librarian extends User {
     private int numberOfBills;
     private double totalMoney;
-    
+
     public Librarian(String firstName, String lastName, String username, String password, String email, String phone,
-    int salary, LocalDate birthday) {
+                     int salary, LocalDate birthday) {
         super(firstName, lastName, username, password, email, phone, salary, birthday, AccessLevel.LIBRARIAN);
     }
 
@@ -21,7 +21,7 @@ public class Librarian extends User {
             throw new IllegalArgumentException("User is not a librarian");
         }
     }
-    
+
     public void deleteBills() {
         File file = new File("bills/");
         if (file.exists()) {
@@ -29,18 +29,19 @@ public class Librarian extends User {
                 file.delete();
                 return;
             }
-            
+
             String[] fileList = file.list();
             assert fileList != null;
             for (String fileName : fileList) {
                 String[] parts = fileName.split("\\.");
-                if (parts[1].equals(username)) {
+                if (parts.length > 1 && parts[1].equals(username)) {
                     File billFile = new File("bills/" + fileName);
                     billFile.delete();
                 }
             }
         }
     }
+
 
     public int getNumberOfBills() {
         numberOfBills = 0;
@@ -51,20 +52,21 @@ public class Librarian extends User {
                 file.delete();
                 return numberOfBills;
             }
-            
+
             String[] fileList = file.list();
-            int i = 0;
-            assert fileList != null;
-            for (String fileName : fileList) {
-                String[] parts = fileName.split("\\.");
-                if (parts[1].equals(username)) {
-                    i++;
+            if (fileList != null) { // Added null check
+                int i = 0;
+                for (String fileName : fileList) {
+                    String[] parts = fileName.split("\\.");
+                    if (parts[1].equals(username)) {
+                        i++;
+                    }
                 }
+                numberOfBills = i;
+                return numberOfBills;
             }
-            numberOfBills = i;
-            return numberOfBills;
         }
-        
+
         return numberOfBills;
     }
 
@@ -77,19 +79,18 @@ public class Librarian extends User {
                 file.delete();
                 return totalMoney;
             }
-            
+
             String[] fileList = file.list();
             assert fileList != null;
             for (String filename : fileList) {
                 String[] parts = filename.split("\\.");
-                if (parts[1].equals(username)) {
+                if (parts.length > 3 && parts[1].equals(username)) {
                     double parsed;
                     NumberFormat format = NumberFormat.getInstance(Locale.FRANCE);
                     try {
                         parsed = format.parse(parts[3]).doubleValue();
                         totalMoney += parsed;
-                    }
-                    catch (ParseException e) {
+                    } catch (ParseException e) {
                         totalMoney += 0;
                     }
                 }
