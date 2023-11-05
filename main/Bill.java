@@ -9,11 +9,11 @@ import java.util.Date;
 import java.util.Map;
 
 public class Bill {
-    private String textBill;
-    private String username;
-    private String date;
-    private double totalPrice;
-    private int nBooks;
+    private final String textBill;
+    private final String username;
+    private final String date;
+    private final double totalPrice;
+    private final int nBooks;
 
     public Bill(String username, Map<Book, Integer> booksSold, double totalPrice) {
         this.username = username;

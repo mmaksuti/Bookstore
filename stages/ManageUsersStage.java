@@ -26,19 +26,19 @@ public class ManageUsersStage extends Stage {
         
         TableColumn<User, String> firstNameColumn = new TableColumn<>("First name");
         firstNameColumn.setMinWidth(100);
-        firstNameColumn.setCellValueFactory(new PropertyValueFactory<User, String>("firstName"));
+        firstNameColumn.setCellValueFactory(new PropertyValueFactory<>("firstName"));
 
         TableColumn<User, String> lastNameColumn = new TableColumn<>("Last name");
         lastNameColumn.setMinWidth(100);
-        lastNameColumn.setCellValueFactory(new PropertyValueFactory<User, String>("lastName"));
+        lastNameColumn.setCellValueFactory(new PropertyValueFactory<>("lastName"));
 
         TableColumn<User, String> usernameColumn = new TableColumn<>("Username");
         usernameColumn.setMinWidth(100);
-        usernameColumn.setCellValueFactory(new PropertyValueFactory<User, String>("username"));
+        usernameColumn.setCellValueFactory(new PropertyValueFactory<>("username"));
 
         TableColumn<User, String> accessLevelColumn = new TableColumn<>("Role");
         accessLevelColumn.setMinWidth(110);
-        accessLevelColumn.setCellValueFactory(new PropertyValueFactory<User, String>("accessLevel"));
+        accessLevelColumn.setCellValueFactory(new PropertyValueFactory<>("accessLevel"));
 
         tableView.getColumns().addAll(firstNameColumn, lastNameColumn, usernameColumn, accessLevelColumn);
 
@@ -85,14 +85,11 @@ public class ManageUsersStage extends Stage {
 
         scene.addEventFilter(MouseEvent.MOUSE_CLICKED, evt -> {
             Node source = evt.getPickResult().getIntersectedNode();
-        
-            while (source != null && !(source instanceof TableRow)) {
-                source = source.getParent();
-            }
-        
-            if (source == null || (source instanceof TableRow && ((TableRow) source).isEmpty())) {
+
+            if (source == null || ((TableRow<?>) source).isEmpty()) {
                 tableView.getSelectionModel().clearSelection();
             }
         });
+
     }
 }

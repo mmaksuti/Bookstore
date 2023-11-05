@@ -79,7 +79,7 @@ public class LoginScene extends Scene {
                 }
                 catch (UnauthenticatedException exc) {
                     // should never happen
-                };
+                }
             }
             else {
                 statusLabel.setText("Invalid credentials");

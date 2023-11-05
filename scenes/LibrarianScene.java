@@ -42,9 +42,7 @@ public class LibrarianScene extends Scene {
         });
 
         Button logoutButton = new Button("Log out");
-        logoutButton.setOnAction(e -> {
-            LoginController.logout();
-        });
+        logoutButton.setOnAction(e -> LoginController.logout());
 
         logoutHBox.getChildren().addAll(sellBooksButton, logoutButton);
         border.setBottom(logoutHBox);

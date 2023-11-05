@@ -28,7 +28,7 @@ public class LoginController {
     private static boolean authenticated = false;
     private static User currentUser;
     
-    private static SimpleStringProperty welcomeMessage = new SimpleStringProperty();
+    private static final SimpleStringProperty welcomeMessage = new SimpleStringProperty();
     
     public static boolean userExists(String username) {
         for (User user : users) {
@@ -62,11 +62,7 @@ public class LoginController {
         }
         throw new UnauthenticatedException();
     }
-    
-    public static boolean isAuthenticated() {
-        return authenticated;
-    }
-    
+
     private static void updateCurrentUser() {
         for (User user : users) {
             if (user.getUsername().equals(currentUser.getUsername())) {
@@ -135,8 +131,7 @@ public class LoginController {
             password = scanner.nextLine();
             scanner.close();
             
-            //User admin = new User("Name", "Surname", "admin", "admin", "admin@gmail.com", "+355676578272", 1000, LocalDate.of(1999, 1, 1), AccessLevel.ADMINISTRATOR);
-            //addUser(admin);
+
             
             login(username, password);
             return authenticated;
@@ -149,19 +144,19 @@ public class LoginController {
     
     static {
         users = FXCollections.observableArrayList();
-        readFromFile(DATABASE);
+        readFromFile();
     }
     
     public static void updateUser(User user) {
         int index = users.indexOf(user);
         users.set(index, user);
-        writeToFile(DATABASE);
+        writeToFile();
     }
     
     
     public static void addUser(User user) {
         users.add(user);
-        writeToFile(DATABASE);
+        writeToFile();
     }
     
     private static int adminCount() {
@@ -198,12 +193,12 @@ public class LoginController {
         }
         
         users.remove(user);
-        writeToFile(DATABASE);
+        writeToFile();
     }
     
-    private static void readFromFile(String file) {
+    private static void readFromFile() {
         try {
-            FileInputStream fis = new FileInputStream(file);
+            FileInputStream fis = new FileInputStream(LoginController.DATABASE);
             ObjectInputStream ois = new ObjectInputStream(fis);
             ArrayList<User> arrayList = (ArrayList<User>) ois.readObject();
             users = FXCollections.observableArrayList(arrayList);
@@ -220,11 +215,11 @@ public class LoginController {
         }
     }
     
-    private static void writeToFile(String file) {
+    private static void writeToFile() {
         try {
-            FileOutputStream fos = new FileOutputStream(file);
+            FileOutputStream fos = new FileOutputStream(LoginController.DATABASE);
             ObjectOutputStream oos = new ObjectOutputStream(fos);
-            ArrayList<User> arrayList = new ArrayList<User>(users);
+            ArrayList<User> arrayList = new ArrayList<>(users);
             oos.writeObject(arrayList);
             oos.close();
         }
