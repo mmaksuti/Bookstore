@@ -29,54 +29,48 @@ public class SellBooksStage extends Stage {
         
         TableColumn<Book, String> titleColumn = new TableColumn<>("Title");
         titleColumn.setMinWidth(150);
-        titleColumn.setCellValueFactory(new PropertyValueFactory<Book, String>("title"));
+        titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
 
         TableColumn<Book, String> authorColumn = new TableColumn<>("Author");
         authorColumn.setMinWidth(150);
-        authorColumn.setCellValueFactory(new PropertyValueFactory<Book, String>("author"));
+        authorColumn.setCellValueFactory(new PropertyValueFactory<>("author"));
 
         TableColumn<Book, String> isbn13Column = new TableColumn<>("ISBN13");
         isbn13Column.setMinWidth(150);
-        isbn13Column.setCellValueFactory(new PropertyValueFactory<Book, String>("isbn13"));
+        isbn13Column.setCellValueFactory(new PropertyValueFactory<>("isbn13"));
 
         TableColumn<Book, String> priceColumn = new TableColumn<>("Price");
         priceColumn.setMinWidth(60);
-        priceColumn.setCellValueFactory(new PropertyValueFactory<Book, String>("price"));
+        priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
 
         TableColumn<Book, String> paperbackColumn = new TableColumn<>("Paperback");
         paperbackColumn.setMinWidth(60);
-        paperbackColumn.setCellValueFactory(new PropertyValueFactory<Book, String>("paperback"));
+        paperbackColumn.setCellValueFactory(new PropertyValueFactory<>("paperback"));
 
         TableColumn<Book, Integer> quantityColumn = new TableColumn<>("Quantity");
         quantityColumn.setMinWidth(60);
-        quantityColumn.setCellValueFactory(new PropertyValueFactory<Book, Integer>("quantity"));
-        quantityColumn.setCellFactory(column -> {
-            return new TableCell<Book, Integer>() {
-                @Override
-                protected void updateItem(Integer item, boolean empty) {
-                    super.updateItem(item, empty);
-                    setText(null);
-                    if (!empty) { 
-                        setText(item.toString());
+        quantityColumn.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+        quantityColumn.setCellFactory(column -> new TableCell<>() {
+            @Override
+            protected void updateItem(Integer item, boolean empty) {
+                super.updateItem(item, empty);
+                setText(null);
+                if (!empty) {
+                    setText(item.toString());
 
-                        if (item <= 5) {
-                            setStyle("-fx-text-fill: red;");
-                        }
-                        else {
-                            setStyle("");
-                        }
+                    if (item <= 5) {
+                        setStyle("-fx-text-fill: red;");
+                    } else {
+                        setStyle("");
                     }
                 }
-            };
+            }
         });
-
         tableView.getColumns().addAll(titleColumn, authorColumn, isbn13Column, priceColumn, paperbackColumn, quantityColumn);
-
         Button sellButton = new Button("Sell");
         sellButton.setOnAction(e -> {
             ObservableList <Book> booksToSell = tableView.getSelectionModel().getSelectedItems();
-
-            if (booksToSell.size() > 0) {
+            if (!booksToSell.isEmpty()) {
                 ArrayList <Book> booksToSellArray = new ArrayList <>(booksToSell);
                 CheckOutStage checkOutStage = new CheckOutStage(booksToSellArray);
                 checkOutStage.show();
@@ -103,7 +97,7 @@ public class SellBooksStage extends Stage {
                 source = source.getParent();
             }
         
-            if (source == null || (source instanceof TableRow && ((TableRow) source).isEmpty())) {
+            if (source == null || ((TableRow<?>) source).isEmpty()) {
                 tableView.getSelectionModel().clearSelection();
             }
         });
