@@ -66,7 +66,7 @@ public class Statistics {
                 }
             }
 
-            //String stringStatistics = stringStatisticsBuilder.toString();
+            String stringStatistics = stringStatisticsBuilder.toString();
 
 
             if (totalMoney == 0) {
