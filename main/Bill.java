@@ -41,6 +41,7 @@ public class Bill {
         try {
             String[] fileList = new File("bills/").list();
             int i = 0;
+            assert fileList != null;
             for (String file : fileList) {
                 if (file.startsWith(date + "." + username)) {
                     i++;
@@ -48,7 +49,7 @@ public class Bill {
             }
 
             File file = new File("bills/" + date + "." + username + "." + nBooks + "." + (int)totalPrice + "," + Math.round(100*(totalPrice - (int)totalPrice)) + "." + i + ".txt");
-            
+
             PrintWriter writer = new PrintWriter(file);
             writer.println(textBill);
             writer.close();
