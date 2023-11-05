@@ -97,10 +97,13 @@ public class LoginController {
             System.out.println("Already logged out");
             return;
         }
-        
+
         File file = new File(SESSION);
-        file.delete();
-        
+        if (file.delete()) {
+            System.out.println("File deleted successfully.");
+        } else {
+            System.err.println("File deletion failed.");
+        }
         System.exit(0);
     }
     
@@ -116,18 +119,19 @@ public class LoginController {
         try {
             Scanner scanner = new Scanner(file);
             if (!scanner.hasNextLine()) {
-                file.delete();
+                boolean deleted = file.delete();
                 scanner.close();
-                return false;
+                return deleted;
             }
-            
+
             username = scanner.nextLine();
             if (!scanner.hasNextLine()) {
-                file.delete();
+                boolean deleted = file.delete();
                 scanner.close();
-                return false;
+                return deleted;
             }
-            
+
+
             password = scanner.nextLine();
             scanner.close();
             
