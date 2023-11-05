@@ -21,12 +21,15 @@ public class Statistics {
         File file = new File("bills/");
         if (file.exists()) {
             if (!file.isDirectory()) {
-                file.delete();
+                boolean deleted = file.delete();
+                if (!deleted) {
+                    System.out.println("Failed to delete the file.");
+                }
                 stringStatistics = "No bills\nTotal money earned: 0";
                 return;
             }
-
             String[] fileList = file.list();
+            assert fileList != null;
             if (fileList.length == 0) {
                 stringStatistics = "No bills\nTotal money earned: 0";
                 return;
@@ -68,10 +71,6 @@ public class Statistics {
 
             String stringStatistics = stringStatisticsBuilder.toString();
 
-
-            if (totalMoney == 0) {
-                stringStatistics = "No bills\n";
-            }
         }
         else {
             stringStatistics = "No bills\nTotal money earned: 0";
