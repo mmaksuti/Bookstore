@@ -32,6 +32,7 @@ public class Statistics {
                 return;
             }
 
+            StringBuilder stringStatisticsBuilder = new StringBuilder();
             for (String fileName : fileList) {
                 if (!fileName.endsWith(".txt")) {
                     continue;
@@ -42,7 +43,7 @@ public class Statistics {
                     LocalDate date = LocalDate.parse(parts[0], DateTimeFormatter.ofPattern("dd-MM-yyyy"));
                     if (isWithinRange(date, from, to)) {
                         StringBuilder sb = new StringBuilder();
-                        
+
                         sb.append("Date: ").append(parts[0]).append("\n");
                         sb.append("User: ").append(parts[1]).append("\n");
                         sb.append("Books sold: ").append(parts[2]).append("\n");
@@ -52,20 +53,21 @@ public class Statistics {
                         try {
                             parsed = format.parse(parts[3]).doubleValue();
                             totalMoney += parsed;
-                        }
-                        catch (ParseException e) {
+                        } catch (ParseException e) {
                             totalMoney += 0;
                         }
 
-                        sb.append("Money earned: " + parsed + "\n\n");
+                        sb.append("Money earned: ").append(parsed).append("\n\n");
 
-                        stringStatistics = stringStatistics + sb.toString();
+                        stringStatisticsBuilder.append(sb.toString());
                     }
-                }
-                catch (Exception e) {
+                } catch (Exception e) {
                     continue;
                 }
             }
+
+            //String stringStatistics = stringStatisticsBuilder.toString();
+
 
             if (totalMoney == 0) {
                 stringStatistics = "No bills\n";
