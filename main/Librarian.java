@@ -23,10 +23,13 @@ public class Librarian extends User {
     }
 
     public void deleteBills() {
-        File file = new File("bills/");
+        File file = new File("bills");
         if (file.exists()) {
             if (!file.isDirectory()) {
-                file.delete();
+                boolean deleted = file.delete();
+                if (!deleted) {
+                    System.out.println("Failed to delete the file.");
+                }
                 return;
             }
 
@@ -36,29 +39,36 @@ public class Librarian extends User {
                 String[] parts = fileName.split("\\.");
                 if (parts.length > 1 && parts[1].equals(username)) {
                     File billFile = new File("bills/" + fileName);
-                    billFile.delete();
+                    boolean deleted = billFile.delete();
+                    if (!deleted) {
+                        System.out.println("Failed to delete bill file: " + fileName);
+                    }
                 }
             }
         }
     }
 
 
+
     public int getNumberOfBills() {
         numberOfBills = 0;
 
-        File file = new File("bills/");
+        File file = new File("bills");
         if (file.exists()) {
             if (!file.isDirectory()) {
-                file.delete();
+                boolean deleted = file.delete();
+                if (!deleted) {
+                    System.out.println("Failed to delete the file.");
+                }
                 return numberOfBills;
             }
 
             String[] fileList = file.list();
-            if (fileList != null) { // Added null check
+            if (fileList != null) {
                 int i = 0;
                 for (String fileName : fileList) {
                     String[] parts = fileName.split("\\.");
-                    if (parts[1].equals(username)) {
+                    if (parts.length > 1 && parts[1].equals(username)) {
                         i++;
                     }
                 }
@@ -70,13 +80,17 @@ public class Librarian extends User {
         return numberOfBills;
     }
 
+
     public double getTotalMoney() {
         totalMoney = 0;
 
-        File file = new File("bills/");
+        File file = new File("bills");
         if (file.exists()) {
             if (!file.isDirectory()) {
-                file.delete();
+                boolean deleted = file.delete();
+                if (!deleted) {
+                    System.out.println("Failed to delete the file.");
+                }
                 return totalMoney;
             }
 
@@ -98,4 +112,5 @@ public class Librarian extends User {
         }
         return totalMoney;
     }
+
 }
