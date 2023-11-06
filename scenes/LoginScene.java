@@ -77,7 +77,7 @@ public class LoginScene extends Scene {
                             break;
                     }
                 }
-                catch (UnauthenticatedException exc) {
+                catch (UnauthenticatedException ignored) {
                     // should never happen
                 }
             }

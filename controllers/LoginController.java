@@ -50,7 +50,7 @@ public class LoginController {
         if (authenticated) {
             updateCurrentUser();
             
-            welcomeMessage.set("Welcome " + currentUser.getFirstName() + " " + currentUser.getLastName() + "\nLogged in as " + LoginController.getLoggedAccessLevel());
+            welcomeMessage.set("Welcome " + currentUser.getFirstName() + " " + currentUser.getLastName() + "\nLogged in as " + getLoggedAccessLevel());
             return welcomeMessage;
         }
         throw new UnauthenticatedException();
@@ -116,23 +116,30 @@ public class LoginController {
             Scanner scanner = new Scanner(file);
             if (!scanner.hasNextLine()) {
                 boolean deleted = file.delete();
+                if (!deleted) {
+                    System.err.println("File deletion failed.");
+                }
                 scanner.close();
-                return deleted;
+
+                // User admin = new User("Name", "Surname", "admin", "admin", "admin@gmail.com", "+355676578272", 1000, LocalDate.of(1999, 1, 1), AccessLevel.ADMINISTRATOR);
+                // addUser(admin);
+
+                return false;
             }
 
             username = scanner.nextLine();
             if (!scanner.hasNextLine()) {
                 boolean deleted = file.delete();
+                if (!deleted) {
+                    System.err.println("File deletion failed.");
+                }
                 scanner.close();
-                return deleted;
+                return false;
             }
-
 
             password = scanner.nextLine();
             scanner.close();
-            
 
-            
             login(username, password);
             return authenticated;
         }
@@ -144,19 +151,19 @@ public class LoginController {
     
     static {
         users = FXCollections.observableArrayList();
-        readFromFile();
+        readFromDatabase();
     }
     
     public static void updateUser(User user) {
         int index = users.indexOf(user);
         users.set(index, user);
-        writeToFile();
+        writeToDatabase();
     }
     
     
     public static void addUser(User user) {
         users.add(user);
-        writeToFile();
+        writeToDatabase();
     }
     
     private static int adminCount() {
@@ -193,12 +200,12 @@ public class LoginController {
         }
         
         users.remove(user);
-        writeToFile();
+        writeToDatabase();
     }
     
-    private static void readFromFile() {
+    private static void readFromDatabase() {
         try {
-            FileInputStream fis = new FileInputStream(LoginController.DATABASE);
+            FileInputStream fis = new FileInputStream(DATABASE);
             ObjectInputStream ois = new ObjectInputStream(fis);
             ArrayList<User> arrayList = (ArrayList<User>) ois.readObject();
             users = FXCollections.observableArrayList(arrayList);
@@ -215,9 +222,9 @@ public class LoginController {
         }
     }
     
-    private static void writeToFile() {
+    private static void writeToDatabase() {
         try {
-            FileOutputStream fos = new FileOutputStream(LoginController.DATABASE);
+            FileOutputStream fos = new FileOutputStream(DATABASE);
             ObjectOutputStream oos = new ObjectOutputStream(fos);
             ArrayList<User> arrayList = new ArrayList<>(users);
             oos.writeObject(arrayList);

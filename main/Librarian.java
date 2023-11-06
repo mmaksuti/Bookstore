@@ -23,7 +23,8 @@ public class Librarian extends User {
     }
 
     public void deleteBills() {
-        File file = new File("bills");
+        File file = new File("bills/");
+        // TODO make this code a common function
         if (file.exists()) {
             if (!file.isDirectory()) {
                 boolean deleted = file.delete();
@@ -34,7 +35,10 @@ public class Librarian extends User {
             }
 
             String[] fileList = file.list();
-            assert fileList != null;
+            if (fileList == null) {
+                return; // should never happen
+            }
+
             for (String fileName : fileList) {
                 String[] parts = fileName.split("\\.");
                 if (parts.length > 1 && parts[1].equals(username)) {
@@ -53,7 +57,7 @@ public class Librarian extends User {
     public int getNumberOfBills() {
         numberOfBills = 0;
 
-        File file = new File("bills");
+        File file = new File("bills/");
         if (file.exists()) {
             if (!file.isDirectory()) {
                 boolean deleted = file.delete();
@@ -64,17 +68,19 @@ public class Librarian extends User {
             }
 
             String[] fileList = file.list();
-            if (fileList != null) {
-                int i = 0;
-                for (String fileName : fileList) {
-                    String[] parts = fileName.split("\\.");
-                    if (parts.length > 1 && parts[1].equals(username)) {
-                        i++;
-                    }
-                }
-                numberOfBills = i;
-                return numberOfBills;
+            if (fileList == null) {
+                return 0; // should never happen
             }
+
+            int i = 0;
+            for (String fileName : fileList) {
+                String[] parts = fileName.split("\\.");
+                if (parts.length > 1 && parts[1].equals(username)) {
+                    i++;
+                }
+            }
+            numberOfBills = i;
+            return numberOfBills;
         }
 
         return numberOfBills;
@@ -84,7 +90,7 @@ public class Librarian extends User {
     public double getTotalMoney() {
         totalMoney = 0;
 
-        File file = new File("bills");
+        File file = new File("bills/");
         if (file.exists()) {
             if (!file.isDirectory()) {
                 boolean deleted = file.delete();
@@ -95,7 +101,10 @@ public class Librarian extends User {
             }
 
             String[] fileList = file.list();
-            assert fileList != null;
+            if (fileList == null) {
+                return 0; // should never happen
+            }
+
             for (String filename : fileList) {
                 String[] parts = filename.split("\\.");
                 if (parts.length > 3 && parts[1].equals(username)) {

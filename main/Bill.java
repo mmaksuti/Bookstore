@@ -40,6 +40,7 @@ public class Bill {
     public void writeToFile() {
         try {
             String[] fileList = new File("bills/").list();
+            // TODO ensure bills is directory and fix it if not
             int i = 0;
             assert fileList != null;
             for (String file : fileList) {

@@ -8,15 +8,14 @@ import java.util.Locale;
 
 public class Statistics {
     private String stringStatistics;
-    private double totalMoney;
 
     private static boolean isWithinRange(LocalDate testDate, LocalDate startDate, LocalDate endDate) {
         return !(testDate.isBefore(startDate) || testDate.isAfter(endDate));
     }
 
     public Statistics(LocalDate from, LocalDate to) {
-        stringStatistics = "";
-        totalMoney = 0;
+        stringStatistics = "No bills\nTotal money earned: 0";
+        double totalMoney = 0;
 
         File file = new File("bills/");
         if (file.exists()) {
@@ -25,13 +24,14 @@ public class Statistics {
                 if (!deleted) {
                     System.out.println("Failed to delete the file.");
                 }
-                stringStatistics = "No bills\nTotal money earned: 0";
                 return;
             }
             String[] fileList = file.list();
-            assert fileList != null;
+            if (fileList == null) {
+                return; // should never happen
+            }
+
             if (fileList.length == 0) {
-                stringStatistics = "No bills\nTotal money earned: 0";
                 return;
             }
 
@@ -62,18 +62,16 @@ public class Statistics {
 
                         sb.append("Money earned: ").append(parsed).append("\n\n");
 
-                        stringStatisticsBuilder.append(sb.toString());
+                        stringStatisticsBuilder.append(sb);
                     }
-                } catch (Exception e) {
-                    continue;
+                } catch (Exception ignored) {
                 }
             }
 
-            String stringStatistics = stringStatisticsBuilder.toString();
-
-        }
-        else {
-            stringStatistics = "No bills\nTotal money earned: 0";
+            if (totalMoney != 0) {
+                stringStatisticsBuilder.append("Total money earned: ").append(totalMoney);
+                stringStatistics = stringStatisticsBuilder.toString();
+            }
         }
     }
 

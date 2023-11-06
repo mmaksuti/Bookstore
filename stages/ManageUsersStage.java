@@ -86,6 +86,10 @@ public class ManageUsersStage extends Stage {
         scene.addEventFilter(MouseEvent.MOUSE_CLICKED, evt -> {
             Node source = evt.getPickResult().getIntersectedNode();
 
+            while (source != null && !(source instanceof TableRow)) {
+                source = source.getParent();
+            }
+
             if (source == null || ((TableRow<?>) source).isEmpty()) {
                 tableView.getSelectionModel().clearSelection();
             }

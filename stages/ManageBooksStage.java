@@ -110,7 +110,7 @@ public class ManageBooksStage extends Stage {
                 source = source.getParent();
             }
         
-            if (source == null || (source instanceof TableRow && ((TableRow) source).isEmpty())) {
+            if (source == null || ((TableRow<?>) source).isEmpty()) {
                 tableView.getSelectionModel().clearSelection();
             }
         });

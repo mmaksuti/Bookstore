@@ -63,8 +63,7 @@ public class ManageAuthorsStage extends Stage {
 
             AtomicBoolean removeAll = new AtomicBoolean(false);
             AtomicBoolean firstTime = new AtomicBoolean(true);
-            ArrayList<Book> copy = new ArrayList<Book>(books);
-            for (Book book : new ArrayList<>(copy)) {
+            for (Book book : books) {
                 System.out.println(book);
                 if (book.getAuthor().getFirstName().equals(author.getFirstName()) && book.getAuthor().getLastName().equals(author.getLastName())) {
                     if (firstTime.get()) {
@@ -120,7 +119,7 @@ public class ManageAuthorsStage extends Stage {
                 source = source.getParent();
             }
         
-            if (source == null || (source instanceof TableRow && ((TableRow) source).isEmpty())) {
+            if (source == null || ((TableRow<?>) source).isEmpty()) {
                 tableView.getSelectionModel().clearSelection();
             }
         });
