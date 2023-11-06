@@ -45,6 +45,7 @@ public class LibrariansStatisticsStage extends Stage {
         scene.addEventFilter(MouseEvent.MOUSE_CLICKED, evt -> {
             Node source = evt.getPickResult().getIntersectedNode();
 
+            //noinspection ConstantValue
             while (source != null && !(source instanceof TableRow)) {
                 source = source.getParent();
             }
