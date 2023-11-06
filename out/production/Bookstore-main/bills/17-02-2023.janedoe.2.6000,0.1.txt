@@ -1,4 +1,0 @@
-Items sold:
-	- Gulag: A History x2
-	- Manufacturing Consent x1
-Total: 6000.0 lek

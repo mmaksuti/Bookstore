@@ -105,7 +105,7 @@ public class ManageBooksStage extends Stage {
 
         scene.addEventFilter(MouseEvent.MOUSE_CLICKED, evt -> {
             Node source = evt.getPickResult().getIntersectedNode();
-        
+            
             while (source != null && !(source instanceof TableRow)) {
                 source = source.getParent();
             }

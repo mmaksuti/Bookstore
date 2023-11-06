@@ -1,3 +1,0 @@
-Items sold:
-	- Crime and Punishment x2
-Total: 1560.0 lek

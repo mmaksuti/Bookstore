@@ -89,7 +89,7 @@ public class ManageUsersStage extends Stage {
             while (source != null && !(source instanceof TableRow)) {
                 source = source.getParent();
             }
-
+            
             if (source == null || ((TableRow<?>) source).isEmpty()) {
                 tableView.getSelectionModel().clearSelection();
             }
