@@ -57,7 +57,7 @@ public class ManageUsersStage extends Stage {
             if (user != null) {
                 try {
                     LoginController.removeUser(user);
-                } catch (LastAdministratorException e1) {
+                } catch (Exception e1) {
                     Alert alert = new Alert(Alert.AlertType.ERROR, e1.getMessage(), ButtonType.OK);
                     alert.showAndWait();
                 }

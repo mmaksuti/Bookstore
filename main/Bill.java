@@ -15,6 +15,26 @@ public class Bill {
     private final double totalPrice;
     private final int nBooks;
 
+    public String getTextBill() {
+        return textBill;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public double getTotalPrice() {
+        return totalPrice;
+    }
+
+    public int getNBooks() {
+        return nBooks;
+    }
+
     public Bill(String username, Map<Book, Integer> booksSold, double totalPrice) {
         this.username = username;
         this.totalPrice = totalPrice;
@@ -35,29 +55,6 @@ public class Bill {
         text.append("Total: ").append(totalPrice).append(" lek");
         
         textBill = text.toString();
-    }
-
-    public void writeToFile() {
-        try {
-            String[] fileList = new File("bills/").list();
-            // TODO ensure bills is directory and fix it if not
-            int i = 0;
-            assert fileList != null;
-            for (String file : fileList) {
-                if (file.startsWith(date + "." + username)) {
-                    i++;
-                }
-            }
-
-            File file = new File("bills/" + date + "." + username + "." + nBooks + "." + (int)totalPrice + "," + Math.round(100*(totalPrice - (int)totalPrice)) + "." + i + ".txt");
-
-            PrintWriter writer = new PrintWriter(file);
-            writer.println(textBill);
-            writer.close();
-        }
-        catch (IOException e) {
-            System.out.println("IOException");
-        }
     }
 
     @Override

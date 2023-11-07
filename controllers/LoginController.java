@@ -186,7 +186,7 @@ public class LoginController {
         }
     }
     
-    public static void removeUser(User user) throws LastAdministratorException {
+    public static void removeUser(User user) throws LastAdministratorException,Exception {
         if (user.getAccessLevel() == AccessLevel.LIBRARIAN) {
             Librarian lib = new Librarian(user);
             lib.deleteBills();

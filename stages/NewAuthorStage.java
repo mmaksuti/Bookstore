@@ -71,8 +71,5 @@ public class NewAuthorStage extends Stage {
 
         setScene(scene);
         vbox.getChildren().addAll(grid, addAuthor, status);
-
     }
-
-
 }

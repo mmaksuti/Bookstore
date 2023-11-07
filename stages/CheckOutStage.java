@@ -1,4 +1,5 @@
 package stages;
+import java.io.IOException;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -6,6 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 
+import controllers.BillController;
 import controllers.BooksController;
 import controllers.LoginController;
 import javafx.beans.property.SimpleStringProperty;
@@ -127,7 +129,15 @@ public class CheckOutStage extends Stage {
             alert.setContentText(bill.toString());
             alert.showAndWait();
 
-            bill.writeToFile();
+            try {
+                BillController.saveBill(bill);
+            } catch (IllegalStateException|IOException ex) {
+                alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText("Failed to save bill");
+                alert.setContentText(ex.getMessage());
+                alert.showAndWait();
+            }
 
             close();
         });
