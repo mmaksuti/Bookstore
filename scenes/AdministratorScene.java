@@ -1,14 +1,11 @@
 package scenes;
 
+import controllers.AuthorsController;
 import controllers.LoginController;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuBar;
-import javafx.scene.control.MenuItem;
+import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import main.UnauthenticatedException;
@@ -18,6 +15,10 @@ import stages.LibrariansStatisticsStage;
 import stages.ManageUsersStage;
 import stages.SalesStatisticsStage;
 import stages.SellBooksStage;
+
+import java.io.IOException;
+
+import static java.lang.System.exit;
 
 public class AdministratorScene extends Scene {
     MenuBar menuBar = new MenuBar();
@@ -40,13 +41,27 @@ public class AdministratorScene extends Scene {
             listUsersStage.show();
         });
 
+        AuthorsController authorsController = null;
+        try {
+            authorsController = new AuthorsController();
+        }
+        catch (IOException ex) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Failed to load databases");
+            alert.setContentText(ex.getMessage());
+            alert.showAndWait();
+            exit(1);
+        }
+
+        AuthorsController finalAuthorsController = authorsController;
         manageBooks.setOnAction(e -> {
-            ManageBooksStage listBooksStage = new ManageBooksStage();
+            ManageBooksStage listBooksStage = new ManageBooksStage(finalAuthorsController);
             listBooksStage.show();
         });
 
         manageAuthors.setOnAction(e -> {
-            ManageAuthorsStage listAuthorsStage = new ManageAuthorsStage();
+            ManageAuthorsStage listAuthorsStage = new ManageAuthorsStage(finalAuthorsController);
             listAuthorsStage.show();
         });
         

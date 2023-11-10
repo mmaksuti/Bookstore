@@ -1,4 +1,5 @@
 package stages;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -23,11 +24,11 @@ import main.Author;
 import main.Book;
 
 public class ManageAuthorsStage extends Stage {
-    public ManageAuthorsStage() {
+    public ManageAuthorsStage(AuthorsController authorsController) {
         setTitle("Author list");
 
         TableView <Author> tableView = new TableView <>();
-        tableView.setItems(AuthorsController.authors);
+        tableView.setItems(authorsController.authors);
         
         TableColumn<Author, String> firstName = new TableColumn<>("First Name");
         firstName.setMinWidth(100);
@@ -41,14 +42,13 @@ public class ManageAuthorsStage extends Stage {
         gender.setMinWidth(100);
         gender.setCellValueFactory(new PropertyValueFactory<Author, String>("gender"));
 
-       
         tableView.getColumns().addAll(firstName, lastName, gender);
 
         Button editButton = new Button("Edit author");
         editButton.setOnAction(e -> {
             Author author = tableView.getSelectionModel().getSelectedItem();
             if (author != null) {
-                EditAuthorStage editAuthorStage = new EditAuthorStage(author);
+                EditAuthorStage editAuthorStage = new EditAuthorStage(authorsController, author);
                 editAuthorStage.show();
             }
         });
@@ -64,7 +64,7 @@ public class ManageAuthorsStage extends Stage {
             AtomicBoolean removeAll = new AtomicBoolean(false);
             AtomicBoolean firstTime = new AtomicBoolean(true);
             for (Book book : books) {
-                System.out.println(book);
+                //System.out.println(book);
                 if (book.getAuthor().getFirstName().equals(author.getFirstName()) && book.getAuthor().getLastName().equals(author.getLastName())) {
                     if (firstTime.get()) {
                         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -89,13 +89,22 @@ public class ManageAuthorsStage extends Stage {
                 }
             }
             if (firstTime.get() || removeAll.get()) {
-                AuthorsController.removeAuthor(author);
+                try {
+                    authorsController.removeAuthor(author);
+                }
+                catch (IOException ex) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Error");
+                    alert.setHeaderText("Failed to remove author");
+                    alert.setContentText(ex.getMessage());
+                    alert.showAndWait();
+                }
             }
         });
 
         Button addButton = new Button("Add author");
         addButton.setOnAction(e -> {
-            NewAuthorStage newAuthorStage = new NewAuthorStage();
+            NewAuthorStage newAuthorStage = new NewAuthorStage(authorsController);
             newAuthorStage.show();
         });
 

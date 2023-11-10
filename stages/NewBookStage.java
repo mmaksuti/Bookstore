@@ -27,7 +27,7 @@ public class NewBookStage extends Stage {
         return isbn13.matches("[0-9]{3}-[0-9]-[0-9]{3}-[0-9]{5}-[0-9]") || isbn13.matches("[0-9]{3}-{0-9}{10}");
     }
 
-    public NewBookStage() {
+    public NewBookStage(AuthorsController authorsController) {
         setTitle("New book");
 
         VBox vbox = new VBox();
@@ -48,7 +48,7 @@ public class NewBookStage extends Stage {
      
         Label bookAuthorLabel = new Label("Book Author:");
         ComboBox<Author> cbo = new ComboBox<>();
-		cbo.setItems(AuthorsController.authors);
+		cbo.setItems(authorsController.authors);
         grid.add(bookAuthorLabel, 0, 1);
         grid.add(cbo, 1, 1);
 

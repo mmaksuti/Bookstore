@@ -37,7 +37,7 @@ public class EditUserStage extends Stage {
     public EditUserStage(User user) {
         setTitle("Edit user");
 
-        System.out.println(user);
+        //System.out.println(user);
 
         VBox vbox = new VBox();
         vbox.setAlignment(Pos.CENTER);

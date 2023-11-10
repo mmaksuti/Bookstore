@@ -28,7 +28,7 @@ public class EditBookStage extends Stage {
         return isbn13.matches("[0-9]{3}-[0-9]-[0-9]{3}-[0-9]{5}-[0-9]") || isbn13.matches("[0-9]{3}-[0-9]{10}");
     }
 
-    public EditBookStage(Book book) {
+    public EditBookStage(AuthorsController authorsController, Book book) {
         setTitle("Edit book");
 
         //System.out.println(book);
@@ -52,7 +52,7 @@ public class EditBookStage extends Stage {
 
         Label bookAuthorLabel = new Label("Book author:");
         ComboBox<Author> cbo = new ComboBox<>();
-		cbo.setItems(AuthorsController.authors);
+		cbo.setItems(authorsController.authors);
         cbo.setValue(book.getAuthor());
         grid.add(bookAuthorLabel, 0, 1);
         grid.add(cbo, 1, 1);

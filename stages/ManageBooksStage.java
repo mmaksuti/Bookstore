@@ -1,4 +1,5 @@
 package stages;
+import controllers.AuthorsController;
 import controllers.BooksController;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -16,7 +17,7 @@ import javafx.stage.Stage;
 import main.Book;
 
 public class ManageBooksStage extends Stage {
-    public ManageBooksStage() {
+    public ManageBooksStage(AuthorsController authorsController) {
         setTitle("Manage books");
 
         TableView <Book> tableView = new TableView <>();
@@ -71,7 +72,7 @@ public class ManageBooksStage extends Stage {
         editButton.setOnAction(e -> {
             Book book = tableView.getSelectionModel().getSelectedItem();
             if (book != null) {
-                EditBookStage editBookStage = new EditBookStage(book);
+                EditBookStage editBookStage = new EditBookStage(authorsController, book);
                 editBookStage.show();
             }
         });
@@ -86,7 +87,7 @@ public class ManageBooksStage extends Stage {
 
         Button addButton = new Button("Add book");
         addButton.setOnAction(e -> {
-            NewBookStage newBookStage = new NewBookStage();
+            NewBookStage newBookStage = new NewBookStage(authorsController);
             newBookStage.show();
         });
 

@@ -13,8 +13,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 
+import java.io.IOException;
+
 public class NewAuthorStage extends Stage {
-    public NewAuthorStage() {
+    public NewAuthorStage(AuthorsController authorsController) {
         setTitle("New author");
 
         VBox vbox = new VBox();
@@ -58,14 +60,19 @@ public class NewAuthorStage extends Stage {
                 return;
             }
 
-            if (AuthorsController.authorExists(firstName, lastName)) {
+            if (authorsController.authorExists(firstName, lastName)) {
                 status.setText("Author already exists");
                 return;
             }
-            
-            Author newAuthor = new Author(firstName, lastName, gender);
-            AuthorsController.addAuthor(newAuthor);
 
+            try {
+                Author newAuthor = new Author(firstName, lastName, gender);
+                authorsController.addAuthor(newAuthor);
+            }
+            catch (IOException ex) {
+                status.setText("Failed to add author");
+                return;
+            }
             status.setText("Author added successfully");
         });
 

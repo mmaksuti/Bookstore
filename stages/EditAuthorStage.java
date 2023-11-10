@@ -16,8 +16,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 
+import java.io.IOException;
+
 public class EditAuthorStage extends Stage {
-    public EditAuthorStage(Author author) {
+    public EditAuthorStage(AuthorsController authorsController, Author author) {
         setTitle("Edit author");
 
         VBox vbox = new VBox();
@@ -53,41 +55,22 @@ public class EditAuthorStage extends Stage {
         Button addAuthor = new Button("Edit author");
         Label status = new Label("");
         status.setTextFill(javafx.scene.paint.Color.RED);
- 
+
         addAuthor.setOnAction(e -> {
             String firstName = authorFirstNameField.getText();
             String lastName = authorLastNameField.getText();
             Gender gender = authorGenderComboBox.getValue();
 
-            if (firstName.isBlank() || lastName.isBlank() || gender == null) {
-                status.setText("Please fill in all fields");
+            try {
+                authorsController.updateAuthor(author, firstName, lastName, gender);
+            }
+            catch (IllegalArgumentException ex) {
+                status.setText(ex.getMessage());
                 return;
             }
-
-            String oldFirstName = author.getFirstName();
-            String oldLastName = author.getLastName();
-            boolean nameChanged = !firstName.equals(oldFirstName) || !lastName.equals(oldLastName);
-            if (nameChanged && AuthorsController.authorExists(firstName, lastName)) {
-                status.setText("Author already exists");
+            catch (IOException ex) {
+                status.setText("Failed to save author: " + ex.getMessage());
                 return;
-            }
-
-            author.setFirstName(firstName);
-            author.setLastName(lastName);
-            author.setGender(gender);
-            AuthorsController.updateAuthor(author);
-
-            if (nameChanged) {
-                ObservableList<Book> books = BooksController.books;
-                BooksController.updateBook(books.get(0)); // trigger update on the books ObservableList
-
-                for (Book book : books) {
-                    if (book.getAuthor().getFirstName().equals(oldFirstName) && book.getAuthor().getLastName().equals(oldLastName)) {
-                        // if the author name wasn't updated (if book has a different author reference), update it
-                        book.setAuthor(author);
-                        BooksController.updateBook(book);
-                    }
-                }
             }
 
             status.setText("Author modified successfully");
