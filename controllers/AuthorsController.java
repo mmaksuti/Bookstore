@@ -64,8 +64,17 @@ public class AuthorsController {
         return false;
     }
 
-    public void addAuthor(Author author) throws IOException {
-        authors.add(author);
+    public void addAuthor(String firstName, String lastName, Gender gender) throws IOException {
+        if (firstName.isBlank() || lastName.isBlank() || gender == null) {
+            throw new IllegalArgumentException("Please fill in all fields");
+        }
+
+        if (authorExists(firstName, lastName)) {
+            throw new IllegalArgumentException("Author already exists");
+        }
+
+        Author newAuthor = new Author(firstName, lastName, gender);
+        authors.add(newAuthor);
         writeToFile(DATABASE);
     }
 

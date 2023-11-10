@@ -55,24 +55,18 @@ public class NewAuthorStage extends Stage {
             String lastName = authorLastNameField.getText();
             Gender gender = authorGenderComboBox.getValue();
 
-            if (firstName.isBlank() || lastName.isBlank() || gender == null) {
-                status.setText("Please fill in all fields");
-                return;
-            }
-
-            if (authorsController.authorExists(firstName, lastName)) {
-                status.setText("Author already exists");
-                return;
-            }
-
             try {
-                Author newAuthor = new Author(firstName, lastName, gender);
-                authorsController.addAuthor(newAuthor);
+                authorsController.addAuthor(firstName, lastName, gender);
+            }
+            catch (IllegalArgumentException ex) {
+                status.setText(ex.getMessage());
+                return;
             }
             catch (IOException ex) {
-                status.setText("Failed to add author");
+                status.setText("Failed to save author: " + ex.getMessage());
                 return;
             }
+
             status.setText("Author added successfully");
         });
 
