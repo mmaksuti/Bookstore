@@ -20,8 +20,9 @@ public class AuthorsController {
         readFromFile(DATABASE);
     }
 
-    public void setDatabase(String database) {
+    public void setDatabase(String database) throws IOException {
         DATABASE = database;
+        readFromFile(DATABASE);
     }
 
     public void updateAuthor(Author author, String firstName, String lastName, Gender gender, BooksController booksController) throws IOException {
@@ -98,31 +99,21 @@ public class AuthorsController {
                 if (firstTime) {
                     removeAll = confirmation.confirm("Author has books", "Are you sure you want to delete them all?");
                     if (removeAll) {
-                        System.out.println("97: removing book " + book);
                         iter.remove();
                     }
                     firstTime = false;
                 }
                 else if (removeAll) {
-                    System.out.println("103: removing book " + book);
-                    booksController.removeBook(book);
+                    iter.remove();
                 }
             }
         }
 
         if (firstTime || removeAll) {
-            System.out.println("110: removing author " + author);
             authors.remove(author);
             writeToFile(DATABASE);
         }
     }
-
-//    public void removeAuthor(BooksController bookController, Author author) throws IOException {
-//        authors.remove(author);
-//        writeToFile(DATABASE);
-//
-//        // remove books here??
-//    }
 
     private void readFromFile(String file) throws IOException, IllegalStateException {
         try {

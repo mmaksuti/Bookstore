@@ -17,8 +17,9 @@ public class BooksController {
         readFromFile(DATABASE);
     }
 
-    public void setDatabase(String database) {
+    public void setDatabase(String database) throws IOException {
         DATABASE = database;
+        readFromFile(DATABASE);
     }
 
     public boolean bookExists(String isbn13) {
