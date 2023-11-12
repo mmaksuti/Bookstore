@@ -1,8 +1,8 @@
 package stages;
 import javafx.stage.Stage;
 import main.AccessLevel;
-import main.LastAdministratorException;
-import main.UnauthenticatedException;
+import exceptions.LastAdministratorException;
+import exceptions.UnauthenticatedException;
 import main.User;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;

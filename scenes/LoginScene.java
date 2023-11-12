@@ -3,7 +3,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
-import main.UnauthenticatedException;
+import exceptions.UnauthenticatedException;
 import controllers.LoginController;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;

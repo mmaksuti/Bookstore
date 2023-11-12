@@ -1,11 +1,8 @@
 package stages;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 import controllers.AuthorsController;
 import controllers.BooksController;
-import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -21,10 +18,10 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import main.Author;
-import main.Book;
+import main.UserConfirmation;
 
 public class ManageAuthorsStage extends Stage {
-    public ManageAuthorsStage(AuthorsController authorsController) {
+    public ManageAuthorsStage(AuthorsController authorsController, BooksController booksController) {
         setTitle("Author list");
 
         TableView <Author> tableView = new TableView <>();
@@ -32,15 +29,15 @@ public class ManageAuthorsStage extends Stage {
         
         TableColumn<Author, String> firstName = new TableColumn<>("First Name");
         firstName.setMinWidth(100);
-        firstName.setCellValueFactory(new PropertyValueFactory<Author, String>("firstName"));
+        firstName.setCellValueFactory(new PropertyValueFactory<>("firstName"));
 
         TableColumn<Author, String> lastName = new TableColumn<>("Last Name");
         lastName.setMinWidth(100);
-        lastName.setCellValueFactory(new PropertyValueFactory<Author, String>("lastName"));
+        lastName.setCellValueFactory(new PropertyValueFactory<>("lastName"));
 
         TableColumn<Author, String> gender = new TableColumn<>("Gender");
         gender.setMinWidth(100);
-        gender.setCellValueFactory(new PropertyValueFactory<Author, String>("gender"));
+        gender.setCellValueFactory(new PropertyValueFactory<>("gender"));
 
         tableView.getColumns().addAll(firstName, lastName, gender);
 
@@ -48,57 +45,38 @@ public class ManageAuthorsStage extends Stage {
         editButton.setOnAction(e -> {
             Author author = tableView.getSelectionModel().getSelectedItem();
             if (author != null) {
-                EditAuthorStage editAuthorStage = new EditAuthorStage(authorsController, author);
+                EditAuthorStage editAuthorStage = new EditAuthorStage(authorsController, booksController, author);
                 editAuthorStage.show();
             }
         });
 
         Button deleteButton = new Button("Remove author");
         deleteButton.setOnAction(e -> {
-            ObservableList<Book> books = BooksController.books;
             Author author = tableView.getSelectionModel().getSelectedItem();
             if (author == null) {
                 return;
             }
 
-            AtomicBoolean removeAll = new AtomicBoolean(false);
-            AtomicBoolean firstTime = new AtomicBoolean(true);
-            for (Book book : books) {
-                //System.out.println(book);
-                if (book.getAuthor().getFirstName().equals(author.getFirstName()) && book.getAuthor().getLastName().equals(author.getLastName())) {
-                    if (firstTime.get()) {
-                        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                        alert.setTitle("Warning");
-                        alert.setHeaderText("Author has books");
-                        alert.setContentText("Are you sure you want to delete them all?");
-                        ButtonType buttonTypeYes = new ButtonType("Yes");
-                        ButtonType buttonTypeNo = new ButtonType("No");
-                        alert.getButtonTypes().setAll(buttonTypeYes, buttonTypeNo);
-                        alert.showAndWait().ifPresent(type -> {
-                            if (type == buttonTypeYes) {
-                                removeAll.set(true);
-                                BooksController.removeBook(book);
-                            }
-
-                            firstTime.set(false);
-                        });
-                    }
-                    else if (removeAll.get()) {
-                        BooksController.removeBook(book);
-                    }
-                }
+            try {
+                UserConfirmation confirm = (header, message) -> {
+                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                    alert.setTitle("Warning");
+                    alert.setHeaderText(header);
+                    alert.setContentText(message);
+                    ButtonType buttonTypeYes = new ButtonType("Yes");
+                    ButtonType buttonTypeNo = new ButtonType("No");
+                    alert.getButtonTypes().setAll(buttonTypeYes, buttonTypeNo);
+                    return alert.showAndWait().filter(type -> type == buttonTypeYes).isPresent();
+                };
+                authorsController.removeAuthor(booksController, author, confirm);
             }
-            if (firstTime.get() || removeAll.get()) {
-                try {
-                    authorsController.removeAuthor(author);
-                }
-                catch (IOException ex) {
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setTitle("Error");
-                    alert.setHeaderText("Failed to remove author");
-                    alert.setContentText(ex.getMessage());
-                    alert.showAndWait();
-                }
+
+            catch (IOException ex) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText("Failed to remove author");
+                alert.setContentText(ex.getMessage());
+                alert.showAndWait();
             }
         });
 

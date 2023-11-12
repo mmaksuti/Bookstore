@@ -1,6 +1,7 @@
 package scenes;
 
 import controllers.AuthorsController;
+import controllers.BooksController;
 import controllers.LoginController;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -8,7 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import main.UnauthenticatedException;
+import exceptions.UnauthenticatedException;
 import stages.ManageAuthorsStage;
 import stages.ManageBooksStage;
 import stages.LibrariansStatisticsStage;
@@ -42,8 +43,10 @@ public class AdministratorScene extends Scene {
         });
 
         AuthorsController authorsController = null;
+        BooksController booksController = null;
         try {
             authorsController = new AuthorsController();
+            booksController = new BooksController();
         }
         catch (IOException ex) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -55,13 +58,14 @@ public class AdministratorScene extends Scene {
         }
 
         AuthorsController finalAuthorsController = authorsController;
+        BooksController finalBooksController = booksController;
         manageBooks.setOnAction(e -> {
-            ManageBooksStage listBooksStage = new ManageBooksStage(finalAuthorsController);
+            ManageBooksStage listBooksStage = new ManageBooksStage(finalAuthorsController, finalBooksController);
             listBooksStage.show();
         });
 
         manageAuthors.setOnAction(e -> {
-            ManageAuthorsStage listAuthorsStage = new ManageAuthorsStage(finalAuthorsController);
+            ManageAuthorsStage listAuthorsStage = new ManageAuthorsStage(finalAuthorsController, finalBooksController);
             listAuthorsStage.show();
         });
         
@@ -101,7 +105,7 @@ public class AdministratorScene extends Scene {
 
         Button sellBooksButton = new Button("Sell books");
         sellBooksButton.setOnAction(e -> {
-            SellBooksStage sellBooksStage = new SellBooksStage();
+            SellBooksStage sellBooksStage = new SellBooksStage(finalBooksController);
             sellBooksStage.show();
         });
 

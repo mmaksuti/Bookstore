@@ -19,7 +19,7 @@ import javafx.scene.layout.VBox;
 import java.io.IOException;
 
 public class EditAuthorStage extends Stage {
-    public EditAuthorStage(AuthorsController authorsController, Author author) {
+    public EditAuthorStage(AuthorsController authorsController, BooksController booksController, Author author) {
         setTitle("Edit author");
 
         VBox vbox = new VBox();
@@ -62,7 +62,7 @@ public class EditAuthorStage extends Stage {
             Gender gender = authorGenderComboBox.getValue();
 
             try {
-                authorsController.updateAuthor(author, firstName, lastName, gender);
+                authorsController.updateAuthor(author, firstName, lastName, gender, booksController);
             }
             catch (IllegalArgumentException ex) {
                 status.setText(ex.getMessage());
@@ -72,7 +72,6 @@ public class EditAuthorStage extends Stage {
                 status.setText("Failed to save author: " + ex.getMessage());
                 return;
             }
-
             status.setText("Author modified successfully");
         });
 

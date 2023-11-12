@@ -6,9 +6,9 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import main.AccessLevel;
-import main.LastAdministratorException;
+import exceptions.LastAdministratorException;
 import main.Librarian;
-import main.UnauthenticatedException;
+import exceptions.UnauthenticatedException;
 import main.User;
 
 import java.io.File;

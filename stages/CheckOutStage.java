@@ -24,10 +24,10 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import main.Bill;
 import main.Book;
-import main.UnauthenticatedException;
+import exceptions.UnauthenticatedException;
 
 public class CheckOutStage extends Stage {
-    public CheckOutStage(ArrayList <Book> booksToSell) {
+    public CheckOutStage(ArrayList <Book> booksToSell, BooksController booksController) {
         setTitle("Check out");
         
         VBox vBox = new VBox();
@@ -107,7 +107,18 @@ public class CheckOutStage extends Stage {
                 int quantity = quantities.get(book);
 
                 book.setQuantity(book.getQuantity() - quantity);
-                BooksController.updateBook(book);
+
+                try {
+                    booksController.updateBook(book);
+                }
+                catch (IOException ex) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Error");
+                    alert.setHeaderText("Failed to update book quantity");
+                    alert.setContentText(ex.getMessage());
+                    alert.showAndWait();
+                    return;
+                }
             }
 
             Bill bill;

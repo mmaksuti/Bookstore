@@ -1,15 +1,22 @@
 package scenes;
 
+import controllers.AuthorsController;
+import controllers.BooksController;
 import controllers.LoginController;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import main.UnauthenticatedException;
+import exceptions.UnauthenticatedException;
 import stages.SellBooksStage;
+
+import java.io.IOException;
+
+import static java.lang.System.exit;
 
 public class LibrarianScene extends Scene {
     public LibrarianScene() {
@@ -35,9 +42,23 @@ public class LibrarianScene extends Scene {
         logoutHBox.setPadding(new Insets(10));
         logoutHBox.setSpacing(10);
 
+        BooksController booksController = null;
+        try {
+            booksController = new BooksController();
+        }
+        catch (IOException ex) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Failed to load databases");
+            alert.setContentText(ex.getMessage());
+            alert.showAndWait();
+            exit(1);
+        }
+
+        BooksController finalBooksController = booksController;
         Button sellBooksButton = new Button("Sell books");
         sellBooksButton.setOnAction(e -> {
-            SellBooksStage sellBooksStage = new SellBooksStage();
+            SellBooksStage sellBooksStage = new SellBooksStage(finalBooksController);
             sellBooksStage.show();
         });
 

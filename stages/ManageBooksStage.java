@@ -4,11 +4,7 @@ import controllers.BooksController;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableRow;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
@@ -16,49 +12,50 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import main.Book;
 
+import java.io.IOException;
+
 public class ManageBooksStage extends Stage {
-    public ManageBooksStage(AuthorsController authorsController) {
+    public ManageBooksStage(AuthorsController authorsController, BooksController booksController) {
         setTitle("Manage books");
 
         TableView <Book> tableView = new TableView <>();
-        tableView.setItems(BooksController.books);
+        tableView.setItems(booksController.books);
         
         TableColumn<Book, String> titleColumn = new TableColumn<>("Title");
         titleColumn.setMinWidth(150);
-        titleColumn.setCellValueFactory(new PropertyValueFactory<Book, String>("title"));
+        titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
 
         TableColumn<Book, String> authorColumn = new TableColumn<>("Author");
         authorColumn.setMinWidth(150);
-        authorColumn.setCellValueFactory(new PropertyValueFactory<Book, String>("author"));
+        authorColumn.setCellValueFactory(new PropertyValueFactory<>("author"));
 
         TableColumn<Book, String> isbn13Column = new TableColumn<>("ISBN13");
         isbn13Column.setMinWidth(150);
-        isbn13Column.setCellValueFactory(new PropertyValueFactory<Book, String>("isbn13"));
+        isbn13Column.setCellValueFactory(new PropertyValueFactory<>("isbn13"));
 
         TableColumn<Book, String> priceColumn = new TableColumn<>("Price");
         priceColumn.setMinWidth(60);
-        priceColumn.setCellValueFactory(new PropertyValueFactory<Book, String>("price"));
+        priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
         
         TableColumn<Book, String> paperbackColumn = new TableColumn<>("Paperback");
         paperbackColumn.setMinWidth(60);
-        paperbackColumn.setCellValueFactory(new PropertyValueFactory<Book, String>("paperback"));
+        paperbackColumn.setCellValueFactory(new PropertyValueFactory<>("paperback"));
 
         TableColumn<Book, Integer> quantityColumn = new TableColumn<>("Quantity");
         quantityColumn.setMinWidth(60);
-        quantityColumn.setCellValueFactory(new PropertyValueFactory<Book, Integer>("quantity"));
+        quantityColumn.setCellValueFactory(new PropertyValueFactory<>("quantity"));
         quantityColumn.setCellFactory(column -> {
-            return new TableCell<Book, Integer>() {
+            return new TableCell<>() {
                 @Override
                 protected void updateItem(Integer item, boolean empty) {
                     super.updateItem(item, empty);
                     setText(null);
-                    if (!empty) { 
+                    if (!empty) {
                         setText(item.toString());
 
                         if (item <= 5) {
                             setStyle("-fx-text-fill: red;");
-                        }
-                        else {
+                        } else {
                             setStyle("");
                         }
                     }
@@ -72,7 +69,7 @@ public class ManageBooksStage extends Stage {
         editButton.setOnAction(e -> {
             Book book = tableView.getSelectionModel().getSelectedItem();
             if (book != null) {
-                EditBookStage editBookStage = new EditBookStage(authorsController, book);
+                EditBookStage editBookStage = new EditBookStage(authorsController, booksController, book);
                 editBookStage.show();
             }
         });
@@ -81,13 +78,22 @@ public class ManageBooksStage extends Stage {
         deleteButton.setOnAction(e -> {
             Book book = tableView.getSelectionModel().getSelectedItem();
             if (book != null) {
-                BooksController.removeBook(book);
+                try {
+                    booksController.removeBook(book);
+                }
+                catch (IOException ex) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Error");
+                    alert.setHeaderText("Failed to remove book");
+                    alert.setContentText(ex.getMessage());
+                    alert.showAndWait();
+                }
             }
         });
 
         Button addButton = new Button("Add book");
         addButton.setOnAction(e -> {
-            NewBookStage newBookStage = new NewBookStage(authorsController);
+            NewBookStage newBookStage = new NewBookStage(authorsController, booksController);
             newBookStage.show();
         });
 

@@ -1,7 +1,7 @@
 import controllers.LoginController;
 import javafx.application.Application;
 import javafx.stage.Stage;
-import main.UnauthenticatedException;
+import exceptions.UnauthenticatedException;
 import scenes.AdministratorScene;
 import scenes.LibrarianScene;
 import scenes.LoginScene;

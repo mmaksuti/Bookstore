@@ -20,11 +20,11 @@ import javafx.stage.Stage;
 import main.Book;
 
 public class SellBooksStage extends Stage {
-    public SellBooksStage() {
+    public SellBooksStage(BooksController booksController) {
         setTitle("Sell books");
 
         TableView <Book> tableView = new TableView <>();
-        tableView.setItems(BooksController.books);
+        tableView.setItems(booksController.books);
         tableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         
         TableColumn<Book, String> titleColumn = new TableColumn<>("Title");
@@ -72,7 +72,7 @@ public class SellBooksStage extends Stage {
             ObservableList <Book> booksToSell = tableView.getSelectionModel().getSelectedItems();
             if (!booksToSell.isEmpty()) {
                 ArrayList <Book> booksToSellArray = new ArrayList <>(booksToSell);
-                CheckOutStage checkOutStage = new CheckOutStage(booksToSellArray);
+                CheckOutStage checkOutStage = new CheckOutStage(booksToSellArray, booksController);
                 checkOutStage.show();
             }
         });

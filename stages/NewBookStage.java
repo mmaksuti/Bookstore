@@ -1,7 +1,6 @@
 package stages;
 import javafx.stage.Stage;
 import main.Author;
-import main.Book;
 import main.Genre;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -17,17 +16,14 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import controllers.AuthorsController;
 import controllers.BooksController;
 
 public class NewBookStage extends Stage {
-    private static boolean validIsbn13(String isbn13) {
-        return isbn13.matches("[0-9]{3}-[0-9]-[0-9]{3}-[0-9]{5}-[0-9]") || isbn13.matches("[0-9]{3}-{0-9}{10}");
-    }
-
-    public NewBookStage(AuthorsController authorsController) {
+    public NewBookStage(AuthorsController authorsController, BooksController booksController) {
         setTitle("New book");
 
         VBox vbox = new VBox();
@@ -95,6 +91,7 @@ public class NewBookStage extends Stage {
         grid.add(versionLabel, 0, 7);
         grid.add(rbPaperback, 1, 7);
         grid.add(rbEbook, 1, 8);
+        rbEbook.setSelected(true);
 
         Button addBook = new Button("Add Book");
         Label status = new Label("");
@@ -117,21 +114,6 @@ public class NewBookStage extends Stage {
 
             String quantity = quantityField.getText();
 
-            if (title.isBlank() || author == null || isbn13.isBlank() || price.isBlank() || description.isBlank() || quantity.isBlank()) {
-                status.setText("Please fill in all fields");
-                return;
-            }
-
-            if (BooksController.bookExists(isbn13)) {
-                status.setText("A book with the same ISBN13 already exists");
-                return;
-            } 
-
-            if (!validIsbn13(isbn13)) {
-                status.setText("Invalid ISBN13");
-                return;
-            }
-
             double priceValue;
             try {
                 priceValue = Double.parseDouble(price);
@@ -148,19 +130,20 @@ public class NewBookStage extends Stage {
                 return;
             }
 
-            if (quantityValue < 0) {
-                status.setText("Quantity cannot be negative");
+            try {
+                booksController.addBook(title, author, isbn13, priceValue, description, isPaperback, genres, quantityValue);
+            }
+            catch (IllegalArgumentException ex) {
+                status.setText(ex.getMessage());
                 return;
             }
-            
-            Book newBook = new Book(isbn13, title, description, priceValue, author, genres, quantityValue, isPaperback);
-            BooksController.addBook(newBook);
+            catch (IOException ex) {
+                status.setText("Failed to save book: " + ex.getMessage());
+                return;
+            }
 
             status.setText("Book added successfully");
         });
-
-        //Label accessLevelLabel = new Label("Access Level:");
-        //grid.add(accessLevelLabel, 0, 3);
 
         setScene(scene);
         vbox.getChildren().addAll(grid, addBook, status);

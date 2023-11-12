@@ -1,12 +1,15 @@
 package controllers;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Iterator;
 
+import exceptions.AuthorHasBooksException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import main.Author;
 import main.Book;
 import main.Gender;
+import main.UserConfirmation;
 
 public class AuthorsController {
     public String DATABASE = "authorsDatabase.dat";
@@ -21,7 +24,7 @@ public class AuthorsController {
         DATABASE = database;
     }
 
-    public void updateAuthor(Author author, String firstName, String lastName, Gender gender) throws IOException {
+    public void updateAuthor(Author author, String firstName, String lastName, Gender gender, BooksController booksController) throws IOException {
         if (firstName.isBlank() || lastName.isBlank() || gender == null) {
             throw new IllegalArgumentException("Please fill in all fields");
         }
@@ -42,14 +45,14 @@ public class AuthorsController {
         writeToFile(DATABASE);
 
         if (nameChanged) {
-            ObservableList<Book> books = BooksController.books;
-            BooksController.updateBook(books.get(0)); // trigger update on the books ObservableList
+            ObservableList<Book> books = booksController.books;
+            booksController.updateBook(books.get(0)); // trigger update on the books ObservableList
 
             for (Book book : books) {
                 if (book.getAuthor().getFirstName().equals(oldFirstName) && book.getAuthor().getLastName().equals(oldLastName)) {
                     // if the author name wasn't updated (if book has a different author reference), update it
                     book.setAuthor(author);
-                    BooksController.updateBook(book);
+                    booksController.updateBook(book);
                 }
             }
         }
@@ -78,10 +81,48 @@ public class AuthorsController {
         writeToFile(DATABASE);
     }
 
-    public void removeAuthor(Author author) throws IOException {
-        authors.remove(author);
-        writeToFile(DATABASE);
+    public void removeAuthor(BooksController booksController, Author author, UserConfirmation confirmation) throws IOException {
+        if (author == null) {
+            return;
+        }
+
+        boolean removeAll = false;
+        boolean firstTime = true;
+
+        ObservableList<Book> books = booksController.books;
+        Iterator<Book> iter = books.iterator();
+        while (iter.hasNext()) {
+            Book book = iter.next();
+
+            if (book.getAuthor().getFirstName().equals(author.getFirstName()) && book.getAuthor().getLastName().equals(author.getLastName())) {
+                if (firstTime) {
+                    removeAll = confirmation.confirm("Author has books", "Are you sure you want to delete them all?");
+                    if (removeAll) {
+                        System.out.println("97: removing book " + book);
+                        iter.remove();
+                    }
+                    firstTime = false;
+                }
+                else if (removeAll) {
+                    System.out.println("103: removing book " + book);
+                    booksController.removeBook(book);
+                }
+            }
+        }
+
+        if (firstTime || removeAll) {
+            System.out.println("110: removing author " + author);
+            authors.remove(author);
+            writeToFile(DATABASE);
+        }
     }
+
+//    public void removeAuthor(BooksController bookController, Author author) throws IOException {
+//        authors.remove(author);
+//        writeToFile(DATABASE);
+//
+//        // remove books here??
+//    }
 
     private void readFromFile(String file) throws IOException, IllegalStateException {
         try {
