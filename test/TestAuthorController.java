@@ -42,10 +42,17 @@ public class TestAuthorController {
     @AfterEach
     public void tearDown() {
         File authorsDatabase = new File(TEST_AUTHORS_DATABASE);
-        authorsDatabase.delete();
+
+        boolean deleted = authorsDatabase.delete();
+        if (!deleted) {
+            fail("Failed to delete authors database");
+        }
 
         File booksDatabase = new File(TEST_BOOKS_DATABASE);
-        booksDatabase.delete();
+        deleted = booksDatabase.delete();
+        if (!deleted) {
+            fail("Failed to delete books database");
+        }
     }
 
     @Test
