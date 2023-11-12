@@ -11,12 +11,9 @@ import main.Gender;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Order;
 import static org.junit.jupiter.api.Assertions.*;
 
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+
 public class TestAuthorController {
     public static AuthorsController authorsController;
     public static BooksController booksController;
@@ -43,20 +40,23 @@ public class TestAuthorController {
     public void tearDown() {
         File authorsDatabase = new File(TEST_AUTHORS_DATABASE);
 
-        boolean deleted = authorsDatabase.delete();
-        if (!deleted) {
-            fail("Failed to delete authors database");
+        if (authorsDatabase.exists()) {
+            boolean deleted = authorsDatabase.delete();
+            if (!deleted) {
+                fail("Failed to delete authors database");
+            }
         }
 
         File booksDatabase = new File(TEST_BOOKS_DATABASE);
-        deleted = booksDatabase.delete();
-        if (!deleted) {
-            fail("Failed to delete books database");
+        if (booksDatabase.exists()) {
+            boolean deleted = booksDatabase.delete();
+            if (!deleted) {
+                fail("Failed to delete books database");
+            }
         }
     }
 
     @Test
-    @Order(1)
     void test_addAuthor() {
         String firstName = "John";
         String lastName = "Doe";
