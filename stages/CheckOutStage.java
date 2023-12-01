@@ -27,7 +27,7 @@ import main.Book;
 import exceptions.UnauthenticatedException;
 
 public class CheckOutStage extends Stage {
-    public CheckOutStage(ArrayList <Book> booksToSell, BooksController booksController) {
+    public CheckOutStage(ArrayList <Book> booksToSell, BooksController booksController, LoginController loginController, BillController billController) {
         setTitle("Check out");
         
         VBox vBox = new VBox();
@@ -123,7 +123,7 @@ public class CheckOutStage extends Stage {
 
             Bill bill;
             try {
-                bill = new Bill(LoginController.getLoggedUsername(), quantities, totalPrice.get());
+                bill = new Bill(loginController.getLoggedUsername(), quantities, totalPrice.get());
                 System.out.print("Bill: \n" + bill);
             }
             catch (UnauthenticatedException exc) {
@@ -141,7 +141,7 @@ public class CheckOutStage extends Stage {
             alert.showAndWait();
 
             try {
-                BillController.saveBill(bill);
+                billController.saveBill(bill);
             } catch (IllegalStateException|IOException ex) {
                 alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error");

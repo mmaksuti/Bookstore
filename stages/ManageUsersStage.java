@@ -17,11 +17,11 @@ import javafx.stage.Stage;
 import main.User;
 
 public class ManageUsersStage extends Stage {
-    public ManageUsersStage() {
+    public ManageUsersStage(LoginController loginController) {
         setTitle("User list");
 
         TableView <User> tableView = new TableView <>();
-        tableView.setItems(LoginController.users);
+        tableView.setItems(loginController.users);
         
         TableColumn<User, String> firstNameColumn = new TableColumn<>("First name");
         firstNameColumn.setMinWidth(100);
@@ -45,7 +45,7 @@ public class ManageUsersStage extends Stage {
         editButton.setOnAction(e -> {
             User user = tableView.getSelectionModel().getSelectedItem();
             if (user != null) {
-                EditUserStage editUserStage = new EditUserStage(user);
+                EditUserStage editUserStage = new EditUserStage(user, loginController);
                 editUserStage.show();
             }
         });
@@ -55,7 +55,7 @@ public class ManageUsersStage extends Stage {
             User user = tableView.getSelectionModel().getSelectedItem();
             if (user != null) {
                 try {
-                    LoginController.removeUser(user);
+                    loginController.removeUser(user);
                 } catch (Exception e1) {
                     Alert alert = new Alert(Alert.AlertType.ERROR, e1.getMessage(), ButtonType.OK);
                     alert.showAndWait();
@@ -65,7 +65,7 @@ public class ManageUsersStage extends Stage {
 
         Button addButton = new Button("Add user");
         addButton.setOnAction(e -> {
-            NewUserStage newUserStage = new NewUserStage();
+            NewUserStage newUserStage = new NewUserStage(loginController);
             newUserStage.show();
         });
 

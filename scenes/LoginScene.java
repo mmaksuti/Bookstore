@@ -1,22 +1,36 @@
 package scenes;
-import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.scene.layout.*;
-import javafx.stage.Stage;
-import exceptions.UnauthenticatedException;
+
+import controllers.BillController;
 import controllers.LoginController;
+import exceptions.UnauthenticatedException;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+import main.Bill;
+
+import java.io.IOException;
+
+import static java.lang.System.exit;
 
 public class LoginScene extends Scene {
     TextField usernameField = new TextField();
     PasswordField passwordField = new PasswordField();
     Label statusLabel = new Label("");
 
-    public LoginScene() {
+    private LoginController loginController;
+    private BillController billController;
+
+    public LoginScene(LoginController loginController, BillController billController) {
         super(new VBox(), 300, 200);
-        
+
+        this.loginController = loginController;
+        this.billController = billController;
+
         VBox vbox = (VBox) this.getRoot();
         vbox.setAlignment(Pos.CENTER);
         vbox.setSpacing(10);
@@ -51,31 +65,38 @@ public class LoginScene extends Scene {
         public void handle(ActionEvent e) {
             String username = usernameField.getText();
             String password = passwordField.getText();
-            if (LoginController.login(username, password)) {
-                LoginController.saveSession(username, password);
-                
+            if (loginController.login(username, password)) {
                 try {
+                    loginController.saveSession(username, password);
+
                     Stage primaryStage = (Stage) LoginScene.this.getWindow();
-                    switch (LoginController.getLoggedAccessLevel()) {
+                    switch (loginController.getLoggedAccessLevel()) {
                         case ADMINISTRATOR:
-                            AdministratorScene admin = new AdministratorScene();
+                            AdministratorScene admin = new AdministratorScene(loginController, billController);
                             primaryStage.setTitle("Administrator");
                             primaryStage.setScene(admin);
                             
                             break;
                         case MANAGER:
-                            ManagerScene manager = new ManagerScene();
+                            ManagerScene manager = new ManagerScene(loginController, billController);
                             primaryStage.setTitle("Manager");
                             primaryStage.setScene(manager);
     
                             break;
                         case LIBRARIAN:
-                            LibrarianScene librarian = new LibrarianScene();
+                            LibrarianScene librarian = new LibrarianScene(loginController, billController);
                             primaryStage.setTitle("Librarian");
                             primaryStage.setScene(librarian);
                             
                             break;
                     }
+                }
+                catch (IOException ex) {
+                    Alert alert = new Alert(Alert.AlertType.WARNING);
+                    alert.setTitle("Warning");
+                    alert.setHeaderText("Failed to save session");
+                    alert.setContentText(ex.getMessage());
+                    alert.showAndWait();
                 }
                 catch (UnauthenticatedException ignored) {
                     // should never happen

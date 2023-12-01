@@ -15,6 +15,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 
 import java.time.LocalDate;
+import java.io.IOException;
 
 import controllers.LoginController;
 
@@ -32,7 +33,7 @@ public class NewUserStage extends Stage {
         return username.matches("[a-zA-Z0-9_]+");
     }
 
-    public NewUserStage() {
+    public NewUserStage(LoginController loginController) {
         setTitle("New user");
 
         VBox vbox = new VBox();
@@ -115,7 +116,7 @@ public class NewUserStage extends Stage {
                 return;
             }
             
-            if (LoginController.userExists(username)) {
+            if (loginController.userExists(username)) {
                 status.setText("Username already exists");
                 return;
             } 
@@ -151,7 +152,12 @@ public class NewUserStage extends Stage {
 
             AccessLevel role = roleComboBox.getValue();
             User user = new User(firstName, lastName, username, password, email, phone, salaryInt, birthday, role);
-            LoginController.addUser(user);
+            try {
+                loginController.addUser(user);
+            } catch (IOException ex) {
+                status.setText("Failed to save user");
+                return;
+            }
 
             status.setText("User created successfully");
         });

@@ -24,8 +24,8 @@ public class TestAuthorController {
     @BeforeAll
     public static void setUp()  {
         try {
-            authorsController = new AuthorsController();
-            authorsController.setDatabase(TEST_AUTHORS_DATABASE);
+            authorsController = new AuthorsController(TEST_AUTHORS_DATABASE);
+            //authorsController.setDatabase(TEST_AUTHORS_DATABASE);
 
             booksController = new BooksController();
             booksController.setDatabase(TEST_BOOKS_DATABASE);

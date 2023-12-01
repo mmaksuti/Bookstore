@@ -12,11 +12,11 @@ import javafx.stage.Stage;
 import main.Librarian;
 
 public class LibrariansStatisticsStage extends Stage {
-    public LibrariansStatisticsStage() {
+    public LibrariansStatisticsStage(LibrarianController librarianController) {
         setTitle("Librarian list");
 
         TableView <Librarian> tableView = new TableView <>();
-        tableView.setItems(LibrarianController.librarians);
+        tableView.setItems(librarianController.librarians);
         
         TableColumn<Librarian, String> firstNameColumn = new TableColumn<>("First name");
         firstNameColumn.setMinWidth(100);

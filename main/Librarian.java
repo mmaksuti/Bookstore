@@ -7,37 +7,43 @@ import java.util.Locale;
 import controllers.BillController;
 
 public class Librarian extends User {
+    BillController billController;
+
     public Librarian(String firstName, String lastName, String username, String password, String email, String phone,
-                     int salary, LocalDate birthday) {
+                     int salary, LocalDate birthday, BillController billController) {
         super(firstName, lastName, username, password, email, phone, salary, birthday, AccessLevel.LIBRARIAN);
+
+        this.billController = billController;
     }
 
-    public Librarian(User user) throws IllegalArgumentException {
+    public Librarian(User user, BillController billController) throws IllegalArgumentException {
         super(user.getFirstName(), user.getLastName(), user.getUsername(), user.getPassword(), user.getEmail(), user.getPhone(), user.getSalary(), user.getBirthday(), AccessLevel.LIBRARIAN);
 
         if (user.getAccessLevel() != AccessLevel.LIBRARIAN) {
             throw new IllegalArgumentException("User is not a librarian");
         }
+
+        this.billController = billController;
     }
 
-    public void deleteBills() throws Exception {
-        String[] fileList = BillController.loadBills();
-        for (String fileName : fileList) {
-            String[] parts = fileName.split("\\.");
-            if (parts.length > 1 && parts[1].equals(username)) {
-                File billFile = new File("bills/" + fileName);
-                boolean deleted = billFile.delete();
-                if (!deleted) {
-                    throw new Exception("Failed to delete bill file: " + fileName);
-                }
-            }
-        }
-    }
+//    public void deleteBills() throws Exception {
+//        String[] fileList = BillController.loadBills();
+//        for (String fileName : fileList) {
+//            String[] parts = fileName.split("\\.");
+//            if (parts.length > 1 && parts[1].equals(username)) {
+//                File billFile = new File("bills/" + fileName);
+//                boolean deleted = billFile.delete();
+//                if (!deleted) {
+//                    throw new Exception("Failed to delete bill file: " + fileName);
+//                }
+//            }
+//        }
+//    }
 
     public int getNumberOfBills() {
         int numberOfBills = 0;
 
-        String[] fileList = BillController.loadBills();
+        String[] fileList = billController.loadBills();
         for (String fileName : fileList) {
             String[] parts = fileName.split("\\.");
             if (parts.length > 1 && parts[1].equals(username)) {
@@ -50,7 +56,7 @@ public class Librarian extends User {
     public double getTotalMoney() {
         double totalMoney = 0;
 
-        String[] fileList = BillController.loadBills();
+        String[] fileList = billController.loadBills();
         for (String filename : fileList) {
             String[] parts = filename.split("\\.");
             if (parts.length > 3 && parts[1].equals(username)) {

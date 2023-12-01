@@ -1,8 +1,6 @@
 package scenes;
 
-import controllers.AuthorsController;
-import controllers.BooksController;
-import controllers.LoginController;
+import controllers.*;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -10,6 +8,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import exceptions.UnauthenticatedException;
+import main.Bill;
 import stages.ManageAuthorsStage;
 import stages.ManageBooksStage;
 import stages.LibrariansStatisticsStage;
@@ -30,16 +29,18 @@ public class ManagerScene extends Scene {
     MenuItem salesStatistics = new MenuItem("Sales");
     MenuItem librariansStats = new MenuItem("Librarians");
     
-    public ManagerScene() {
+    public ManagerScene(LoginController loginController, BillController billController) {
         super(new BorderPane(), 300, 200);
 
         BorderPane border = (BorderPane) getRoot();
 
         AuthorsController authorsController = null;
         BooksController booksController = null;
+        LibrarianController librarianController = null;
         try {
             authorsController = new AuthorsController();
             booksController = new BooksController();
+            librarianController = new LibrarianController(loginController, billController);
         }
         catch (IOException ex) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -52,6 +53,7 @@ public class ManagerScene extends Scene {
 
         AuthorsController finalAuthorsController = authorsController;
         BooksController finalBooksController = booksController;
+        LibrarianController finalLibrarianController = librarianController;
         manageBooks.setOnAction(e -> {
             ManageBooksStage manageBooksStage = new ManageBooksStage(finalAuthorsController, finalBooksController);
             manageBooksStage.show();
@@ -68,7 +70,7 @@ public class ManagerScene extends Scene {
         });
 
         librariansStats.setOnAction(e -> {
-            LibrariansStatisticsStage librariansStatsStage = new LibrariansStatisticsStage();
+            LibrariansStatisticsStage librariansStatsStage = new LibrariansStatisticsStage(finalLibrarianController);
             librariansStatsStage.show();
         });
 
@@ -81,7 +83,7 @@ public class ManagerScene extends Scene {
         Label welcomeLabel;
         try {
             welcomeLabel = new Label();
-            welcomeLabel.textProperty().bind(LoginController.getWelcomeMessage());
+            welcomeLabel.textProperty().bind(loginController.getWelcomeMessage());
         }
         catch (UnauthenticatedException e) {
             // should never happen
@@ -98,12 +100,12 @@ public class ManagerScene extends Scene {
 
         Button sellBooksButton = new Button("Sell books");
         sellBooksButton.setOnAction(e -> {
-            SellBooksStage sellBooksStage = new SellBooksStage(finalBooksController);
+            SellBooksStage sellBooksStage = new SellBooksStage(finalBooksController, loginController, billController);
             sellBooksStage.show();
         });
 
         Button logoutButton = new Button("Log out");
-        logoutButton.setOnAction(e -> LoginController.logout());
+        logoutButton.setOnAction(e -> loginController.logout());
 
 
         logoutHBox.getChildren().addAll(sellBooksButton, logoutButton);

@@ -1,6 +1,7 @@
 package scenes;
 
 import controllers.AuthorsController;
+import controllers.BillController;
 import controllers.BooksController;
 import controllers.LoginController;
 import javafx.geometry.Insets;
@@ -12,6 +13,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import exceptions.UnauthenticatedException;
+import main.Bill;
 import stages.SellBooksStage;
 
 import java.io.IOException;
@@ -19,7 +21,7 @@ import java.io.IOException;
 import static java.lang.System.exit;
 
 public class LibrarianScene extends Scene {
-    public LibrarianScene() {
+    public LibrarianScene(LoginController loginController, BillController billController) {
         super(new BorderPane(), 300, 200);
 
         BorderPane border = (BorderPane) getRoot();
@@ -27,7 +29,7 @@ public class LibrarianScene extends Scene {
         Label welcomeLabel;
         try {
             welcomeLabel = new Label();
-            welcomeLabel.textProperty().bind(LoginController.getWelcomeMessage());
+            welcomeLabel.textProperty().bind(loginController.getWelcomeMessage());
         }
         catch (UnauthenticatedException e) {
             // should never happen
@@ -58,12 +60,12 @@ public class LibrarianScene extends Scene {
         BooksController finalBooksController = booksController;
         Button sellBooksButton = new Button("Sell books");
         sellBooksButton.setOnAction(e -> {
-            SellBooksStage sellBooksStage = new SellBooksStage(finalBooksController);
+            SellBooksStage sellBooksStage = new SellBooksStage(finalBooksController, loginController, billController);
             sellBooksStage.show();
         });
 
         Button logoutButton = new Button("Log out");
-        logoutButton.setOnAction(e -> LoginController.logout());
+        logoutButton.setOnAction(e -> loginController.logout());
 
         logoutHBox.getChildren().addAll(sellBooksButton, logoutButton);
         border.setBottom(logoutHBox);

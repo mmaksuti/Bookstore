@@ -1,15 +1,16 @@
 package controllers;
 
 import main.Bill;
+import main.Librarian;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 
 public class BillController {
-    private static final String BILLS = "bills";
+    private final String BILLS = "bills";
 
-    public static String[] loadBills() {
+    public String[] loadBills() {
         File file = new File(BILLS);
         if (!file.isDirectory()) {
             if (file.exists()) {
@@ -26,7 +27,20 @@ public class BillController {
         return file.list();
     }
 
-    public static void saveBill(Bill bill) throws IOException {
+    public void deleteBills(Librarian librarian) throws IllegalStateException {
+        String[] fileList = loadBills();
+        for (String fileName : fileList) {
+            String[] parts = fileName.split("\\.");
+            if (parts.length > 1 && parts[1].equals(librarian.getUsername())) {
+                File billFile = new File("bills/" + fileName);
+                boolean deleted = billFile.delete();
+                if (!deleted) {
+                    throw new IllegalStateException("Failed to delete bill file: " + fileName);
+                }
+            }
+        }
+    }
+    public void saveBill(Bill bill) throws IOException {
         String[] fileList = loadBills();
         int i = 0;
         for (String file : fileList) {

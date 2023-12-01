@@ -2,6 +2,8 @@ package stages;
 import java.util.ArrayList;
 
 import controllers.BooksController;
+import controllers.LoginController;
+import controllers.BillController;
 import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -20,7 +22,7 @@ import javafx.stage.Stage;
 import main.Book;
 
 public class SellBooksStage extends Stage {
-    public SellBooksStage(BooksController booksController) {
+    public SellBooksStage(BooksController booksController, LoginController loginController, BillController billController) {
         setTitle("Sell books");
 
         TableView <Book> tableView = new TableView <>();
@@ -72,7 +74,7 @@ public class SellBooksStage extends Stage {
             ObservableList <Book> booksToSell = tableView.getSelectionModel().getSelectedItems();
             if (!booksToSell.isEmpty()) {
                 ArrayList <Book> booksToSellArray = new ArrayList <>(booksToSell);
-                CheckOutStage checkOutStage = new CheckOutStage(booksToSellArray, booksController);
+                CheckOutStage checkOutStage = new CheckOutStage(booksToSellArray, booksController, loginController, billController);
                 checkOutStage.show();
             }
         });

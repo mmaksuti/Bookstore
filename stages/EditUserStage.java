@@ -16,6 +16,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 
+import java.io.IOException;
 import java.time.LocalDate;
 
 import controllers.LoginController;
@@ -34,7 +35,7 @@ public class EditUserStage extends Stage {
         return username.matches("[a-zA-Z0-9_]+");
     }
 
-    public EditUserStage(User user) {
+    public EditUserStage(User user, LoginController loginController) {
         setTitle("Edit user");
 
         //System.out.println(user);
@@ -158,14 +159,14 @@ public class EditUserStage extends Stage {
 
             String oldUsername = user.getUsername();
             boolean usernameChanged = !username.equals(oldUsername);
-            if (usernameChanged && LoginController.userExists(username)) {
+            if (usernameChanged && loginController.userExists(username)) {
                 status.setText("Username already exists");
                 return;
             }
 
             AccessLevel role = roleComboBox.getValue();
             try {
-                LoginController.canDemote(user, role);
+                loginController.canDemote(user, role);
             }
             catch (LastAdministratorException exc) {
                 status.setText("Cannot demote last administator");
@@ -181,10 +182,14 @@ public class EditUserStage extends Stage {
             user.setSalary(salaryInt);
             user.setBirthday(birthday);
             user.setAccessLevel(role);
-            LoginController.updateUser(user);
 
             try {
-                LoginController.getWelcomeMessage();
+                loginController.updateUser(user);
+                loginController.getWelcomeMessage();
+            }
+            catch (IOException ex) {
+                status.setText("Failed to save user");
+                return;
             }
             catch (UnauthenticatedException ignored) {
             }

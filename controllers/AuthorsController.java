@@ -20,10 +20,15 @@ public class AuthorsController {
         readFromFile(DATABASE);
     }
 
-    public void setDatabase(String database) throws IOException {
+    public AuthorsController(String database) throws IOException {
         DATABASE = database;
         readFromFile(DATABASE);
     }
+
+//    public void setDatabase(String database) throws IOException {
+//        DATABASE = database;
+//        readFromFile(DATABASE);
+//    }
 
     public void updateAuthor(Author author, String firstName, String lastName, Gender gender, BooksController booksController) throws IOException {
         if (firstName.isBlank() || lastName.isBlank() || gender == null) {

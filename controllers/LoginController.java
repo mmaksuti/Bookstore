@@ -7,6 +7,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import main.AccessLevel;
 import exceptions.LastAdministratorException;
+import main.Bill;
 import main.Librarian;
 import exceptions.UnauthenticatedException;
 import main.User;
@@ -21,16 +22,35 @@ import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 
 public class LoginController {
-    private static final String DATABASE = "usersDatabase.dat";
-    private static final String SESSION = "login.txt";
-    public static ObservableList <User> users;
+    private String DATABASE = "usersDatabase.dat";
+    private String SESSION = "login.txt";
+    public ObservableList <User> users;
     
-    private static boolean authenticated = false;
-    private static User currentUser;
+    private boolean authenticated = false;
+    private User currentUser;
     
-    private static final SimpleStringProperty welcomeMessage = new SimpleStringProperty();
+    private final SimpleStringProperty welcomeMessage = new SimpleStringProperty();
     
-    public static boolean userExists(String username) {
+    private BillController billController;
+
+    public LoginController(BillController billController) throws IOException {
+        this.billController = billController;
+        readFromFile(DATABASE);
+    }
+
+    public LoginController(BillController billController, String database, String sessionFile) throws IOException {
+        this.billController = billController;
+
+        DATABASE = database;
+        SESSION = sessionFile;
+        readFromFile(DATABASE);
+    }
+
+//    public BillController getBillController() {
+//        return billController;
+//    }
+
+    public boolean userExists(String username) {
         for (User user : users) {
             if (user.getUsername().equals(username)) {
                 return true;
@@ -39,14 +59,14 @@ public class LoginController {
         return false;
     }
     
-    public static String getLoggedUsername() throws UnauthenticatedException {
+    public String getLoggedUsername() throws UnauthenticatedException {
         if (authenticated) {
             return currentUser.getUsername();
         }
         throw new UnauthenticatedException();
     }
     
-    public static SimpleStringProperty getWelcomeMessage() throws UnauthenticatedException {
+    public SimpleStringProperty getWelcomeMessage() throws UnauthenticatedException {
         if (authenticated) {
             updateCurrentUser();
             
@@ -56,14 +76,14 @@ public class LoginController {
         throw new UnauthenticatedException();
     }
     
-    public static AccessLevel getLoggedAccessLevel() throws UnauthenticatedException {
+    public AccessLevel getLoggedAccessLevel() throws UnauthenticatedException {
         if (authenticated) {
             return currentUser.getAccessLevel();
         }
         throw new UnauthenticatedException();
     }
 
-    private static void updateCurrentUser() {
+    private void updateCurrentUser() {
         for (User user : users) {
             if (user.getUsername().equals(currentUser.getUsername())) {
                 currentUser = user;
@@ -71,7 +91,7 @@ public class LoginController {
         }
     }
     
-    public static boolean login(String username, String password) {
+    public boolean login(String username, String password) {
         if (authenticated) {
             System.out.println("Already logged in");
             return true;
@@ -87,7 +107,7 @@ public class LoginController {
         return authenticated;
     }
     
-    public static void logout() {
+    public void logout() {
         if (!authenticated) {
             // should never happen
             System.out.println("Already logged out");
@@ -103,7 +123,7 @@ public class LoginController {
         System.exit(0);
     }
     
-    public static boolean loginWithSavedSession() {
+    public boolean loginWithSavedSession() {
         if (authenticated) {
             System.out.println("Already logged in");
             return true;
@@ -149,24 +169,19 @@ public class LoginController {
         }
     }
     
-    static {
-        users = FXCollections.observableArrayList();
-        readFromDatabase();
-    }
-    
-    public static void updateUser(User user) {
+    public void updateUser(User user) throws IOException {
         int index = users.indexOf(user);
         users.set(index, user);
-        writeToDatabase();
+        writeToFile(DATABASE);
     }
     
     
-    public static void addUser(User user) {
+    public void addUser(User user) throws IOException {
         users.add(user);
-        writeToDatabase();
+        writeToFile(DATABASE);
     }
     
-    private static int adminCount() {
+    private int adminCount() {
         int nAdmins = 0;
         for (User u : users) {
             if (u.getAccessLevel() == AccessLevel.ADMINISTRATOR) {
@@ -176,7 +191,7 @@ public class LoginController {
         return nAdmins;
     }
 
-    public static void canDemote(User user, AccessLevel role) throws LastAdministratorException {
+    public void canDemote(User user, AccessLevel role) throws LastAdministratorException {
         if (user.getAccessLevel() == AccessLevel.ADMINISTRATOR && role != AccessLevel.ADMINISTRATOR) {
             int nAdmins = adminCount();
             
@@ -186,10 +201,10 @@ public class LoginController {
         }
     }
     
-    public static void removeUser(User user) throws LastAdministratorException,Exception {
+    public void removeUser(User user) throws LastAdministratorException, IOException, IllegalStateException {
         if (user.getAccessLevel() == AccessLevel.LIBRARIAN) {
-            Librarian lib = new Librarian(user);
-            lib.deleteBills();
+            Librarian lib = new Librarian(user, billController);
+            billController.deleteBills(lib);
         }
         else if (user.getAccessLevel() == AccessLevel.ADMINISTRATOR) {
             int nAdmins = adminCount();
@@ -200,12 +215,12 @@ public class LoginController {
         }
         
         users.remove(user);
-        writeToDatabase();
+        writeToFile(DATABASE);
     }
     
-    private static void readFromDatabase() {
+    private void readFromFile(String file) throws IOException, IllegalStateException {
         try {
-            FileInputStream fis = new FileInputStream(DATABASE);
+            FileInputStream fis = new FileInputStream(file);
             ObjectInputStream ois = new ObjectInputStream(fis);
             ArrayList<User> arrayList = (ArrayList<User>) ois.readObject();
             users = FXCollections.observableArrayList(arrayList);
@@ -213,38 +228,31 @@ public class LoginController {
         }
         catch (FileNotFoundException e) {
             System.out.println("No database saved");
-        }
-        catch (IOException e) {
-            System.out.println("IOException " + e.getMessage());
+            users = FXCollections.observableArrayList();
         }
         catch (ClassNotFoundException e) {
             System.out.println("ClassNotFoundException");
+            File fob = new File(file);
+            boolean deleted = fob.delete();
+            if (!deleted) {
+                throw new IllegalStateException("Failed to delete corrupted database");
+            }
         }
     }
     
-    private static void writeToDatabase() {
-        try {
-            FileOutputStream fos = new FileOutputStream(DATABASE);
-            ObjectOutputStream oos = new ObjectOutputStream(fos);
-            ArrayList<User> arrayList = new ArrayList<>(users);
-            oos.writeObject(arrayList);
-            oos.close();
-        }
-        catch (IOException e) {
-            System.out.println("IOException");
-        }
+    private void writeToFile(String file) throws IOException {
+        FileOutputStream fos = new FileOutputStream(file);
+        ObjectOutputStream oos = new ObjectOutputStream(fos);
+        ArrayList<User> arrayList = new ArrayList<>(users);
+        oos.writeObject(arrayList);
+        oos.close();
     }
     
-    public static void saveSession(String username, String password) {
-        try {
-            File file = new File(SESSION);
-            PrintWriter writer = new PrintWriter(file);
-            writer.println(username);
-            writer.println(password);
-            writer.close();
-        }
-        catch (IOException e) {
-            System.out.println("IOException");
-        }
+    public void saveSession(String username, String password) throws IOException {
+        File file = new File(SESSION);
+        PrintWriter writer = new PrintWriter(file);
+        writer.println(username);
+        writer.println(password);
+        writer.close();
     }
 }
