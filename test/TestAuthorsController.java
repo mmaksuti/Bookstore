@@ -4,7 +4,6 @@ import java.io.*;
 
 import controllers.AuthorsController;
 import controllers.BooksController;
-import exceptions.AuthorHasBooksException;
 
 import main.Author;
 import main.Gender;
@@ -14,7 +13,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 
-public class TestAuthorController {
+public class TestAuthorsController {
     public static AuthorsController authorsController;
     public static BooksController booksController;
     public static final String TEST_AUTHORS_DATABASE = "test/testAuthorsDatabase.dat";
