@@ -20,8 +20,12 @@ import java.io.IOException;
 
 import static java.lang.System.exit;
 
-public class LibrarianScene extends Scene {
-    public LibrarianScene(LoginController loginController, BillController billController) {
+public class LibrarianScene extends Scene implements UserScene {
+    public String getName() {
+        return "Librarian";
+    }
+
+    public LibrarianScene(LoginController loginController, BillController billController, BooksController booksController) {
         super(new BorderPane(), 300, 200);
 
         BorderPane border = (BorderPane) getRoot();
@@ -44,23 +48,23 @@ public class LibrarianScene extends Scene {
         logoutHBox.setPadding(new Insets(10));
         logoutHBox.setSpacing(10);
 
-        BooksController booksController = null;
-        try {
-            booksController = new BooksController();
-        }
-        catch (IOException ex) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText("Failed to load databases");
-            alert.setContentText(ex.getMessage());
-            alert.showAndWait();
-            exit(1);
-        }
+//        BooksController booksController = null;
+//        try {
+//            booksController = new BooksController();
+//        }
+//        catch (IOException ex) {
+//            Alert alert = new Alert(Alert.AlertType.ERROR);
+//            alert.setTitle("Error");
+//            alert.setHeaderText("Failed to load databases");
+//            alert.setContentText(ex.getMessage());
+//            alert.showAndWait();
+//            exit(1);
+//        }
 
-        BooksController finalBooksController = booksController;
+        // BooksController finalBooksController = booksController;
         Button sellBooksButton = new Button("Sell books");
         sellBooksButton.setOnAction(e -> {
-            SellBooksStage sellBooksStage = new SellBooksStage(finalBooksController, loginController, billController);
+            SellBooksStage sellBooksStage = new SellBooksStage(booksController, loginController, billController);
             sellBooksStage.show();
         });
 

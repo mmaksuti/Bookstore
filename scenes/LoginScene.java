@@ -1,7 +1,6 @@
 package scenes;
 
-import controllers.BillController;
-import controllers.LoginController;
+import controllers.*;
 import exceptions.UnauthenticatedException;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -11,25 +10,28 @@ import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import main.Bill;
 
 import java.io.IOException;
-
-import static java.lang.System.exit;
 
 public class LoginScene extends Scene {
     TextField usernameField = new TextField();
     PasswordField passwordField = new PasswordField();
     Label statusLabel = new Label("");
 
-    private LoginController loginController;
-    private BillController billController;
+    private final LoginController loginController;
+    private final BillController billController;
+    private final AuthorsController authorsController;
+    private final BooksController booksController;
+    private final LibrarianController librarianController;
 
-    public LoginScene(LoginController loginController, BillController billController) {
+    public LoginScene(LoginController loginController, BillController billController, AuthorsController authorsController, BooksController booksController, LibrarianController librarianController) {
         super(new VBox(), 300, 200);
 
         this.loginController = loginController;
         this.billController = billController;
+        this.booksController = booksController;
+        this.authorsController = authorsController;
+        this.librarianController = librarianController;
 
         VBox vbox = (VBox) this.getRoot();
         vbox.setAlignment(Pos.CENTER);
@@ -69,27 +71,11 @@ public class LoginScene extends Scene {
                 try {
                     loginController.saveSession(username, password);
 
-                    Stage primaryStage = (Stage) LoginScene.this.getWindow();
-                    switch (loginController.getLoggedAccessLevel()) {
-                        case ADMINISTRATOR:
-                            AdministratorScene admin = new AdministratorScene(loginController, billController);
-                            primaryStage.setTitle("Administrator");
-                            primaryStage.setScene(admin);
-                            
-                            break;
-                        case MANAGER:
-                            ManagerScene manager = new ManagerScene(loginController, billController);
-                            primaryStage.setTitle("Manager");
-                            primaryStage.setScene(manager);
-    
-                            break;
-                        case LIBRARIAN:
-                            LibrarianScene librarian = new LibrarianScene(loginController, billController);
-                            primaryStage.setTitle("Librarian");
-                            primaryStage.setScene(librarian);
-                            
-                            break;
-                    }
+                    Stage primaryStage = (Stage)LoginScene.this.getWindow();
+
+                    UserScene scene = (UserScene)SceneSelector.getSceneByAccessLevel(loginController, billController, authorsController, booksController, librarianController);
+                    primaryStage.setTitle(scene.getName());
+                    primaryStage.setScene((Scene)scene);
                 }
                 catch (IOException ex) {
                     Alert alert = new Alert(Alert.AlertType.WARNING);

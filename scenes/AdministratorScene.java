@@ -20,7 +20,7 @@ import java.io.IOException;
 
 import static java.lang.System.exit;
 
-public class AdministratorScene extends Scene {
+public class AdministratorScene extends Scene implements UserScene {
     MenuBar menuBar = new MenuBar();
     Menu manage = new Menu("Manage");
     MenuItem manageUsers = new MenuItem("Users");
@@ -31,7 +31,11 @@ public class AdministratorScene extends Scene {
     MenuItem salesStatistics = new MenuItem("Sales");
     MenuItem librariansStats = new MenuItem("Librarians");
 
-    public AdministratorScene(LoginController loginController, BillController billController) {
+    public String getName() {
+        return "Administrator";
+    }
+
+    public AdministratorScene(LoginController loginController, BillController billController, AuthorsController authorsController, BooksController booksController, LibrarianController librarianController) {
         super(new BorderPane(), 300, 200);
 
         BorderPane border = (BorderPane) getRoot();
@@ -41,33 +45,33 @@ public class AdministratorScene extends Scene {
             listUsersStage.show();
         });
 
-        AuthorsController authorsController = null;
-        BooksController booksController = null;
-        LibrarianController librarianController = null;
-        try {
-            authorsController = new AuthorsController();
-            booksController = new BooksController();
-            librarianController = new LibrarianController(loginController, billController);
-        }
-        catch (IOException ex) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText("Failed to load databases");
-            alert.setContentText(ex.getMessage());
-            alert.showAndWait();
-            exit(1);
-        }
+//        AuthorsController authorsController = null;
+//        BooksController booksController = null;
+//        LibrarianController librarianController = null;
+//        try {
+//            authorsController = new AuthorsController();
+//            booksController = new BooksController();
+//            librarianController = new LibrarianController(loginController, billController);
+//        }
+//        catch (IOException ex) {
+//            Alert alert = new Alert(Alert.AlertType.ERROR);
+//            alert.setTitle("Error");
+//            alert.setHeaderText("Failed to load databases");
+//            alert.setContentText(ex.getMessage());
+//            alert.showAndWait();
+//            exit(1);
+//        }
 
-        AuthorsController finalAuthorsController = authorsController;
-        BooksController finalBooksController = booksController;
-        LibrarianController finalLibrarianController = librarianController;
+//        AuthorsController finalAuthorsController = authorsController;
+//        BooksController finalBooksController = booksController;
+//        LibrarianController finalLibrarianController = librarianController;
         manageBooks.setOnAction(e -> {
-            ManageBooksStage listBooksStage = new ManageBooksStage(finalAuthorsController, finalBooksController);
+            ManageBooksStage listBooksStage = new ManageBooksStage(authorsController, booksController);
             listBooksStage.show();
         });
 
         manageAuthors.setOnAction(e -> {
-            ManageAuthorsStage listAuthorsStage = new ManageAuthorsStage(finalAuthorsController, finalBooksController);
+            ManageAuthorsStage listAuthorsStage = new ManageAuthorsStage(authorsController, booksController);
             listAuthorsStage.show();
         });
         
@@ -77,7 +81,7 @@ public class AdministratorScene extends Scene {
         });
 
         librariansStats.setOnAction(e -> {
-            LibrariansStatisticsStage librariansStatsStage = new LibrariansStatisticsStage(finalLibrarianController);
+            LibrariansStatisticsStage librariansStatsStage = new LibrariansStatisticsStage(librarianController);
             librariansStatsStage.show();
         });
         
@@ -107,7 +111,7 @@ public class AdministratorScene extends Scene {
 
         Button sellBooksButton = new Button("Sell books");
         sellBooksButton.setOnAction(e -> {
-            SellBooksStage sellBooksStage = new SellBooksStage(finalBooksController, loginController, billController);
+            SellBooksStage sellBooksStage = new SellBooksStage(booksController, loginController, billController);
             sellBooksStage.show();
         });
 
