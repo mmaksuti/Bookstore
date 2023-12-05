@@ -50,16 +50,17 @@ public class TestBooksController {
         }
         assertEquals(1, booksController.books.size());
         assertThrows(IllegalArgumentException.class, () ->
-                booksController.addBook("Title", new Author("Jane", "Doe", Gender.FEMALE), "123-4-789-09123-0", 15.0, "Description", false, new ArrayList<>(), 5)
-        );
+                booksController.addBook("Title", new Author("Jane", "Doe", Gender.FEMALE), "123-48-789-09123-0", 15.0, "Description", false, new ArrayList<>(), 5)
+                );
 
         assertThrows(IllegalArgumentException.class, () ->
                 booksController.addBook("Invalid ISBN", new Author("John", "Doe", Gender.MALE), "invalid_isbn", 15.0, "Description", false, new ArrayList<>(), 5)
         );
 
         assertThrows(IllegalArgumentException.class, () ->
-                booksController.addBook("Title", new Author("John", "Doe", Gender.MALE), "123-4-789-09123-088", 25.0, "Description", true, new ArrayList<>(), -5)
-        );
+                booksController.addBook("Title", new Author("John", "Doe", Gender.MALE), "123-49-789-09123-088", 25.0, "Description", true, new ArrayList<>(), -5)
+
+                );
     }
     @Test
     void testUpdateBook() {
@@ -75,7 +76,6 @@ public class TestBooksController {
             assertEquals("Updated Description", bookToUpdate.getDescription());
             assertFalse(bookToUpdate.isPaperback());
             assertEquals(15, bookToUpdate.getQuantity());
-
 
             assertThrows(IllegalArgumentException.class, () ->
                     booksController.updateBook(bookToUpdate, "Another Title", new Author("John", "Doe", Gender.MALE), "193-4-729-0923-0", 15.0, "Another Description", true, new ArrayList<>(), 5)
