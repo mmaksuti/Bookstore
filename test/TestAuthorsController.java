@@ -1,57 +1,50 @@
 package test;
 
 import java.io.*;
+import java.util.ArrayList;
 
 import controllers.AuthorsController;
 import controllers.BooksController;
 
+import controllers.FileDatabaseController;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import main.Author;
+import main.Book;
 import main.Gender;
+import main.UserConfirmation;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
+import test.mocks.MockDatabaseController;
+
 import static org.junit.jupiter.api.Assertions.*;
 
+import org.mockito.Mockito.*;
 
 public class TestAuthorsController {
-    public static AuthorsController authorsController;
-    public static BooksController booksController;
-    public static final String TEST_AUTHORS_DATABASE = "test/testAuthorsDatabase.dat";
-    public static final String TEST_BOOKS_DATABASE = "test/testBooksDatabase.dat";
+    public AuthorsController authorsController;
+    public BooksController booksController;
+    public MockDatabaseController mockDbController;
+
+    public ObservableList<Book> books = FXCollections.observableArrayList();
+
+//    public static final String TEST_AUTHORS_DATABASE = "test/testAuthorsDatabase.dat";
+//    public static final String TEST_BOOKS_DATABASE = "test/testBooksDatabase.dat";
 
     // set up the database files
-    @BeforeAll
-    public static void setUp()  {
+    @BeforeEach
+    public void setUp()  {
         try {
-            authorsController = new AuthorsController(TEST_AUTHORS_DATABASE);
-            //authorsController.setDatabase(TEST_AUTHORS_DATABASE);
-
-            booksController = new BooksController();
-            booksController.setDatabase(TEST_BOOKS_DATABASE);
+            mockDbController = new MockDatabaseController(new ArrayList<Author>());
+            authorsController = new AuthorsController(mockDbController);
+            booksController = Mockito.mock(BooksController.class);
+            //Mockito.when(booksController.getBooks()).thenReturn(books);
         }
         catch (IOException ex) {
             fail("Failed to set up databases: " + ex.getMessage());
-        }
-    }
-
-    // clear everything so each test starts from scratch
-    @AfterEach
-    public void tearDown() {
-        File authorsDatabase = new File(TEST_AUTHORS_DATABASE);
-
-        if (authorsDatabase.exists()) {
-            boolean deleted = authorsDatabase.delete();
-            if (!deleted) {
-                fail("Failed to delete authors database");
-            }
-        }
-
-        File booksDatabase = new File(TEST_BOOKS_DATABASE);
-        if (booksDatabase.exists()) {
-            boolean deleted = booksDatabase.delete();
-            if (!deleted) {
-                fail("Failed to delete books database");
-            }
         }
     }
 
@@ -66,6 +59,8 @@ public class TestAuthorsController {
         } catch (IOException ex) {
             fail("Failed to add author: " + ex.getMessage());
         }
+
+        assertEquals(1, authorsController.getAuthors().size());
 
         Author author = authorsController.authors.get(0);
         assertEquals(firstName, author.getFirstName());
@@ -82,6 +77,8 @@ public class TestAuthorsController {
             fail("Failed to add author: " + ex.getMessage());
         }
 
+        assertEquals(2, authorsController.getAuthors().size());
+
         author = authorsController.authors.get(1);
         assertEquals(firstName, author.getFirstName());
         assertEquals(lastName, author.getLastName());
@@ -89,18 +86,215 @@ public class TestAuthorsController {
     }
 
     @Test
+    void test_addAuthorThrowsFillInAllValuesException() {
+        String firstName = "John";
+        String lastName = "Doe";
+        Gender gender = Gender.MALE;
+
+        IllegalArgumentException exc = assertThrows(IllegalArgumentException.class,
+                () -> authorsController.addAuthor("", lastName, gender));
+        assertEquals("Please fill in all fields", exc.getMessage());
+
+        exc = assertThrows(IllegalArgumentException.class,
+                () -> authorsController.addAuthor(firstName, "", gender));
+        assertEquals("Please fill in all fields", exc.getMessage());
+
+        exc = assertThrows(IllegalArgumentException.class,
+                () -> authorsController.addAuthor(firstName, lastName, null));
+        assertEquals("Please fill in all fields", exc.getMessage());
+
+        assertEquals(0, authorsController.getAuthors().size());
+    }
+
+    @Test
     void test_addAuthorThrowsAuthorExistsException() {
-        // ...
+        String firstName = "John";
+        String lastName = "Doe";
+        Gender gender = Gender.MALE;
+
+        try {
+            authorsController.addAuthor(firstName, lastName, gender);
+        } catch (IOException ex) {
+            fail("Failed to add author: " + ex.getMessage());
+        }
+
+        IllegalArgumentException exc = assertThrows(IllegalArgumentException.class,
+                () -> authorsController.addAuthor(firstName, lastName, gender));
+        assertEquals("Author already exists", exc.getMessage());
+        assertEquals(1, authorsController.getAuthors().size());
+    }
+
+    @Test
+    void test_updateAuthor() {
+        String firstName = "John";
+        String lastName = "Doe";
+        Gender gender = Gender.MALE;
+
+        try {
+            authorsController.addAuthor(firstName, lastName, gender);
+        } catch (IOException ex) {
+            fail("Failed to add author: " + ex.getMessage());
+        }
+
+        Mockito.when(booksController.getBooks()).thenReturn(books);
+
+        Author author = authorsController.getAuthors().get(0);
+        try {
+            authorsController.updateAuthor(author, "Jane", lastName, Gender.FEMALE, booksController);
+        } catch (IOException e) {
+            fail("Failed to update author: " + e.getMessage());
+        }
+
+        assertEquals(1, authorsController.getAuthors().size());
+
+        assertEquals("Jane", author.getFirstName());
+        assertEquals(lastName, author.getLastName());
+        assertEquals(Gender.FEMALE, author.getGender());
+    }
+
+    @Test
+    void test_updateAuthorThrowsFillInAllValuesException() {
+        String firstName = "John";
+        String lastName = "Doe";
+        Gender gender = Gender.MALE;
+
+        try {
+            authorsController.addAuthor(firstName, lastName, gender);
+        } catch (IOException ex) {
+            fail("Failed to add author: " + ex.getMessage());
+        }
+
+        Mockito.when(booksController.getBooks()).thenReturn(books);
+
+        Author author = authorsController.getAuthors().get(0);
+
+        IllegalArgumentException exc = assertThrows(IllegalArgumentException.class,
+                () -> authorsController.updateAuthor(author, "", lastName, gender, booksController));
+        assertEquals("Please fill in all fields", exc.getMessage());
+
+        exc = assertThrows(IllegalArgumentException.class,
+                () -> authorsController.updateAuthor(author, firstName, "", gender, booksController));
+        assertEquals("Please fill in all fields", exc.getMessage());
+
+        exc = assertThrows(IllegalArgumentException.class,
+                () -> authorsController.updateAuthor(author, firstName, lastName, null, booksController));
+        assertEquals("Please fill in all fields", exc.getMessage());
+
+        assertEquals("John", author.getFirstName());
+        assertEquals(lastName, author.getLastName());
+        assertEquals(Gender.MALE, author.getGender());
+    }
+
+    @Test
+    void test_updateAuthorThrowsAuthorExistsException() {
+        try {
+            authorsController.addAuthor("John", "Doe", Gender.MALE);
+        } catch (IOException ex) {
+            fail("Failed to add author: " + ex.getMessage());
+        }
+
+        try {
+            authorsController.addAuthor("Jane", "Doe", Gender.FEMALE);
+        } catch (IOException ex) {
+            fail("Failed to add author: " + ex.getMessage());
+        }
+
+        Author author = authorsController.getAuthors().get(1);
+
+        IllegalArgumentException exc = assertThrows(IllegalArgumentException.class,
+                () -> authorsController.updateAuthor(author, "John", "Doe", Gender.FEMALE, booksController));
+        assertEquals("Author already exists", exc.getMessage());
     }
 
     @Test
     void test_removeAuthorNoBooks() {
-        // ...
+        String firstName = "John";
+        String lastName = "Doe";
+        Gender gender = Gender.MALE;
+
+        try {
+            authorsController.addAuthor(firstName, lastName, gender);
+        } catch (IOException ex) {
+            fail("Failed to add author: " + ex.getMessage());
+        }
+
+        Mockito.when(booksController.getBooks()).thenReturn(books);
+
+        Author author = authorsController.getAuthors().get(0);
+        try {
+            authorsController.removeAuthor(booksController, author, null);
+        }
+        catch (IOException ex) {
+            fail("Failed to remove author: " + ex.getMessage());
+        }
+
+        assertEquals(0, authorsController.getAuthors().size());
     }
 
     @Test
-    void test_removeAuthorWithBooks() {
-        // ...
+    void test_removeAuthorWithBooksConfirmIsFalse() {
+        String firstName = "John";
+        String lastName = "Doe";
+        Gender gender = Gender.MALE;
+
+        try {
+            authorsController.addAuthor(firstName, lastName, gender);
+        } catch (IOException ex) {
+            fail("Failed to add author: " + ex.getMessage());
+        }
+
+
+        Author author = authorsController.getAuthors().get(0);
+
+        Book testBook = new Book("", "", "", 1.0, author, new ArrayList<>(), 1, true);
+        books.add(testBook);
+        Mockito.when(booksController.getBooks()).thenReturn(books);
+
+        UserConfirmation confirm = (header, message) -> {
+            return false;
+        };
+
+        try {
+            authorsController.removeAuthor(booksController, author, confirm);
+        }
+        catch (IOException ex) {
+            fail("Failed to remove author: " + ex.getMessage());
+        }
+
+        assertEquals(1, authorsController.getAuthors().size());
+    }
+
+    @Test
+    void test_removeAuthorWithBooksConfirmIsTrue() {
+        String firstName = "John";
+        String lastName = "Doe";
+        Gender gender = Gender.MALE;
+
+        try {
+            authorsController.addAuthor(firstName, lastName, gender);
+        } catch (IOException ex) {
+            fail("Failed to add author: " + ex.getMessage());
+        }
+
+
+        Author author = authorsController.getAuthors().get(0);
+
+        Book testBook = new Book("", "", "", 1.0, author, new ArrayList<>(), 1, true);
+        books.add(testBook);
+        Mockito.when(booksController.getBooks()).thenReturn(books);
+
+        UserConfirmation confirm = (header, message) -> {
+            return true;
+        };
+
+        try {
+            authorsController.removeAuthor(booksController, author, confirm);
+        }
+        catch (IOException ex) {
+            fail("Failed to remove author: " + ex.getMessage());
+        }
+
+        assertEquals(0, authorsController.getAuthors().size());
     }
 
     // etc.

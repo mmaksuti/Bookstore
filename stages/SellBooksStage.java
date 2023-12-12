@@ -26,7 +26,7 @@ public class SellBooksStage extends Stage {
         setTitle("Sell books");
 
         TableView <Book> tableView = new TableView <>();
-        tableView.setItems(booksController.books);
+        tableView.setItems(booksController.getBooks());
         tableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         
         TableColumn<Book, String> titleColumn = new TableColumn<>("Title");

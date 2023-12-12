@@ -48,20 +48,6 @@ public class LibrarianScene extends Scene implements UserScene {
         logoutHBox.setPadding(new Insets(10));
         logoutHBox.setSpacing(10);
 
-//        BooksController booksController = null;
-//        try {
-//            booksController = new BooksController();
-//        }
-//        catch (IOException ex) {
-//            Alert alert = new Alert(Alert.AlertType.ERROR);
-//            alert.setTitle("Error");
-//            alert.setHeaderText("Failed to load databases");
-//            alert.setContentText(ex.getMessage());
-//            alert.showAndWait();
-//            exit(1);
-//        }
-
-        // BooksController finalBooksController = booksController;
         Button sellBooksButton = new Button("Sell books");
         sellBooksButton.setOnAction(e -> {
             SellBooksStage sellBooksStage = new SellBooksStage(booksController, loginController, billController);

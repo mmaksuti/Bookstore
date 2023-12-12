@@ -19,7 +19,7 @@ public class ManageBooksStage extends Stage {
         setTitle("Manage books");
 
         TableView <Book> tableView = new TableView <>();
-        tableView.setItems(booksController.books);
+        tableView.setItems(booksController.getBooks());
         
         TableColumn<Book, String> titleColumn = new TableColumn<>("Title");
         titleColumn.setMinWidth(150);

@@ -45,26 +45,6 @@ public class AdministratorScene extends Scene implements UserScene {
             listUsersStage.show();
         });
 
-//        AuthorsController authorsController = null;
-//        BooksController booksController = null;
-//        LibrarianController librarianController = null;
-//        try {
-//            authorsController = new AuthorsController();
-//            booksController = new BooksController();
-//            librarianController = new LibrarianController(loginController, billController);
-//        }
-//        catch (IOException ex) {
-//            Alert alert = new Alert(Alert.AlertType.ERROR);
-//            alert.setTitle("Error");
-//            alert.setHeaderText("Failed to load databases");
-//            alert.setContentText(ex.getMessage());
-//            alert.showAndWait();
-//            exit(1);
-//        }
-
-//        AuthorsController finalAuthorsController = authorsController;
-//        BooksController finalBooksController = booksController;
-//        LibrarianController finalLibrarianController = librarianController;
         manageBooks.setOnAction(e -> {
             ManageBooksStage listBooksStage = new ManageBooksStage(authorsController, booksController);
             listBooksStage.show();

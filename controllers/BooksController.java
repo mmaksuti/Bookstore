@@ -9,17 +9,21 @@ import main.Book;
 import main.Genre;
 
 public class BooksController {
-    public String DATABASE = "booksDatabase.dat";
+    private String DATABASE = "booksDatabase.dat";
 
-    public ObservableList <Book> books;
+    private ObservableList<Book> books;
 
     public BooksController() throws IOException {
         readFromFile(DATABASE);
     }
 
-    public void setDatabase(String database) throws IOException {
+    public BooksController(String database) throws IOException {
         DATABASE = database;
         readFromFile(DATABASE);
+    }
+
+    public ObservableList<Book> getBooks() {
+        return books;
     }
 
     public boolean bookExists(String isbn13) {

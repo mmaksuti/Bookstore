@@ -17,9 +17,10 @@ public class TestLibrarianController {
     public void setUp() throws IOException {
         billController = new BillController();
         loginController = new LoginController(billController);
-    }@Test
-    public void testInitialization() {
+    }
 
+    @Test
+    public void testInitialization() {
         LibrarianController librarianController = new LibrarianController(loginController, billController);
 
         assertNotNull(librarianController.librarians);
@@ -37,6 +38,7 @@ public class TestLibrarianController {
         assertEquals(2, librarianController.librarians.size());
         assertEquals(librarianUser.getUsername(), librarianController.librarians.get(0).getUsername());
     }
+
     @Test
     public void testUpdatingLibrariansOnUserListChange() {
         LibrarianController librarianController = new LibrarianController(loginController, billController);
@@ -47,6 +49,7 @@ public class TestLibrarianController {
 
         assertFalse(librarianController.librarians.isEmpty());
     }
+
     @Test
     public void testRemovingLibrariansOnUserListChange() {
         // Arrange

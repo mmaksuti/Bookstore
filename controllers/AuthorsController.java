@@ -3,7 +3,6 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import exceptions.AuthorHasBooksException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import main.Author;
@@ -16,19 +15,22 @@ public class AuthorsController {
 
     public ObservableList <Author> authors;
 
-    public AuthorsController() throws IOException {
+    public DatabaseController dbController;
+
+    public AuthorsController(DatabaseController dbController) throws IOException {
+        this.dbController = dbController;
         readFromFile(DATABASE);
     }
 
-    public AuthorsController(String database) throws IOException {
+    public AuthorsController(DatabaseController dbController, String database) throws IOException {
+        this.dbController = dbController;
         DATABASE = database;
         readFromFile(DATABASE);
     }
 
-//    public void setDatabase(String database) throws IOException {
-//        DATABASE = database;
-//        readFromFile(DATABASE);
-//    }
+    public ObservableList<Author> getAuthors() {
+        return authors;
+    }
 
     public void updateAuthor(Author author, String firstName, String lastName, Gender gender, BooksController booksController) throws IOException {
         if (firstName.isBlank() || lastName.isBlank() || gender == null) {
@@ -51,7 +53,7 @@ public class AuthorsController {
         writeToFile(DATABASE);
 
         if (nameChanged) {
-            ObservableList<Book> books = booksController.books;
+            ObservableList<Book> books = booksController.getBooks();
             booksController.updateBook(books.get(0)); // trigger update on the books ObservableList
 
             for (Book book : books) {
@@ -95,7 +97,7 @@ public class AuthorsController {
         boolean removeAll = false;
         boolean firstTime = true;
 
-        ObservableList<Book> books = booksController.books;
+        ObservableList<Book> books = booksController.getBooks();
         Iterator<Book> iter = books.iterator();
         while (iter.hasNext()) {
             Book book = iter.next();
@@ -122,11 +124,8 @@ public class AuthorsController {
 
     private void readFromFile(String file) throws IOException, IllegalStateException {
         try {
-            FileInputStream fis = new FileInputStream(file);
-            ObjectInputStream ois = new ObjectInputStream(fis);
-            ArrayList<Author> arrayList = (ArrayList<Author>) ois.readObject();
+            ArrayList<Author> arrayList = (ArrayList<Author>)dbController.readFromFile(file);
             authors = FXCollections.observableArrayList(arrayList);
-            ois.close();
         }
         catch (FileNotFoundException e) {
             System.out.println("No database saved");
@@ -143,10 +142,6 @@ public class AuthorsController {
     }
 
     private void writeToFile(String file) throws IOException {
-        FileOutputStream fos = new FileOutputStream(file);
-        ObjectOutputStream oos = new ObjectOutputStream(fos);
-        ArrayList<Author> arrayList = new ArrayList<Author>(authors);
-        oos.writeObject(arrayList);
-        oos.close();
+        dbController.writeToFile(file, new ArrayList<Author>(authors));
     }
 }

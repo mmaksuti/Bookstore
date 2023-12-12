@@ -22,8 +22,7 @@ public class TestBooksController {
     @BeforeEach
     public void setUp() {
         try {
-            booksController = new BooksController();
-            booksController.setDatabase(TEST_BOOKS_DATABASE);
+            booksController = new BooksController(TEST_BOOKS_DATABASE);
         } catch (IOException ex) {
             fail("Failed to set up databases: " + ex.getMessage());
         }
@@ -48,7 +47,7 @@ public class TestBooksController {
         } catch (IOException ex) {
             fail("Failed to add a valid book: " + ex.getMessage());
         }
-        assertEquals(1, booksController.books.size());
+        assertEquals(1, booksController.getBooks().size());
         assertThrows(IllegalArgumentException.class, () ->
                 booksController.addBook("Title", new Author("Jane", "Doe", Gender.FEMALE), "123-48-789-09123-0", 15.0, "Description", false, new ArrayList<>(), 5)
                 );
@@ -66,7 +65,7 @@ public class TestBooksController {
     void testUpdateBook() {
         try {
             booksController.addBook("Title", new Author("John", "Doe", Gender.MALE), "123-4-729-29123-0", 20.0, "Description", true, new ArrayList<>(), 10);
-            Book bookToUpdate = booksController.books.get(0);
+            Book bookToUpdate = booksController.getBooks().get(0);
             booksController.updateBook(bookToUpdate, "Updated Title", new Author("Jane", "Doe", Gender.FEMALE), "123-4-729-09123-0", 25.0, "Updated Description", false, new ArrayList<>(), 15);
             assertEquals("Updated Title", bookToUpdate.getTitle());
             assertEquals("Jane", bookToUpdate.getAuthor().getFirstName());
@@ -89,12 +88,12 @@ public class TestBooksController {
     void testRemoveBook() {
         try {
             booksController.addBook("Title", new Author("John", "Doe", Gender.MALE), "123-4-789-09123-0", 20.0, "Description", true, new ArrayList<>(), 10);
-            Book bookToRemove = booksController.books.get(0);
-            System.out.println("Before removal: " + booksController.books);
+            Book bookToRemove = booksController.getBooks().get(0);
+            System.out.println("Before removal: " + booksController.getBooks());
             booksController.removeBook(bookToRemove);
-            System.out.println("After removal: " + booksController.books);
+            System.out.println("After removal: " + booksController.getBooks());
 
-            assertEquals(0, booksController.books.size());
+            assertEquals(0, booksController.getBooks().size());
 
         } catch (IOException ex) {
             fail("Failed to remove book: " + ex.getMessage());

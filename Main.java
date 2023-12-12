@@ -24,11 +24,13 @@ public class Main extends Application {
         AuthorsController authorsController = null;
         BooksController booksController = null;
         LibrarianController librarianController = null;
+        DatabaseController dbController = null;
 
         try {
+            dbController = new FileDatabaseController();
             billController = new BillController();
             loginController = new LoginController(billController);
-            authorsController = new AuthorsController();
+            authorsController = new AuthorsController(dbController);
             booksController = new BooksController();
             librarianController = new LibrarianController(loginController, billController);
         }
