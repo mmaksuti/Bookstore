@@ -24,10 +24,9 @@ public class Main extends Application {
         AuthorsController authorsController = null;
         BooksController booksController = null;
         LibrarianController librarianController = null;
-        DatabaseController dbController = null;
+        DatabaseController dbController = new FileDatabaseController();
 
         try {
-            dbController = new FileDatabaseController();
             billController = new BillController();
             loginController = new LoginController(billController);
             authorsController = new AuthorsController(dbController);

@@ -54,7 +54,10 @@ public class AuthorsController {
 
         if (nameChanged) {
             ObservableList<Book> books = booksController.getBooks();
-            booksController.updateBook(books.get(0)); // trigger update on the books ObservableList
+
+            if (!books.isEmpty()) {
+                booksController.updateBook(books.get(0)); // trigger update on the books ObservableList
+            }
 
             for (Book book : books) {
                 if (book.getAuthor().getFirstName().equals(oldFirstName) && book.getAuthor().getLastName().equals(oldLastName)) {
