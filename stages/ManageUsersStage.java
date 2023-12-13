@@ -21,7 +21,7 @@ public class ManageUsersStage extends Stage {
         setTitle("User list");
 
         TableView <User> tableView = new TableView <>();
-        tableView.setItems(loginController.users);
+        tableView.setItems(loginController.getUsers());
         
         TableColumn<User, String> firstNameColumn = new TableColumn<>("First name");
         firstNameColumn.setMinWidth(100);

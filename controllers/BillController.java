@@ -9,6 +9,11 @@ import java.io.PrintWriter;
 
 public class BillController {
     private final String BILLS = "bills";
+    private DatabaseController dbController;
+
+    /*public BillController(DatabaseController dbController) {
+        this.dbController = dbController;
+    }*/
 
     public String[] loadBills() {
         File file = new File(BILLS);

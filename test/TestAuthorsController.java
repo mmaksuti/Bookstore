@@ -62,7 +62,7 @@ public class TestAuthorsController {
 
         assertEquals(1, authorsController.getAuthors().size());
 
-        Author author = authorsController.authors.get(0);
+        Author author = authorsController.getAuthors().get(0);
         assertEquals(firstName, author.getFirstName());
         assertEquals(lastName, author.getLastName());
         assertEquals(gender, author.getGender());
@@ -79,7 +79,7 @@ public class TestAuthorsController {
 
         assertEquals(2, authorsController.getAuthors().size());
 
-        author = authorsController.authors.get(1);
+        author = authorsController.getAuthors().get(1);
         assertEquals(firstName, author.getFirstName());
         assertEquals(lastName, author.getLastName());
         assertEquals(gender, author.getGender());

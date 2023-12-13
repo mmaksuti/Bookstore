@@ -8,23 +8,27 @@ import main.Librarian;
 import main.User;
 
 public class LibrarianController {
-    public ObservableList <Librarian> librarians;
+    private ObservableList <Librarian> librarians;
 
     public LibrarianController(LoginController loginController, BillController billController) {
         librarians = FXCollections.observableArrayList();
-        for (User user : loginController.users) {
+        for (User user : loginController.getUsers()) {
             if (user.getAccessLevel() == AccessLevel.LIBRARIAN) {
                 librarians.add(new Librarian(user, billController));
             }
         }
 
-        loginController.users.addListener((ListChangeListener<User>)change -> {
+        loginController.getUsers().addListener((ListChangeListener<User>)change -> {
             librarians.removeAll(librarians);
-            for (User user : loginController.users) {
+            for (User user : loginController.getUsers()) {
                 if (user.getAccessLevel() == AccessLevel.LIBRARIAN) {
                     librarians.add(new Librarian(user, billController));
                 }
             }
         });
+    }
+    
+    public ObservableList<Librarian> getLibrarians() {
+        return librarians;
     }
 }

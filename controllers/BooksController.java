@@ -10,14 +10,16 @@ import main.Genre;
 
 public class BooksController {
     private String DATABASE = "booksDatabase.dat";
-
     private ObservableList<Book> books;
+    private DatabaseController dbController;
 
-    public BooksController() throws IOException {
+    public BooksController(DatabaseController dbController) throws IOException {
+        this.dbController = dbController;
         readFromFile(DATABASE);
     }
 
-    public BooksController(String database) throws IOException {
+    public BooksController(DatabaseController dbController, String database) throws IOException {
+        this.dbController = dbController;
         DATABASE = database;
         readFromFile(DATABASE);
     }
@@ -111,18 +113,12 @@ public class BooksController {
 
     public void readFromFile(String file) throws IOException, IllegalStateException {
         try {
-            FileInputStream fis = new FileInputStream(file);
-            ObjectInputStream ois = new ObjectInputStream(fis);
-            ArrayList<Book> arrayList = (ArrayList<Book>) ois.readObject();
+            ArrayList<Book> arrayList = (ArrayList<Book>)dbController.readFromFile(file);
             books = FXCollections.observableArrayList(arrayList);
-            ois.close();
         }
         catch (FileNotFoundException e) {
             System.out.println("No database saved");
             books = FXCollections.observableArrayList();
-        }
-        catch (IOException e) {
-            System.out.println("IOException " + e.getMessage());
         }
         catch (ClassNotFoundException e) {
             System.out.println("ClassNotFoundException");
@@ -135,10 +131,6 @@ public class BooksController {
     }
 
     public void writeToFile(String file) throws IOException {
-        FileOutputStream fos = new FileOutputStream(file);
-        ObjectOutputStream oos = new ObjectOutputStream(fos);
-        ArrayList<Book> arrayList = new ArrayList<>(books);
-        oos.writeObject(arrayList);
-        oos.close();
+        dbController.writeToFile(file, new ArrayList<Book>(books));
     }
 }

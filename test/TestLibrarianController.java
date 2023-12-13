@@ -23,42 +23,42 @@ public class TestLibrarianController {
     public void testInitialization() {
         LibrarianController librarianController = new LibrarianController(loginController, billController);
 
-        assertNotNull(librarianController.librarians);
-        assertFalse(librarianController.librarians.isEmpty());
+        assertNotNull(librarianController.getLibrarians());
+        assertFalse(librarianController.getLibrarians().isEmpty());
     }
 
     @Test
     public void testAddingLibrarians() {
         User librarianUser = new User("John", "Doe", "johndoe", "password", "john@example.com", "123456789", 50000, null, AccessLevel.LIBRARIAN);
-        loginController.users.add(librarianUser);
+        loginController.getUsers().add(librarianUser);
 
         LibrarianController librarianController = new LibrarianController(loginController, billController);
 
-        assertFalse(librarianController.librarians.isEmpty());
-        assertEquals(2, librarianController.librarians.size());
-        assertEquals(librarianUser.getUsername(), librarianController.librarians.get(0).getUsername());
+        assertFalse(librarianController.getLibrarians().isEmpty());
+        assertEquals(2, librarianController.getLibrarians().size());
+        assertEquals(librarianUser.getUsername(), librarianController.getLibrarians().get(0).getUsername());
     }
 
     @Test
     public void testUpdatingLibrariansOnUserListChange() {
         LibrarianController librarianController = new LibrarianController(loginController, billController);
         User librarianUser = new User("John", "Doe", "john.doe", "password", "john@example.com", "123456789", 50000, null, AccessLevel.LIBRARIAN);
-        loginController.users.add(librarianUser);
+        loginController.getUsers().add(librarianUser);
 
-        loginController.users.remove(librarianUser);
+        loginController.getUsers().remove(librarianUser);
 
-        assertFalse(librarianController.librarians.isEmpty());
+        assertFalse(librarianController.getLibrarians().isEmpty());
     }
 
     @Test
     public void testRemovingLibrariansOnUserListChange() {
         // Arrange
         User librarianUser = new User("John", "Doe", "john.doe", "password", "john@example.com", "123456789", 50000, null, AccessLevel.LIBRARIAN);
-        loginController.users.add(librarianUser);
+        loginController.getUsers().add(librarianUser);
 
         LibrarianController librarianController = new LibrarianController(loginController, billController);
-        loginController.users.remove(librarianUser);
+        loginController.getUsers().remove(librarianUser);
 
-        assertFalse(librarianController.librarians.isEmpty());
+        assertFalse(librarianController.getLibrarians().isEmpty());
     }
 }

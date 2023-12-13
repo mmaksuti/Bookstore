@@ -49,7 +49,7 @@ public class EditBookStage extends Stage {
 
         Label bookAuthorLabel = new Label("Book author:");
         ComboBox<Author> cbo = new ComboBox<>();
-		cbo.setItems(authorsController.authors);
+		cbo.setItems(authorsController.getAuthors());
         cbo.setValue(book.getAuthor());
         grid.add(bookAuthorLabel, 0, 1);
         grid.add(cbo, 1, 1);

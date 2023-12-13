@@ -16,7 +16,7 @@ public class LibrariansStatisticsStage extends Stage {
         setTitle("Librarian list");
 
         TableView <Librarian> tableView = new TableView <>();
-        tableView.setItems(librarianController.librarians);
+        tableView.setItems(librarianController.getLibrarians());
         
         TableColumn<Librarian, String> firstNameColumn = new TableColumn<>("First name");
         firstNameColumn.setMinWidth(100);

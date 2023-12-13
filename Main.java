@@ -28,9 +28,9 @@ public class Main extends Application {
 
         try {
             billController = new BillController();
-            loginController = new LoginController(billController);
+            loginController = new LoginController(dbController, billController);
             authorsController = new AuthorsController(dbController);
-            booksController = new BooksController();
+            booksController = new BooksController(dbController);
             librarianController = new LibrarianController(loginController, billController);
         }
         catch (IOException ex) {

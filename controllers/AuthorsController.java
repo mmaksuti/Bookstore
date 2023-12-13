@@ -12,10 +12,8 @@ import main.UserConfirmation;
 
 public class AuthorsController {
     public String DATABASE = "authorsDatabase.dat";
-
-    public ObservableList <Author> authors;
-
-    public DatabaseController dbController;
+    private ObservableList <Author> authors;
+    private DatabaseController dbController;
 
     public AuthorsController(DatabaseController dbController) throws IOException {
         this.dbController = dbController;

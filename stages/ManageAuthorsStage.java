@@ -25,7 +25,7 @@ public class ManageAuthorsStage extends Stage {
         setTitle("Author list");
 
         TableView <Author> tableView = new TableView <>();
-        tableView.setItems(authorsController.authors);
+        tableView.setItems(authorsController.getAuthors());
         
         TableColumn<Author, String> firstName = new TableColumn<>("First Name");
         firstName.setMinWidth(100);

@@ -5,12 +5,9 @@ import java.util.Scanner;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import main.AccessLevel;
+import main.*;
 import exceptions.LastAdministratorException;
-import main.Bill;
-import main.Librarian;
 import exceptions.UnauthenticatedException;
-import main.User;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -24,7 +21,7 @@ import java.io.PrintWriter;
 public class LoginController {
     private String DATABASE = "usersDatabase.dat";
     private String SESSION = "login.txt";
-    public ObservableList <User> users;
+    private ObservableList <User> users;
     
     private boolean authenticated = false;
     private User currentUser;
@@ -32,13 +29,16 @@ public class LoginController {
     private final SimpleStringProperty welcomeMessage = new SimpleStringProperty();
     
     private BillController billController;
+    private DatabaseController dbController;
 
-    public LoginController(BillController billController) throws IOException {
+    public LoginController(DatabaseController dbController, BillController billController) throws IOException {
+        this.dbController = dbController;
         this.billController = billController;
         readFromFile(DATABASE);
     }
 
-    public LoginController(BillController billController, String database, String sessionFile) throws IOException {
+    public LoginController(DatabaseController dbController, BillController billController, String database, String sessionFile) throws IOException {
+        this.dbController = dbController;
         this.billController = billController;
 
         DATABASE = database;
@@ -46,9 +46,9 @@ public class LoginController {
         readFromFile(DATABASE);
     }
 
-//    public BillController getBillController() {
-//        return billController;
-//    }
+    public ObservableList<User> getUsers() {
+        return users;
+    }
 
     public boolean userExists(String username) {
         for (User user : users) {
@@ -220,11 +220,8 @@ public class LoginController {
     
     private void readFromFile(String file) throws IOException, IllegalStateException {
         try {
-            FileInputStream fis = new FileInputStream(file);
-            ObjectInputStream ois = new ObjectInputStream(fis);
-            ArrayList<User> arrayList = (ArrayList<User>) ois.readObject();
+            ArrayList<User> arrayList = (ArrayList<User>)dbController.readFromFile(file);
             users = FXCollections.observableArrayList(arrayList);
-            ois.close();
         }
         catch (FileNotFoundException e) {
             System.out.println("No database saved");
@@ -241,11 +238,7 @@ public class LoginController {
     }
     
     private void writeToFile(String file) throws IOException {
-        FileOutputStream fos = new FileOutputStream(file);
-        ObjectOutputStream oos = new ObjectOutputStream(fos);
-        ArrayList<User> arrayList = new ArrayList<>(users);
-        oos.writeObject(arrayList);
-        oos.close();
+        dbController.writeToFile(file, new ArrayList<User>(users));
     }
     
     public void saveSession(String username, String password) throws IOException {
