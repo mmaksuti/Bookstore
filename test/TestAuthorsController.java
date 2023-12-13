@@ -250,12 +250,12 @@ public class TestAuthorsController {
         books.add(testBook);
         Mockito.when(booksController.getBooks()).thenReturn(books);
 
-        UserConfirmation confirm = (header, message) -> {
+        UserConfirmation mockedConfirmation = (header, message) -> {
             return false;
         };
 
         try {
-            authorsController.removeAuthor(booksController, author, confirm);
+            authorsController.removeAuthor(booksController, author, mockedConfirmation);
         }
         catch (IOException ex) {
             fail("Failed to remove author: " + ex.getMessage());
@@ -283,12 +283,12 @@ public class TestAuthorsController {
         books.add(testBook);
         Mockito.when(booksController.getBooks()).thenReturn(books);
 
-        UserConfirmation confirm = (header, message) -> {
+        UserConfirmation mockedConfirmation = (header, message) -> {
             return true;
         };
 
         try {
-            authorsController.removeAuthor(booksController, author, confirm);
+            authorsController.removeAuthor(booksController, author, mockedConfirmation);
         }
         catch (IOException ex) {
             fail("Failed to remove author: " + ex.getMessage());
