@@ -140,10 +140,6 @@ public class LoginController {
                     System.err.println("File deletion failed.");
                 }
                 scanner.close();
-
-                // User admin = new User("Name", "Surname", "admin", "admin", "admin@gmail.com", "+355676578272", 1000, LocalDate.of(1999, 1, 1), AccessLevel.ADMINISTRATOR);
-                // addUser(admin);
-
                 return false;
             }
 

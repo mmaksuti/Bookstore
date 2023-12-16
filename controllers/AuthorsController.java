@@ -85,7 +85,7 @@ public class AuthorsController {
             throw new IllegalArgumentException("Author already exists");
         }
 
-        Author newAuthor = new Author(firstName, lastName, gender);
+        Author newAuthor = new Author(firstName, lastName);
         authors.add(newAuthor);
         writeToFile(DATABASE);
     }

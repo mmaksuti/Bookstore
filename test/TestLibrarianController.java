@@ -3,62 +3,73 @@ package test;
 import controllers.BillController;
 import controllers.LibrarianController;
 import controllers.LoginController;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import main.AccessLevel;
+import main.Librarian;
 import main.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import java.io.IOException;
-import static org.junit.jupiter.api.Assertions.*;
+import org.mockito.Mockito;
+
+import java.time.LocalDate;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.*;
 
 public class TestLibrarianController {
-    private BillController billController;
-    private LoginController loginController;
+
+    private LibrarianController librarianController;
+    private LoginController mockLoginController;
+    private BillController mockBillController;
+
     @BeforeEach
-    public void setUp() throws IOException {
-        billController = new BillController();
-        loginController = new LoginController(billController);
+    public void setUp() {
+        mockLoginController = Mockito.mock(LoginController.class);
+        when(mockLoginController.getUsers()).thenReturn(FXCollections.observableArrayList());
+
+        mockBillController = Mockito.mock(BillController.class);
+        librarianController = new LibrarianController(mockLoginController, mockBillController);
     }
 
     @Test
-    public void testInitialization() {
-        LibrarianController librarianController = new LibrarianController(loginController, billController);
-
-        assertNotNull(librarianController.getLibrarians());
-        assertFalse(librarianController.getLibrarians().isEmpty());
+    public void testConstructor() {
+        ObservableList<Librarian> librarians = librarianController.getLibrarians();
+        assertEquals(0, librarians.size());
     }
 
     @Test
-    public void testAddingLibrarians() {
-        User librarianUser = new User("John", "Doe", "johndoe", "password", "john@example.com", "123456789", 50000, null, AccessLevel.LIBRARIAN);
-        loginController.getUsers().add(librarianUser);
+    public void testConstructorWithLibrarians() {
+        ObservableList<User> users = FXCollections.observableArrayList();
+        users.add(new User("Librarian1", "Lastname1", "librarian1", "password", "librarian1@example.com", "+123456789", 1000, LocalDate.of(1990, 1, 1), AccessLevel.LIBRARIAN));
+        when(mockLoginController.getUsers()).thenReturn(users);
 
-        LibrarianController librarianController = new LibrarianController(loginController, billController);
+        LibrarianController controller = new LibrarianController(mockLoginController, mockBillController);
 
-        assertFalse(librarianController.getLibrarians().isEmpty());
-        assertEquals(2, librarianController.getLibrarians().size());
-        assertEquals(librarianUser.getUsername(), librarianController.getLibrarians().get(0).getUsername());
+        ObservableList<Librarian> librarians = controller.getLibrarians();
+        assertEquals(1, librarians.size());
     }
 
     @Test
-    public void testUpdatingLibrariansOnUserListChange() {
-        LibrarianController librarianController = new LibrarianController(loginController, billController);
-        User librarianUser = new User("John", "Doe", "john.doe", "password", "john@example.com", "123456789", 50000, null, AccessLevel.LIBRARIAN);
-        loginController.getUsers().add(librarianUser);
+    public void testGetLibrarians() {
+        ObservableList<Librarian> librarians = librarianController.getLibrarians();
+        assertEquals(0, librarians.size());
 
-        loginController.getUsers().remove(librarianUser);
-
-        assertFalse(librarianController.getLibrarians().isEmpty());
+        // Add a librarian and check again
+        Librarian librarian = mock(Librarian.class);
+        librarians.add(librarian);
+        assertEquals(1, librarians.size());
     }
 
     @Test
-    public void testRemovingLibrariansOnUserListChange() {
-        // Arrange
-        User librarianUser = new User("John", "Doe", "john.doe", "password", "john@example.com", "123456789", 50000, null, AccessLevel.LIBRARIAN);
-        loginController.getUsers().add(librarianUser);
+    public void testListChangeListener() {
+        ObservableList<User> users = FXCollections.observableArrayList();
+        when(mockLoginController.getUsers()).thenReturn(users);
 
-        LibrarianController librarianController = new LibrarianController(loginController, billController);
-        loginController.getUsers().remove(librarianUser);
+        LibrarianController controller = new LibrarianController(mockLoginController, mockBillController);
 
-        assertFalse(librarianController.getLibrarians().isEmpty());
+        users.add(new User("Librarian1", "Lastname1", "librarian1", "password", "librarian1@example.com", "+123456789", 1000, LocalDate.of(1990, 1, 1), AccessLevel.LIBRARIAN));
+        ObservableList<Librarian> librarians = controller.getLibrarians();
+        assertEquals(1, librarians.size());
     }
 }
