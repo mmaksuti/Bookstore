@@ -54,8 +54,6 @@ public class TestLibrarianController {
     public void testGetLibrarians() {
         ObservableList<Librarian> librarians = librarianController.getLibrarians();
         assertEquals(0, librarians.size());
-
-        // Add a librarian and check again
         Librarian librarian = mock(Librarian.class);
         librarians.add(librarian);
         assertEquals(1, librarians.size());
