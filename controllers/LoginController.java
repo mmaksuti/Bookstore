@@ -1,4 +1,5 @@
 package controllers;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -10,12 +11,8 @@ import exceptions.LastAdministratorException;
 import exceptions.UnauthenticatedException;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 
 public class LoginController {
@@ -30,6 +27,19 @@ public class LoginController {
     
     private BillController billController;
     private DatabaseController dbController;
+
+    private static boolean validEmail(String email) {
+        return email.matches("\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*(\\.\\w{2,3})+");
+    }
+
+    private static boolean validPhoneNumber(String phone) {
+        String nospaces = phone.replaceAll(" ", "");
+        return nospaces.matches("\\+3556[7-9]\\d{7}");
+    }
+
+    private static boolean validUsername(String username) {
+        return username.matches("[a-zA-Z0-9_]+");
+    }
 
     public LoginController(DatabaseController dbController, BillController billController) throws IOException {
         this.dbController = dbController;
@@ -165,14 +175,92 @@ public class LoginController {
         }
     }
     
-    public void updateUser(User user) throws IOException {
+    public void updateUser(User user, String firstName, String lastName, String username, String password, String email, String phone, int salary, LocalDate birthday, AccessLevel role) throws IOException, UnauthenticatedException {
+        if (firstName.isBlank() || lastName.isBlank() || username.isBlank() || password.isBlank() || email.isBlank() || phone.isBlank() || salary == 0 || birthday == null || role == null) {
+            throw new IllegalArgumentException("Please fill in all fields");
+        }
+
+        if (!validUsername(username)) {
+            throw new IllegalArgumentException("Username must contain only letters, numbers and underscores");
+        }
+
+        if (password.length() < 5) {
+            throw new IllegalArgumentException("Password must be at least 5 characters");
+        }
+
+        if (!validEmail(email)) {
+            throw new IllegalArgumentException("Invalid email");
+        }
+
+        if (!validPhoneNumber(phone)) {
+            throw new IllegalArgumentException("Invalid phone number");
+        }
+
+        if (birthday.isAfter(LocalDate.now().minusYears(18))) {
+            throw new IllegalArgumentException("User must be at least 18 years old");
+        }
+
+        String oldUsername = user.getUsername();
+        boolean usernameChanged = !username.equals(oldUsername);
+        if (usernameChanged && userExists(username)) {
+            throw new IllegalArgumentException("Username already exists");
+        }
+
+        try {
+            assertCanDemote(user, role);
+        }
+        catch (LastAdministratorException exc) {
+            throw new IllegalArgumentException("Cannot demote last administator");
+        }
+
+        user.setFirstName(firstName);
+        user.setLastName(lastName);
+        user.setUsername(username);
+        user.setPassword(password);
+        user.setEmail(email);
+        user.setPhone(phone);
+        user.setSalary(salary);
+        user.setBirthday(birthday);
+        user.setAccessLevel(role);
+
+        getWelcomeMessage();
+
         int index = users.indexOf(user);
         users.set(index, user);
         writeToFile(DATABASE);
     }
     
     
-    public void addUser(User user) throws IOException {
+    public void addUser(String firstName, String lastName, String username, String password, String email, String phone, int salary, LocalDate birthday, AccessLevel role) throws IOException {
+        if (firstName.isBlank() || lastName.isBlank() || username.isBlank() || password.isBlank() || email.isBlank() || phone.isBlank() || salary == 0 || birthday == null || role == null) {
+            throw new IllegalArgumentException("Please fill in all fields");
+        }
+
+        if (!validUsername(username)) {
+            throw new IllegalArgumentException("Username must contain only letters, numbers and underscores");
+        }
+
+        if (userExists(username)) {
+            throw new IllegalArgumentException("Username already exists");
+        }
+
+        if (password.length() < 5) {
+            throw new IllegalArgumentException("Password must be at least 5 characters");
+        }
+
+        if (!validEmail(email)) {
+            throw new IllegalArgumentException("Invalid email");
+        }
+
+        if (!validPhoneNumber(phone)) {
+            throw new IllegalArgumentException("Invalid phone number");
+        }
+
+        if (birthday.isAfter(LocalDate.now().minusYears(18))) {
+            throw new IllegalArgumentException("User must be at least 18 years old");
+        }
+
+        User user = new User(firstName, lastName, username, password, email, phone, salary, birthday, role);
         users.add(user);
         writeToFile(DATABASE);
     }
@@ -187,7 +275,7 @@ public class LoginController {
         return nAdmins;
     }
 
-    public void canDemote(User user, AccessLevel role) throws LastAdministratorException {
+    public void assertCanDemote(User user, AccessLevel role) throws LastAdministratorException {
         if (user.getAccessLevel() == AccessLevel.ADMINISTRATOR && role != AccessLevel.ADMINISTRATOR) {
             int nAdmins = adminCount();
             

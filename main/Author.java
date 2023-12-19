@@ -10,7 +10,7 @@ public class Author implements Serializable {
 	private String lastName;
 	private Gender gender;
 	
-	public Author(String firstName, String lastName) {
+	public Author(String firstName, String lastName, Gender gender) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.gender = gender;

@@ -118,31 +118,6 @@ public class EditUserStage extends Stage {
             String phone = phoneNumberField.getText();
             String salaryString = salaryField.getText();
 
-            if (firstName.isBlank() || lastName.isBlank() || username.isBlank() || password.isBlank() || email.isBlank() || phone.isBlank() || salaryString.isBlank() || datePicker.getValue() == null || roleComboBox.getValue() == null) {
-                status.setText("Please fill in all fields");
-                return;
-            }
-
-            if (!validUsername(username)) {
-                status.setText("Username must contain only letters, numbers and underscores");
-                return;
-            }
-            
-            if (password.length() < 5) {
-                status.setText("Password must be at least 5 characters");
-                return;
-            }
-
-            if (!validEmail(email)) {
-                status.setText("Invalid email");
-                return;
-            }
-
-            if (!validPhoneNumber(phone)) {
-                status.setText("Invalid phone number");
-                return;
-            }
-
             int salaryInt;
             try {
                 salaryInt = Integer.parseInt(salaryString);
@@ -152,43 +127,17 @@ public class EditUserStage extends Stage {
             }
 
             LocalDate birthday = datePicker.getValue();
-            if (birthday.isAfter(LocalDate.now().minusYears(18))) {
-                status.setText("User must be at least 18 years old");
-                return;
-            }
-
-            String oldUsername = user.getUsername();
-            boolean usernameChanged = !username.equals(oldUsername);
-            if (usernameChanged && loginController.userExists(username)) {
-                status.setText("Username already exists");
-                return;
-            }
-
             AccessLevel role = roleComboBox.getValue();
+
             try {
-                loginController.canDemote(user, role);
+                loginController.updateUser(user, firstName, lastName, username, password, email, phone, salaryInt, birthday, role);
             }
-            catch (LastAdministratorException exc) {
-                status.setText("Cannot demote last administator");
+            catch (IllegalArgumentException ex) {
+                status.setText(ex.getMessage());
                 return;
-            }
-
-            user.setFirstName(firstName);
-            user.setLastName(lastName);
-            user.setUsername(username);
-            user.setPassword(password);
-            user.setEmail(email);
-            user.setPhone(phone);
-            user.setSalary(salaryInt);
-            user.setBirthday(birthday);
-            user.setAccessLevel(role);
-
-            try {
-                loginController.updateUser(user);
-                loginController.getWelcomeMessage();
             }
             catch (IOException ex) {
-                status.setText("Failed to save user");
+                status.setText("Failed to save user: " + ex.getMessage());
                 return;
             }
             catch (UnauthenticatedException ignored) {

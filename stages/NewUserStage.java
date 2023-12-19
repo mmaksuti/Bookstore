@@ -20,18 +20,6 @@ import java.io.IOException;
 import controllers.LoginController;
 
 public class NewUserStage extends Stage {
-    private static boolean validEmail(String email) {
-        return email.matches("\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*(\\.\\w{2,3})+");
-    }
-
-    private static boolean validPhoneNumber(String phone) {
-        String nospaces = phone.replaceAll(" ", "");
-        return nospaces.matches("\\+3556[7-9]\\d{7}");
-    }
-
-    private static boolean validUsername(String username) {
-        return username.matches("[a-zA-Z0-9_]+");
-    }
 
     public NewUserStage(LoginController loginController) {
         setTitle("New user");
@@ -106,36 +94,6 @@ public class NewUserStage extends Stage {
             String phone = phoneNumberField.getText();
             String salaryString = salaryField.getText();
 
-            if (firstName.isBlank() || lastName.isBlank() || username.isBlank() || password.isBlank() || email.isBlank() || phone.isBlank() || salaryString.isBlank() || datePicker.getValue() == null || roleComboBox.getValue() == null) {
-                status.setText("Please fill in all fields");
-                return;
-            }
-
-            if (!validUsername(username)) {
-                status.setText("Username must contain only letters, numbers and underscores");
-                return;
-            }
-            
-            if (loginController.userExists(username)) {
-                status.setText("Username already exists");
-                return;
-            } 
-            
-            if (password.length() < 5) {
-                status.setText("Password must be at least 5 characters");
-                return;
-            }
-
-            if (!validEmail(email)) {
-                status.setText("Invalid email");
-                return;
-            }
-
-            if (!validPhoneNumber(phone)) {
-                status.setText("Invalid phone number");
-                return;
-            }
-
             int salaryInt;
             try {
                 salaryInt = Integer.parseInt(salaryString);
@@ -145,21 +103,20 @@ public class NewUserStage extends Stage {
             }
 
             LocalDate birthday = datePicker.getValue();
-            if (birthday.isAfter(LocalDate.now().minusYears(18))) {
-                status.setText("User must be at least 18 years old");
-                return;
-            }
-
             AccessLevel role = roleComboBox.getValue();
-            User user = new User(firstName, lastName, username, password, email, phone, salaryInt, birthday, role);
             try {
-                loginController.addUser(user);
-            } catch (IOException ex) {
-                status.setText("Failed to save user");
+                loginController.addUser(firstName, lastName, username, password, email, phone, salaryInt, birthday, role);
+            }
+            catch (IllegalArgumentException ex) {
+                status.setText(ex.getMessage());
+                return;
+            }
+            catch (IOException ex) {
+                status.setText("Failed to save user: " + ex.getMessage());
                 return;
             }
 
-            status.setText("User created successfully");
+            status.setText("User added successfully");
         });
 
         //Label accessLevelLabel = new Label("Access Level:");

@@ -5,6 +5,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import main.Author;
 import main.Book;
+import main.Gender;
 import main.Genre;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -33,7 +34,7 @@ public class TestBooksController {
 
     @Test
     void testAddBook() {
-        Author author = new Author("John", "Doe");
+        Author author = new Author("John", "Doe", Gender.MALE);
         String isbn = "678-7-345-45678-8";
         double price = 25.0;
         String description = "Test Book";
@@ -62,7 +63,7 @@ public class TestBooksController {
 
     @Test
     void testAddBookThrowsFillInAllValuesException() {
-        Author author = new Author("John", "Doe");
+        Author author = new Author("John", "Doe", Gender.MALE);
         double price = 25.0;
         String description = "Test Book";
         boolean isPaperback = true;
@@ -78,7 +79,7 @@ public class TestBooksController {
 
     @Test
     void testAddBookThrowsBookExistsException() {
-        Author author = new Author("John", "Doe");
+        Author author = new Author("John", "Doe", Gender.MALE);
         String isbn = "678-7-345-45678-8";
         double price = 25.0;
         String description = "Test Book";
@@ -100,7 +101,7 @@ public class TestBooksController {
 
     @Test
     void testUpdateBook() {
-        Author author = new Author("John", "Doe");
+        Author author = new Author("John", "Doe", Gender.MALE);
         String isbn = "678-7-345-45678-8";
         double price = 25.0;
         String description = "Test Book";
@@ -135,7 +136,7 @@ public class TestBooksController {
 
     @Test
     void testUpdateBookThrowsFillInAllValuesException() {
-        Author author = new Author("John", "Doe");
+        Author author = new Author("John", "Doe", Gender.MALE);
         double price = 25.0;
         String description = "Test Book";
         boolean isPaperback = true;
@@ -166,7 +167,7 @@ public class TestBooksController {
 
     @Test
     void testUpdateBookThrowsISBNExistsException() {
-        Author author = new Author("John", "Doe");
+        Author author = new Author("John", "Doe", Gender.MALE);
         String isbn = "678-7-345-45678-8";
         double price = 25.0;
         String description = "Test Book";
@@ -190,7 +191,7 @@ public class TestBooksController {
 
     @Test
     void testRemoveBook() {
-        Author author = new Author("John", "Doe");
+        Author author = new Author("John", "Doe", Gender.MALE);
         String isbn = "678-7-345-45678-8";
         double price = 25.0;
         String description = "Test Book";
