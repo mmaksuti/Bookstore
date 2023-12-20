@@ -1,4 +1,6 @@
 package main;
+import controllers.DatabaseController;
+
 import java.io.File;
 import java.text.NumberFormat;
 import java.text.ParseException;
@@ -8,25 +10,23 @@ import java.util.Locale;
 
 public class Statistics {
     private String stringStatistics;
+    private DatabaseController dbController;
 
     private static boolean isWithinRange(LocalDate testDate, LocalDate startDate, LocalDate endDate) {
         return !(testDate.isBefore(startDate) || testDate.isAfter(endDate));
     }
 
-    public Statistics(LocalDate from, LocalDate to) {
+    public Statistics(DatabaseController dbController, LocalDate from, LocalDate to) {
+        this.dbController = dbController;
+
         stringStatistics = "No bills\nTotal money earned: 0";
         double totalMoney = 0;
 
-        File file = new File("bills/");
-        if (file.exists()) {
-            if (!file.isDirectory()) {
-                boolean deleted = file.delete();
-                if (!deleted) {
-                    System.out.println("Failed to delete the file.");
-                }
-                return;
-            }
-            String[] fileList = file.list();
+        if (!dbController.ensureDirectory("bills")) {
+            throw new IllegalStateException("bills not a directory");
+        }
+        else {
+            String[] fileList = dbController.listDirectory("bills");
             if (fileList == null) {
                 return; // should never happen
             }

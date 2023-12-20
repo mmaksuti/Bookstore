@@ -113,7 +113,7 @@ public class BooksController {
 
     public void readFromFile(String file) throws IOException, IllegalStateException {
         try {
-            ArrayList<Book> arrayList = (ArrayList<Book>)dbController.readFromFile(file);
+            ArrayList<Book> arrayList = (ArrayList<Book>)dbController.readObjectFromFile(file);
             books = FXCollections.observableArrayList(arrayList);
         }
         catch (FileNotFoundException e) {
@@ -122,8 +122,7 @@ public class BooksController {
         }
         catch (ClassNotFoundException e) {
             System.out.println("ClassNotFoundException");
-            File fob = new File(file);
-            boolean deleted = fob.delete();
+            boolean deleted = dbController.deleteFile(file);
             if (!deleted) {
                 throw new IllegalStateException("Failed to delete corrupted database");
             }
@@ -131,6 +130,6 @@ public class BooksController {
     }
 
     public void writeToFile(String file) throws IOException {
-        dbController.writeToFile(file, new ArrayList<Book>(books));
+        dbController.writeObjectToFile(file, new ArrayList<Book>(books));
     }
 }

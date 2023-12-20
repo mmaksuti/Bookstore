@@ -23,8 +23,9 @@ public class LoginScene extends Scene {
     private final AuthorsController authorsController;
     private final BooksController booksController;
     private final LibrarianController librarianController;
+    private final DatabaseController dbController;
 
-    public LoginScene(LoginController loginController, BillController billController, AuthorsController authorsController, BooksController booksController, LibrarianController librarianController) {
+    public LoginScene(LoginController loginController, BillController billController, AuthorsController authorsController, BooksController booksController, LibrarianController librarianController, DatabaseController dbController) {
         super(new VBox(), 300, 200);
 
         this.loginController = loginController;
@@ -32,6 +33,7 @@ public class LoginScene extends Scene {
         this.booksController = booksController;
         this.authorsController = authorsController;
         this.librarianController = librarianController;
+        this.dbController = dbController;
 
         VBox vbox = (VBox) this.getRoot();
         vbox.setAlignment(Pos.CENTER);
@@ -73,7 +75,7 @@ public class LoginScene extends Scene {
 
                     Stage primaryStage = (Stage)LoginScene.this.getWindow();
 
-                    UserScene scene = (UserScene)SceneSelector.getSceneByAccessLevel(loginController, billController, authorsController, booksController, librarianController);
+                    UserScene scene = (UserScene)SceneSelector.getSceneByAccessLevel(loginController, billController, authorsController, booksController, librarianController, dbController);
                     primaryStage.setTitle(scene.getName());
                     primaryStage.setScene((Scene)scene);
                 }

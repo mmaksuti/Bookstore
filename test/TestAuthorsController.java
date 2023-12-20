@@ -38,7 +38,8 @@ public class TestAuthorsController {
     @BeforeEach
     public void setUp()  {
         try {
-            mockDbController = new MockDatabaseController(new ArrayList<Author>());
+            mockDbController = new MockDatabaseController();
+            mockDbController.setCannedDatabase(new ArrayList<Author>());
             authorsController = new AuthorsController(mockDbController);
             booksController = Mockito.mock(BooksController.class);
             //Mockito.when(booksController.getBooks()).thenReturn(books);

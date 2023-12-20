@@ -24,7 +24,8 @@ public class TestBooksController {
     @BeforeEach
     public void setUp() {
         try {
-            mockDbController = new MockDatabaseController(new ArrayList<Book>());
+            mockDbController = new MockDatabaseController();
+            mockDbController.setCannedDatabase(new ArrayList<Book>());
             booksController = new BooksController(mockDbController);
             books = FXCollections.observableArrayList();
         } catch (IOException ex) {

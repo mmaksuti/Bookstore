@@ -27,7 +27,7 @@ public class Main extends Application {
         DatabaseController dbController = new FileDatabaseController();
 
         try {
-            billController = new BillController();
+            billController = new BillController(dbController);
             loginController = new LoginController(dbController, billController);
             authorsController = new AuthorsController(dbController);
             booksController = new BooksController(dbController);
@@ -45,12 +45,12 @@ public class Main extends Application {
         if (!loginController.loginWithSavedSession()) {
             primaryStage.setTitle("Login");
             
-            LoginScene login = new LoginScene(loginController, billController, authorsController, booksController, librarianController);
+            LoginScene login = new LoginScene(loginController, billController, authorsController, booksController, librarianController, dbController);
             primaryStage.setScene(login);
         }
         else {
             try {
-                UserScene scene = (UserScene)SceneSelector.getSceneByAccessLevel(loginController, billController, authorsController, booksController, librarianController);
+                UserScene scene = (UserScene)SceneSelector.getSceneByAccessLevel(loginController, billController, authorsController, booksController, librarianController, dbController);
                 primaryStage.setTitle(scene.getName());
                 primaryStage.setScene((Scene)scene);
             }

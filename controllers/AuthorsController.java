@@ -125,7 +125,7 @@ public class AuthorsController {
 
     private void readFromFile(String file) throws IOException, IllegalStateException {
         try {
-            ArrayList<Author> arrayList = (ArrayList<Author>)dbController.readFromFile(file);
+            ArrayList<Author> arrayList = (ArrayList<Author>)dbController.readObjectFromFile(file);
             authors = FXCollections.observableArrayList(arrayList);
         }
         catch (FileNotFoundException e) {
@@ -134,8 +134,7 @@ public class AuthorsController {
         }
         catch (ClassNotFoundException e) {
             System.out.println("ClassNotFoundException");
-            File fob = new File(file);
-            boolean deleted = fob.delete();
+            boolean deleted = dbController.deleteFile(file);
             if (!deleted) {
                 throw new IllegalStateException("Failed to delete corrupted database");
             }
@@ -143,6 +142,6 @@ public class AuthorsController {
     }
 
     private void writeToFile(String file) throws IOException {
-        dbController.writeToFile(file, new ArrayList<Author>(authors));
+        dbController.writeObjectToFile(file, new ArrayList<Author>(authors));
     }
 }

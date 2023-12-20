@@ -26,20 +26,6 @@ public class Librarian extends User {
         this.billController = billController;
     }
 
-//    public void deleteBills() throws Exception {
-//        String[] fileList = BillController.loadBills();
-//        for (String fileName : fileList) {
-//            String[] parts = fileName.split("\\.");
-//            if (parts.length > 1 && parts[1].equals(username)) {
-//                File billFile = new File("bills/" + fileName);
-//                boolean deleted = billFile.delete();
-//                if (!deleted) {
-//                    throw new Exception("Failed to delete bill file: " + fileName);
-//                }
-//            }
-//        }
-//    }
-
     public int getNumberOfBills() {
         int numberOfBills = 0;
 

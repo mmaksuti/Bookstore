@@ -124,11 +124,10 @@ public class LoginController {
             return;
         }
 
-        File file = new File(SESSION);
-        if (file.delete()) {
-            System.out.println("File deleted successfully.");
+        if (dbController.deleteFile(SESSION)) {
+            System.out.println("Session deleted successfully");
         } else {
-            System.err.println("File deletion failed.");
+            System.err.println("Failed to delete session");
         }
         System.exit(0);
     }
@@ -138,39 +137,32 @@ public class LoginController {
             System.out.println("Already logged in");
             return true;
         }
-        
-        File file = new File(SESSION);
+
         String username;
         String password;
         try {
-            Scanner scanner = new Scanner(file);
-            if (!scanner.hasNextLine()) {
-                boolean deleted = file.delete();
+            String session = dbController.readFileContents(SESSION);
+            String[] lines = session.split("\n");
+            if (lines.length != 2) {
+                boolean deleted = dbController.deleteFile(SESSION);
                 if (!deleted) {
-                    System.err.println("File deletion failed.");
+                    System.err.println("Failed to delete corrupted session");
                 }
-                scanner.close();
                 return false;
             }
 
-            username = scanner.nextLine();
-            if (!scanner.hasNextLine()) {
-                boolean deleted = file.delete();
-                if (!deleted) {
-                    System.err.println("File deletion failed.");
-                }
-                scanner.close();
-                return false;
-            }
-
-            password = scanner.nextLine();
-            scanner.close();
+            username = lines[0];
+            password = lines[1];
 
             login(username, password);
             return authenticated;
         }
         catch (FileNotFoundException e) {
             System.out.println("No login saved");
+            return false;
+        }
+        catch (IOException e) {
+            System.err.println("Failed to read session");
             return false;
         }
     }
@@ -304,7 +296,7 @@ public class LoginController {
     
     private void readFromFile(String file) throws IOException, IllegalStateException {
         try {
-            ArrayList<User> arrayList = (ArrayList<User>)dbController.readFromFile(file);
+            ArrayList<User> arrayList = (ArrayList<User>)dbController.readObjectFromFile(file);
             users = FXCollections.observableArrayList(arrayList);
         }
         catch (FileNotFoundException e) {
@@ -313,8 +305,7 @@ public class LoginController {
         }
         catch (ClassNotFoundException e) {
             System.out.println("ClassNotFoundException");
-            File fob = new File(file);
-            boolean deleted = fob.delete();
+            boolean deleted = dbController.deleteFile(file);
             if (!deleted) {
                 throw new IllegalStateException("Failed to delete corrupted database");
             }
@@ -322,14 +313,11 @@ public class LoginController {
     }
     
     private void writeToFile(String file) throws IOException {
-        dbController.writeToFile(file, new ArrayList<User>(users));
+        dbController.writeObjectToFile(file, new ArrayList<User>(users));
     }
     
     public void saveSession(String username, String password) throws IOException {
-        File file = new File(SESSION);
-        PrintWriter writer = new PrintWriter(file);
-        writer.println(username);
-        writer.println(password);
-        writer.close();
+        String session = username + "\n" + password + "\n";
+        dbController.writeFileContents(SESSION, session);
     }
 }

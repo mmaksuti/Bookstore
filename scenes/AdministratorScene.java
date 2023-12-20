@@ -35,7 +35,7 @@ public class AdministratorScene extends Scene implements UserScene {
         return "Administrator";
     }
 
-    public AdministratorScene(LoginController loginController, BillController billController, AuthorsController authorsController, BooksController booksController, LibrarianController librarianController) {
+    public AdministratorScene(LoginController loginController, BillController billController, AuthorsController authorsController, BooksController booksController, LibrarianController librarianController, DatabaseController dbController) {
         super(new BorderPane(), 300, 200);
 
         BorderPane border = (BorderPane) getRoot();
@@ -56,7 +56,7 @@ public class AdministratorScene extends Scene implements UserScene {
         });
         
         salesStatistics.setOnAction(e -> {
-            SalesStatisticsStage salesStatisticsStage = new SalesStatisticsStage();
+            SalesStatisticsStage salesStatisticsStage = new SalesStatisticsStage(dbController);
             salesStatisticsStage.show();
         });
 
