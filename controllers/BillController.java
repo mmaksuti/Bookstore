@@ -39,7 +39,7 @@ public class BillController {
         String[] fileList = loadBills();
         int i = 0;
         for (String file : fileList) {
-            if (file.startsWith(bill.getDate() + "." + bill.getUsername())) {
+            if (file.startsWith(bill.getDate() + "." + bill.getUsername() + ".")) {
                 i++;
             }
         }

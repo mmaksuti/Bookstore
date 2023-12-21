@@ -8,8 +8,9 @@ import java.io.IOException;
 public class MockDatabaseController implements DatabaseController {
     private Object cannedDatabase = null;
     private String cannedFileContents = "";
-    private String[] cannedDirectoryContents;
-    boolean ensure_directory = true;
+    private String[] cannedDirectoryContents = {};
+    boolean ensureDirectory = true;
+    boolean deleteFile = true;
 
     public void setCannedDatabase(Object cannedDatabase) {
         this.cannedDatabase = cannedDatabase;
@@ -21,6 +22,14 @@ public class MockDatabaseController implements DatabaseController {
 
     public void setCannedDirectoryContents(String[] cannedDirectoryContents) {
         this.cannedDirectoryContents = cannedDirectoryContents;
+    }
+
+    public void setEnsureDirectory(boolean ensureDirectory) {
+        this.ensureDirectory = ensureDirectory;
+    }
+
+    public void setDeleteFile(boolean deleteFile) {
+        this.deleteFile = deleteFile;
     }
 
     @Override
@@ -35,7 +44,7 @@ public class MockDatabaseController implements DatabaseController {
 
     @Override
     public boolean deleteFile(String ignored) {
-        return true;
+        return deleteFile;
     }
 
     @Override
@@ -65,7 +74,7 @@ public class MockDatabaseController implements DatabaseController {
 
     @Override
     public boolean ensureDirectory(String path) {
-        return ensure_directory;
+        return ensureDirectory;
     }
 
     @Override

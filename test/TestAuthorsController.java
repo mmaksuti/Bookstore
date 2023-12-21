@@ -13,8 +13,6 @@ import main.Author;
 import main.Book;
 import main.Gender;
 import main.UserConfirmation;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
