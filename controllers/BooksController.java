@@ -85,12 +85,15 @@ public class BooksController {
     }
 
     public void addBook(String title, Author author, String isbn13, double price, String description, boolean isPaperback, ArrayList<Genre> genres, int quantity) throws IOException {
-        if (title.isBlank() || author == null || isbn13.isBlank() || price == 0 || description.isBlank()) {
+        if (title.isBlank() || author == null || isbn13.isBlank() || description.isBlank()) {
             throw new IllegalArgumentException("Please fill in all fields");
         }
 
         if (quantity < 0) {
             throw new IllegalArgumentException("Quantity cannot be negative");
+        }
+        if(price<=0){
+            throw new IllegalArgumentException("Price must be positive");
         }
 
         if (bookExists(isbn13)) {

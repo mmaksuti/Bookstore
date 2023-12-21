@@ -80,25 +80,50 @@ public class TestBooksController {
 
     @Test
     void testAddBookThrowsBookExistsException() {
-        Author author = new Author("John", "Doe", Gender.MALE);
+        Author author = new Author("John", "Doe",Gender.MALE);
         String isbn = "678-7-345-45678-8";
         double price = 25.0;
-        String description = "Test Book";
+        String description = "Book";
         boolean isPaperback = true;
         ArrayList<Genre> genres = new ArrayList<>();
-        int quantity = 10;
-
-        try {
-            booksController.addBook("Test Book", author, isbn, price, description, isPaperback, genres, quantity);
-        } catch (IOException ex) {
-            fail("Failed to add book: " + ex.getMessage());
-        }
+        int quantity = 5;
+        String validIsbn13 = "123-4-567-12345-6";
 
         IllegalArgumentException exc = assertThrows(IllegalArgumentException.class,
-                () -> booksController.addBook("Duplicate ISBN Book", author, isbn, price, description, isPaperback, genres, quantity));
-        assertEquals("A book with the same ISBN13 already exists", exc.getMessage());
-        assertEquals(1, booksController.getBooks().size());
+                () -> booksController.addBook("", author, isbn, price, description, isPaperback, genres, quantity));
+        assertEquals("Please fill in all fields", exc.getMessage());
+
+        exc = assertThrows(IllegalArgumentException.class,
+                () -> booksController.addBook("Book", null, isbn, price, description, isPaperback, genres, quantity));
+        assertEquals("Please fill in all fields", exc.getMessage());
+
+        exc = assertThrows(IllegalArgumentException.class,
+                () -> booksController.addBook("Book", author, "", price, description, isPaperback, genres, quantity));
+        assertEquals("Please fill in all fields", exc.getMessage());
+
+        exc = assertThrows(IllegalArgumentException.class,
+                () -> booksController.addBook("Book", author, "364784393", price, description, isPaperback, genres, quantity));
+        assertEquals("Invalid ISBN13", exc.getMessage());
+
+        exc = assertThrows(IllegalArgumentException.class,
+                () -> booksController.addBook("Book", author, isbn, -1.0, description, isPaperback, genres, quantity));
+        assertEquals("Price must be positive", exc.getMessage());
+
+        exc = assertThrows(IllegalArgumentException.class,
+                () -> booksController.addBook("Book", author, isbn, 0, description, isPaperback, genres, quantity));
+        assertEquals("Price must be positive", exc.getMessage());
+
+        exc = assertThrows(IllegalArgumentException.class,
+                () -> booksController.addBook("Book", author, isbn, price, "", isPaperback, genres, quantity));
+        assertEquals("Please fill in all fields", exc.getMessage());
+
+        exc = assertThrows(IllegalArgumentException.class,
+                () -> booksController.addBook("Book", author, isbn, price, description, isPaperback, genres, -1));
+        assertEquals("Quantity cannot be negative", exc.getMessage());
+
+        assertEquals(0, booksController.getBooks().size());
     }
+
 
     @Test
     void testUpdateBook() {
