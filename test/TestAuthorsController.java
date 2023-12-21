@@ -149,6 +149,30 @@ public class TestAuthorsController {
         assertEquals("Jane", author.getFirstName());
         assertEquals(lastName, author.getLastName());
         assertEquals(Gender.FEMALE, author.getGender());
+
+        try {
+            authorsController.updateAuthor(author, "Jane", "Smith", Gender.FEMALE, booksController);
+        } catch (IOException e) {
+            fail("Failed to update author: " + e.getMessage());
+        }
+
+        assertEquals(1, authorsController.getAuthors().size());
+
+        assertEquals("Jane", author.getFirstName());
+        assertEquals("Smith", author.getLastName());
+        assertEquals(Gender.FEMALE, author.getGender());
+
+        try {
+            authorsController.updateAuthor(author, "Jane", "Smith", Gender.MALE, booksController);
+        } catch (IOException e) {
+            fail("Failed to update author: " + e.getMessage());
+        }
+
+        assertEquals(1, authorsController.getAuthors().size());
+
+        assertEquals("Jane", author.getFirstName());
+        assertEquals("Smith", author.getLastName());
+        assertEquals(Gender.MALE, author.getGender());
     }
 
     @Test
