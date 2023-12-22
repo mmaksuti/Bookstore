@@ -122,13 +122,13 @@ public class TestFileHandlingService {
         FileHandlingService fileHandlingService = new FileHandlingService();
         try {
             File file = new File(path);
-            boolean ignored = file.delete();
-            ignored = file.createNewFile();
-
+            boolean result = file.delete();
+            result = file.createNewFile();
+        
             assertTrue(file.exists());
             assertFalse(file.isDirectory());
 
-            boolean result = fileHandlingService.ensureDirectory(path);
+            result = fileHandlingService.ensureDirectory(path);
             assertTrue(result);
 
             assertTrue(file.exists());
