@@ -51,12 +51,10 @@ public class AuthorsController {
         authors.set(index, author);
         writeToFile(DATABASE);
 
-        if (nameChanged) {
-            ObservableList<Book> books = booksController.getBooks();
+        ObservableList<Book> books = booksController.getBooks();
 
-            if (!books.isEmpty()) {
-                booksController.updateBook(books.get(0)); // trigger update on the books ObservableList
-            }
+        if (nameChanged && books != null && !books.isEmpty()) {
+            booksController.updateBook(books.get(0)); // trigger update on the books ObservableList
 
             for (Book book : books) {
                 if (book.getAuthor().getFirstName().equals(oldFirstName) && book.getAuthor().getLastName().equals(oldLastName)) {
