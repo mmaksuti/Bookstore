@@ -3,9 +3,9 @@ package controllers;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
-import main.AccessLevel;
-import main.Librarian;
-import main.User;
+import enums.AccessLevel;
+import models.Librarian;
+import models.User;
 
 public class LibrarianController {
     private ObservableList <Librarian> librarians;

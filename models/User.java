@@ -1,4 +1,6 @@
-package main;
+package models;
+import enums.AccessLevel;
+
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -83,5 +85,8 @@ public class User implements Serializable {
     }
     public void setPassword(String password) {
         this.password = password;
+    }
+    public String toString() {
+        return this.firstName + " " + this.lastName + " (" + this.username + ")";
     }
 }

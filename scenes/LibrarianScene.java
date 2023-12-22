@@ -1,24 +1,17 @@
 package scenes;
 
-import controllers.AuthorsController;
 import controllers.BillController;
 import controllers.BooksController;
 import controllers.LoginController;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import exceptions.UnauthenticatedException;
-import main.Bill;
 import stages.SellBooksStage;
-
-import java.io.IOException;
-
-import static java.lang.System.exit;
 
 public class LibrarianScene extends Scene implements UserScene {
     public String getName() {

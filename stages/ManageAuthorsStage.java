@@ -17,8 +17,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
-import main.Author;
-import main.UserConfirmation;
+import models.Author;
+import interfaces.UserConfirmation;
 
 public class ManageAuthorsStage extends Stage {
     public ManageAuthorsStage(AuthorsController authorsController, BooksController booksController) {

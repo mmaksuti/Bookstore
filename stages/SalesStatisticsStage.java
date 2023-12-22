@@ -11,7 +11,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import main.Statistics;
+import models.Statistics;
 
 public class SalesStatisticsStage extends Stage {
     public SalesStatisticsStage(FileHandlingService fileHandlingService) {

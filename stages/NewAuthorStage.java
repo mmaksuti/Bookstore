@@ -1,6 +1,6 @@
 package stages;
 import javafx.stage.Stage;
-import main.Gender;
+import enums.Gender;
 import controllers.AuthorsController;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;

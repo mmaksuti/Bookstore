@@ -1,14 +1,11 @@
-package test;
+package test.controllers;
 
-import controllers.AuthorsController;
 import controllers.BooksController;
 import services.FileHandlingService;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import main.Author;
-import main.Book;
-import main.Gender;
-import main.Genre;
+import models.Author;
+import models.Book;
+import enums.Gender;
+import enums.Genre;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

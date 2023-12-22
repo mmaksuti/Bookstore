@@ -1,4 +1,4 @@
-package main;
+package interfaces;
 
 public interface UserConfirmation {
     boolean confirm(String header, String message);

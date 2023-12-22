@@ -5,10 +5,10 @@ import java.util.Iterator;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import main.Author;
-import main.Book;
-import main.Gender;
-import main.UserConfirmation;
+import models.Author;
+import models.Book;
+import enums.Gender;
+import interfaces.UserConfirmation;
 import services.FileHandlingService;
 
 public class AuthorsController {

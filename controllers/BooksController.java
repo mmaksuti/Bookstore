@@ -4,9 +4,9 @@ import java.util.ArrayList;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import main.Author;
-import main.Book;
-import main.Genre;
+import models.Author;
+import models.Book;
+import enums.Genre;
 import services.FileHandlingService;
 
 public class BooksController {

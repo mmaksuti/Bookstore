@@ -1,4 +1,4 @@
-package test;
+package test.controllers;
 
 import java.io.*;
 import java.time.LocalDate;
@@ -7,12 +7,15 @@ import java.util.ArrayList;
 import controllers.BillController;
 import controllers.LoginController;
 
+import models.Book;
+import models.Librarian;
+import models.User;
 import services.FileHandlingService;
 import exceptions.LastAdministratorException;
 import exceptions.UnauthenticatedException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import main.*;
+import enums.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
