@@ -9,6 +9,7 @@ import enums.Genre;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -166,7 +167,7 @@ public class TestBooksController {
     @Test
     void testUpdateBook() {
         Author author = new Author("John", "Doe", Gender.MALE);
-        String isbn = "678-7-345-45678-8";
+        String isbn = "678-7345456788";
         double price = 25.0;
         String description = "Test Book";
         boolean isPaperback = true;
@@ -364,5 +365,37 @@ public class TestBooksController {
         }
 
         assertEquals(0, booksController.getBooks().size());
+    }
+
+    @Test
+    void testReadFromFile() {
+        ArrayList<Book> books = new ArrayList<>();
+        Book book = new Book("", "Book title", "", 0, new Author("John", "Doe", Gender.MALE), null, 0, false);
+        books.add(book);
+
+        try {
+            when(mockFileHandlingService.readObjectFromFile(DATABASE)).thenReturn(books);
+            booksController.readFromFile(DATABASE);
+            verify(mockFileHandlingService, times(2)).readObjectFromFile(DATABASE);
+            assertEquals(books, booksController.getBooks());
+
+            when(mockFileHandlingService.readObjectFromFile(DATABASE)).thenThrow(new FileNotFoundException());
+            booksController.readFromFile(DATABASE);
+            assertEquals(0, booksController.getBooks().size());
+
+            reset(mockFileHandlingService);
+            when(mockFileHandlingService.readObjectFromFile(DATABASE)).thenReturn(books);
+            when(mockFileHandlingService.readObjectFromFile(DATABASE)).thenThrow(new ClassNotFoundException());
+            when(mockFileHandlingService.deleteFile(DATABASE)).thenReturn(false);
+            IllegalStateException exc = assertThrows(IllegalStateException.class, () -> booksController.readFromFile(DATABASE));
+            assertEquals("Failed to delete corrupted database", exc.getMessage());
+            verify(mockFileHandlingService, times(1)).deleteFile(DATABASE);
+
+            when(mockFileHandlingService.deleteFile(DATABASE)).thenReturn(true);
+            booksController.readFromFile(DATABASE);
+            assertEquals(0, booksController.getBooks().size());
+        }
+        catch (IOException|ClassNotFoundException ignored) {
+        }
     }
 }

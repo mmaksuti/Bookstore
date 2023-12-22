@@ -80,9 +80,7 @@ public class BooksController {
         book.setGenres(genres);
         book.setQuantity(quantity);
 
-        int index = books.indexOf(book);
-        books.set(index, book);
-        writeToFile(DATABASE);
+        updateBook(book);
     }
 
     public void addBook(String title, Author author, String isbn13, double price, String description, boolean isPaperback, ArrayList<Genre> genres, int quantity) throws IOException {
@@ -131,6 +129,7 @@ public class BooksController {
             if (!deleted) {
                 throw new IllegalStateException("Failed to delete corrupted database");
             }
+            books = FXCollections.observableArrayList();
         }
     }
 
