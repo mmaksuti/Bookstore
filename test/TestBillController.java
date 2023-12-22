@@ -1,7 +1,7 @@
 package test;
 
 import controllers.BillController;
-import controllers.FileDatabaseController;
+import services.FileHandlingService;
 import main.Bill;
 import main.Librarian;
 import org.junit.jupiter.api.BeforeEach;
@@ -9,27 +9,24 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 import static org.mockito.Mockito.*;
-import test.mocks.MockDatabaseController;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
 
 public class TestBillController {
-    FileDatabaseController mockDatabaseController;
+    FileHandlingService mockFileHandlingService;
     BillController billController;
 
     @BeforeEach
     void setUp() {
-        mockDatabaseController = mock(FileDatabaseController.class);
-        billController = new BillController(mockDatabaseController);
+        mockFileHandlingService = mock(FileHandlingService.class);
+        billController = new BillController(mockFileHandlingService);
     }
 
     @Test
     void test_loadBills() {
         String[] cannedDirectoryContents = {};
-        when(mockDatabaseController.listDirectory("bills")).thenReturn(cannedDirectoryContents);
-        when(mockDatabaseController.ensureDirectory("bills")).thenReturn(true);
+        when(mockFileHandlingService.listDirectory("bills")).thenReturn(cannedDirectoryContents);
+        when(mockFileHandlingService.ensureDirectory("bills")).thenReturn(true);
 
         String[] bills = billController.loadBills();
         assertEquals(0, bills.length);
@@ -38,7 +35,7 @@ public class TestBillController {
                 "21-12-2023.librarian.1.1000,0.0.txt",
                 "21-12-2023.librarian.1.1000,0.1.txt"
         };
-        when(mockDatabaseController.listDirectory("bills")).thenReturn(cannedDirectoryContents);
+        when(mockFileHandlingService.listDirectory("bills")).thenReturn(cannedDirectoryContents);
 
         bills = billController.loadBills();
         assertArrayEquals(cannedDirectoryContents, bills);
@@ -46,7 +43,7 @@ public class TestBillController {
 
     @Test
     void test_loadBillsThrowsBillNotADirectoryException() {
-        when(mockDatabaseController.ensureDirectory("bills")).thenReturn(false);
+        when(mockFileHandlingService.ensureDirectory("bills")).thenReturn(false);
 
         IllegalStateException exc = assertThrows(IllegalStateException.class, () -> billController.loadBills());
         assertEquals("bills not a directory", exc.getMessage());
@@ -54,17 +51,17 @@ public class TestBillController {
 
     @Test
     void test_deleteBillsNoBills() {
-        when(mockDatabaseController.ensureDirectory("bills")).thenReturn(true);
+        when(mockFileHandlingService.ensureDirectory("bills")).thenReturn(true);
 
         Librarian librarian = mock(Librarian.class);
         when(librarian.getUsername()).thenReturn("librarian");
 
         String[] cannedDirectoryContents = {};
-        when(mockDatabaseController.listDirectory("bills")).thenReturn(cannedDirectoryContents);
+        when(mockFileHandlingService.listDirectory("bills")).thenReturn(cannedDirectoryContents);
 
         billController.deleteBills(librarian);
         assertEquals(0, billController.loadBills().length);
-        verify(mockDatabaseController, never()).deleteFile(any(String.class));
+        verify(mockFileHandlingService, never()).deleteFile(any(String.class));
     }
 
     @Test
@@ -77,13 +74,13 @@ public class TestBillController {
                 "21-12-2023.librarian2.1.1000,0.1.txt"
         };
 
-        when(mockDatabaseController.ensureDirectory("bills")).thenReturn(true);
-        when(mockDatabaseController.listDirectory("bills")).thenReturn(cannedDirectoryContents);
-        when(mockDatabaseController.deleteFile(any(String.class))).thenReturn(true);
+        when(mockFileHandlingService.ensureDirectory("bills")).thenReturn(true);
+        when(mockFileHandlingService.listDirectory("bills")).thenReturn(cannedDirectoryContents);
+        when(mockFileHandlingService.deleteFile(any(String.class))).thenReturn(true);
 
         billController.deleteBills(librarian);
 
-        verify(mockDatabaseController, never()).deleteFile(any(String.class));
+        verify(mockFileHandlingService, never()).deleteFile(any(String.class));
     }
 
     @Test
@@ -96,15 +93,15 @@ public class TestBillController {
                 "21-12-2023.librarian.1.1000,0.1.txt"
         };
 
-        when(mockDatabaseController.ensureDirectory("bills")).thenReturn(true);
-        when(mockDatabaseController.deleteFile(any(String.class))).thenReturn(true);
-        when(mockDatabaseController.listDirectory("bills")).thenReturn(cannedDirectoryContents);
+        when(mockFileHandlingService.ensureDirectory("bills")).thenReturn(true);
+        when(mockFileHandlingService.deleteFile(any(String.class))).thenReturn(true);
+        when(mockFileHandlingService.listDirectory("bills")).thenReturn(cannedDirectoryContents);
 
         billController.deleteBills(librarian);
 
-        verify(mockDatabaseController, times(2)).deleteFile(any(String.class));
-        verify(mockDatabaseController, times(1)).deleteFile("bills/" + cannedDirectoryContents[0]);
-        verify(mockDatabaseController, times(1)).deleteFile("bills/" + cannedDirectoryContents[1]);
+        verify(mockFileHandlingService, times(2)).deleteFile(any(String.class));
+        verify(mockFileHandlingService, times(1)).deleteFile("bills/" + cannedDirectoryContents[0]);
+        verify(mockFileHandlingService, times(1)).deleteFile("bills/" + cannedDirectoryContents[1]);
     }
 
     @Test
@@ -117,14 +114,14 @@ public class TestBillController {
                 "21-12-2023.librarian2.1.1000,0.1.txt"
         };
 
-        when(mockDatabaseController.ensureDirectory("bills")).thenReturn(true);
-        when(mockDatabaseController.deleteFile(any(String.class))).thenReturn(true);
-        when(mockDatabaseController.listDirectory("bills")).thenReturn(cannedDirectoryContents);
+        when(mockFileHandlingService.ensureDirectory("bills")).thenReturn(true);
+        when(mockFileHandlingService.deleteFile(any(String.class))).thenReturn(true);
+        when(mockFileHandlingService.listDirectory("bills")).thenReturn(cannedDirectoryContents);
 
         billController.deleteBills(librarian);
 
-        verify(mockDatabaseController, times(1)).deleteFile(any(String.class));
-        verify(mockDatabaseController, times(1)).deleteFile("bills/" + cannedDirectoryContents[0]);
+        verify(mockFileHandlingService, times(1)).deleteFile(any(String.class));
+        verify(mockFileHandlingService, times(1)).deleteFile("bills/" + cannedDirectoryContents[0]);
     }
 
     @Test
@@ -137,13 +134,13 @@ public class TestBillController {
                 "Invalid bill 2"
         };
 
-        when(mockDatabaseController.ensureDirectory("bills")).thenReturn(true);
-        when(mockDatabaseController.deleteFile(any(String.class))).thenReturn(true);
-        when(mockDatabaseController.listDirectory("bills")).thenReturn(cannedDirectoryContents);
+        when(mockFileHandlingService.ensureDirectory("bills")).thenReturn(true);
+        when(mockFileHandlingService.deleteFile(any(String.class))).thenReturn(true);
+        when(mockFileHandlingService.listDirectory("bills")).thenReturn(cannedDirectoryContents);
 
         billController.deleteBills(librarian);
 
-        verify(mockDatabaseController, never()).deleteFile(any(String.class));
+        verify(mockFileHandlingService, never()).deleteFile(any(String.class));
     }
 
     @Test
@@ -156,14 +153,14 @@ public class TestBillController {
                 "21-12-2023.librarian2.1.1000,0.1.txt"
         };
 
-        when(mockDatabaseController.ensureDirectory("bills")).thenReturn(true);
-        when(mockDatabaseController.deleteFile(any(String.class))).thenReturn(false);
-        when(mockDatabaseController.listDirectory("bills")).thenReturn(cannedDirectoryContents);
+        when(mockFileHandlingService.ensureDirectory("bills")).thenReturn(true);
+        when(mockFileHandlingService.deleteFile(any(String.class))).thenReturn(false);
+        when(mockFileHandlingService.listDirectory("bills")).thenReturn(cannedDirectoryContents);
 
         IllegalStateException exc = assertThrows(IllegalStateException.class, () -> billController.deleteBills(librarian));
         assertEquals("Failed to delete bill file: " + cannedDirectoryContents[0], exc.getMessage());
 
-        verify(mockDatabaseController, times(1)).deleteFile(any(String.class));
+        verify(mockFileHandlingService, times(1)).deleteFile(any(String.class));
     }
 
     @Test
@@ -177,13 +174,13 @@ public class TestBillController {
 
         String[] cannedDirectoryContents = {};
 
-        when(mockDatabaseController.ensureDirectory("bills")).thenReturn(true);
-        when(mockDatabaseController.listDirectory("bills")).thenReturn(cannedDirectoryContents);
+        when(mockFileHandlingService.ensureDirectory("bills")).thenReturn(true);
+        when(mockFileHandlingService.listDirectory("bills")).thenReturn(cannedDirectoryContents);
 
         try {
             billController.saveBill(bill);
 
-            verify(mockDatabaseController, times(1)).writeFileContents("bills/21-12-2023.librarian.2.1000,0.0.txt", "Bill text");
+            verify(mockFileHandlingService, times(1)).writeFileContents("bills/21-12-2023.librarian.2.1000,0.0.txt", "Bill text");
         }
         catch (IOException ignored) {
         }
@@ -204,13 +201,13 @@ public class TestBillController {
                 "21-12-2023.librarian.1.1000,0.1.txt"
         };
 
-        when(mockDatabaseController.ensureDirectory("bills")).thenReturn(true);
-        when(mockDatabaseController.listDirectory("bills")).thenReturn(cannedDirectoryContents);
+        when(mockFileHandlingService.ensureDirectory("bills")).thenReturn(true);
+        when(mockFileHandlingService.listDirectory("bills")).thenReturn(cannedDirectoryContents);
 
         try {
             billController.saveBill(bill);
 
-            verify(mockDatabaseController, times(1)).writeFileContents("bills/21-12-2023.librarian.2.1000,0.2.txt", "Bill text");
+            verify(mockFileHandlingService, times(1)).writeFileContents("bills/21-12-2023.librarian.2.1000,0.2.txt", "Bill text");
         }
         catch (IOException ignored) {
         }

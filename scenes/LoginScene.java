@@ -10,6 +10,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import services.FileHandlingService;
 
 import java.io.IOException;
 
@@ -23,9 +24,9 @@ public class LoginScene extends Scene {
     private final AuthorsController authorsController;
     private final BooksController booksController;
     private final LibrarianController librarianController;
-    private final DatabaseController dbController;
+    private final FileHandlingService fileHandlingService;
 
-    public LoginScene(LoginController loginController, BillController billController, AuthorsController authorsController, BooksController booksController, LibrarianController librarianController, DatabaseController dbController) {
+    public LoginScene(LoginController loginController, BillController billController, AuthorsController authorsController, BooksController booksController, LibrarianController librarianController, FileHandlingService fileHandlingService) {
         super(new VBox(), 300, 200);
 
         this.loginController = loginController;
@@ -33,7 +34,7 @@ public class LoginScene extends Scene {
         this.booksController = booksController;
         this.authorsController = authorsController;
         this.librarianController = librarianController;
-        this.dbController = dbController;
+        this.fileHandlingService = fileHandlingService;
 
         VBox vbox = (VBox) this.getRoot();
         vbox.setAlignment(Pos.CENTER);
@@ -75,7 +76,7 @@ public class LoginScene extends Scene {
 
                     Stage primaryStage = (Stage)LoginScene.this.getWindow();
 
-                    UserScene scene = (UserScene)SceneSelector.getSceneByAccessLevel(loginController, billController, authorsController, booksController, librarianController, dbController);
+                    UserScene scene = (UserScene)SceneSelector.getSceneByAccessLevel(loginController, billController, authorsController, booksController, librarianController, fileHandlingService);
                     primaryStage.setTitle(scene.getName());
                     primaryStage.setScene((Scene)scene);
                 }

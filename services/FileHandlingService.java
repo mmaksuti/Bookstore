@@ -1,8 +1,8 @@
-package controllers;
+package services;
 
 import java.io.*;
 
-public class FileDatabaseController implements DatabaseController {
+public class FileHandlingService {
     public Object readObjectFromFile(String file) throws IOException, IllegalStateException, ClassNotFoundException {
         FileInputStream fis = new FileInputStream(file);
         ObjectInputStream ois = new ObjectInputStream(fis);

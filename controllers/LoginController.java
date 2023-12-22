@@ -1,7 +1,6 @@
 package controllers;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -9,11 +8,10 @@ import javafx.collections.ObservableList;
 import main.*;
 import exceptions.LastAdministratorException;
 import exceptions.UnauthenticatedException;
+import services.FileHandlingService;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.PrintWriter;
 
 public class LoginController {
     private String DATABASE = "usersDatabase.dat";
@@ -26,33 +24,34 @@ public class LoginController {
     private final SimpleStringProperty welcomeMessage = new SimpleStringProperty();
     
     private BillController billController;
-    private DatabaseController dbController;
+    private FileHandlingService fileHandlingService;
 
-    private static boolean validEmail(String email) {
+    private boolean validEmail(String email) {
         return email.matches("\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*(\\.\\w{2,3})+");
     }
 
-    private static boolean validPhoneNumber(String phone) {
+    private boolean validPhoneNumber(String phone) {
         String nospaces = phone.replaceAll(" ", "");
         return nospaces.matches("\\+3556[7-9]\\d{7}");
     }
 
-    private static boolean validUsername(String username) {
+    private boolean validUsername(String username) {
         return username.matches("[a-zA-Z0-9_]+");
     }
 
-    public LoginController(DatabaseController dbController, BillController billController) throws IOException {
-        this.dbController = dbController;
+    public LoginController(FileHandlingService fileHandlingService, BillController billController) throws IOException {
+        this.fileHandlingService = fileHandlingService;
         this.billController = billController;
         readFromFile(DATABASE);
     }
 
-    public LoginController(DatabaseController dbController, BillController billController, String database, String sessionFile) throws IOException {
-        this.dbController = dbController;
+    public LoginController(FileHandlingService fileHandlingService, BillController billController, String database, String sessionFile) throws IOException {
+        this.fileHandlingService = fileHandlingService;
         this.billController = billController;
 
         DATABASE = database;
         SESSION = sessionFile;
+
         readFromFile(DATABASE);
     }
 
@@ -117,19 +116,23 @@ public class LoginController {
         return authenticated;
     }
     
-    public void logout() {
+    public boolean logout() {
         if (!authenticated) {
             // should never happen
             System.out.println("Already logged out");
-            return;
+            return true;
         }
 
-        if (dbController.deleteFile(SESSION)) {
+        if (fileHandlingService.deleteFile(SESSION)) {
             System.out.println("Session deleted successfully");
         } else {
             System.err.println("Failed to delete session");
+            return false;
         }
-        System.exit(0);
+
+        authenticated = false;
+        currentUser = null;
+        return true;
     }
     
     public boolean loginWithSavedSession() {
@@ -141,10 +144,10 @@ public class LoginController {
         String username;
         String password;
         try {
-            String session = dbController.readFileContents(SESSION);
+            String session = fileHandlingService.readFileContents(SESSION);
             String[] lines = session.split("\n");
             if (lines.length != 2) {
-                boolean deleted = dbController.deleteFile(SESSION);
+                boolean deleted = fileHandlingService.deleteFile(SESSION);
                 if (!deleted) {
                     System.err.println("Failed to delete corrupted session");
                 }
@@ -168,8 +171,12 @@ public class LoginController {
     }
     
     public void updateUser(User user, String firstName, String lastName, String username, String password, String email, String phone, int salary, LocalDate birthday, AccessLevel role) throws IOException, UnauthenticatedException {
-        if (firstName.isBlank() || lastName.isBlank() || username.isBlank() || password.isBlank() || email.isBlank() || phone.isBlank() || salary == 0 || birthday == null || role == null) {
+        if (firstName.isBlank() || lastName.isBlank() || username.isBlank() || password.isBlank() || email.isBlank() || phone.isBlank() || birthday == null || role == null) {
             throw new IllegalArgumentException("Please fill in all fields");
+        }
+
+        if (salary <= 0) {
+            throw new IllegalArgumentException("Salary must be positive");
         }
 
         if (!validUsername(username)) {
@@ -202,7 +209,7 @@ public class LoginController {
             assertCanDemote(user, role);
         }
         catch (LastAdministratorException exc) {
-            throw new IllegalArgumentException("Cannot demote last administator");
+            throw new IllegalArgumentException("Cannot demote last administrator");
         }
 
         user.setFirstName(firstName);
@@ -224,8 +231,12 @@ public class LoginController {
     
     
     public void addUser(String firstName, String lastName, String username, String password, String email, String phone, int salary, LocalDate birthday, AccessLevel role) throws IOException {
-        if (firstName.isBlank() || lastName.isBlank() || username.isBlank() || password.isBlank() || email.isBlank() || phone.isBlank() || salary == 0 || birthday == null || role == null) {
+        if (firstName.isBlank() || lastName.isBlank() || username.isBlank() || password.isBlank() || email.isBlank() || phone.isBlank() || birthday == null || role == null) {
             throw new IllegalArgumentException("Please fill in all fields");
+        }
+
+        if (salary <= 0) {
+            throw new IllegalArgumentException("Salary must be positive");
         }
 
         if (!validUsername(username)) {
@@ -277,7 +288,7 @@ public class LoginController {
         }
     }
     
-    public void removeUser(User user) throws LastAdministratorException, IOException, IllegalStateException {
+    public void removeUser(User user) throws LastAdministratorException, IOException {
         if (user.getAccessLevel() == AccessLevel.LIBRARIAN) {
             Librarian lib = new Librarian(user, billController);
             billController.deleteBills(lib);
@@ -296,7 +307,7 @@ public class LoginController {
     
     private void readFromFile(String file) throws IOException, IllegalStateException {
         try {
-            ArrayList<User> arrayList = (ArrayList<User>)dbController.readObjectFromFile(file);
+            ArrayList<User> arrayList = (ArrayList<User>)fileHandlingService.readObjectFromFile(file);
             users = FXCollections.observableArrayList(arrayList);
         }
         catch (FileNotFoundException e) {
@@ -305,7 +316,7 @@ public class LoginController {
         }
         catch (ClassNotFoundException e) {
             System.out.println("ClassNotFoundException");
-            boolean deleted = dbController.deleteFile(file);
+            boolean deleted = fileHandlingService.deleteFile(file);
             if (!deleted) {
                 throw new IllegalStateException("Failed to delete corrupted database");
             }
@@ -313,11 +324,11 @@ public class LoginController {
     }
     
     private void writeToFile(String file) throws IOException {
-        dbController.writeObjectToFile(file, new ArrayList<User>(users));
+        fileHandlingService.writeObjectToFile(file, new ArrayList<User>(users));
     }
     
     public void saveSession(String username, String password) throws IOException {
         String session = username + "\n" + password + "\n";
-        dbController.writeFileContents(SESSION, session);
+        fileHandlingService.writeFileContents(SESSION, session);
     }
 }

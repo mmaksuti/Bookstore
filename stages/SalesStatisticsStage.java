@@ -1,7 +1,6 @@
 package stages;
-import java.time.LocalDate;
 
-import controllers.DatabaseController;
+import services.FileHandlingService;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -14,10 +13,8 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import main.Statistics;
 
-import javax.xml.crypto.Data;
-
 public class SalesStatisticsStage extends Stage {
-    public SalesStatisticsStage(DatabaseController dbController) {
+    public SalesStatisticsStage(FileHandlingService fileHandlingService) {
         setTitle("Sales statistics");
 
         VBox vbox = new VBox();
@@ -45,7 +42,7 @@ public class SalesStatisticsStage extends Stage {
 
         Button getStatistics = new Button("Get statistics");
         getStatistics.setOnAction(e -> {
-            Statistics statistics = new Statistics(dbController, startDatePicker.getValue(), endDatePicker.getValue());
+            Statistics statistics = new Statistics(fileHandlingService, startDatePicker.getValue(), endDatePicker.getValue());
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Statistics");
             alert.setHeaderText("Statistics");

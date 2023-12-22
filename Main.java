@@ -7,6 +7,7 @@ import javafx.stage.Stage;
 import exceptions.UnauthenticatedException;
 
 import scenes.*;
+import services.FileHandlingService;
 
 import java.io.IOException;
 
@@ -24,13 +25,13 @@ public class Main extends Application {
         AuthorsController authorsController = null;
         BooksController booksController = null;
         LibrarianController librarianController = null;
-        DatabaseController dbController = new FileDatabaseController();
+        FileHandlingService fileHandlingService = new FileHandlingService();
 
         try {
-            billController = new BillController(dbController);
-            loginController = new LoginController(dbController, billController);
-            authorsController = new AuthorsController(dbController);
-            booksController = new BooksController(dbController);
+            billController = new BillController(fileHandlingService);
+            loginController = new LoginController(fileHandlingService, billController);
+            authorsController = new AuthorsController(fileHandlingService);
+            booksController = new BooksController(fileHandlingService);
             librarianController = new LibrarianController(loginController, billController);
         }
         catch (IOException ex) {
@@ -45,12 +46,12 @@ public class Main extends Application {
         if (!loginController.loginWithSavedSession()) {
             primaryStage.setTitle("Login");
             
-            LoginScene login = new LoginScene(loginController, billController, authorsController, booksController, librarianController, dbController);
+            LoginScene login = new LoginScene(loginController, billController, authorsController, booksController, librarianController, fileHandlingService);
             primaryStage.setScene(login);
         }
         else {
             try {
-                UserScene scene = (UserScene)SceneSelector.getSceneByAccessLevel(loginController, billController, authorsController, booksController, librarianController, dbController);
+                UserScene scene = (UserScene)SceneSelector.getSceneByAccessLevel(loginController, billController, authorsController, booksController, librarianController, fileHandlingService);
                 primaryStage.setTitle(scene.getName());
                 primaryStage.setScene((Scene)scene);
             }

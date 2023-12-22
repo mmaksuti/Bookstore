@@ -2,25 +2,24 @@ package controllers;
 
 import main.Bill;
 import main.Librarian;
+import services.FileHandlingService;
 
-import java.io.File;
 import java.io.IOException;
-import java.io.PrintWriter;
 
 public class BillController {
     private final String BILLS = "bills";
-    private DatabaseController dbController;
+    private FileHandlingService fileHandlingService;
 
-    public BillController(DatabaseController dbController) {
-        this.dbController = dbController;
+    public BillController(FileHandlingService fileHandlingService) {
+        this.fileHandlingService = fileHandlingService;
     }
 
     public String[] loadBills() {
-        if (!dbController.ensureDirectory(BILLS)) {
+        if (!fileHandlingService.ensureDirectory(BILLS)) {
             throw new IllegalStateException("bills not a directory");
         }
 
-        return dbController.listDirectory(BILLS);
+        return fileHandlingService.listDirectory(BILLS);
     }
 
     public void deleteBills(Librarian librarian) throws IllegalStateException {
@@ -28,7 +27,7 @@ public class BillController {
         for (String fileName : fileList) {
             String[] parts = fileName.split("\\.");
             if (parts.length > 1 && parts[1].equals(librarian.getUsername())) {
-                boolean deleted = dbController.deleteFile("bills/" + fileName);
+                boolean deleted = fileHandlingService.deleteFile("bills/" + fileName);
                 if (!deleted) {
                     throw new IllegalStateException("Failed to delete bill file: " + fileName);
                 }
@@ -60,6 +59,6 @@ public class BillController {
                 .append(i)
                 .append(".txt");
 
-        dbController.writeFileContents(builder.toString(), bill.getTextBill());
+        fileHandlingService.writeFileContents(builder.toString(), bill.getTextBill());
     }
 }

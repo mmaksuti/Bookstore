@@ -1,6 +1,7 @@
 package test;
 
 import controllers.BooksController;
+import services.FileHandlingService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import main.Author;
@@ -9,27 +10,30 @@ import main.Gender;
 import main.Genre;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import test.mocks.MockDatabaseController;
+
 import java.io.IOException;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 public class TestBooksController {
 
     private BooksController booksController;
-    private MockDatabaseController mockDbController;
+    private FileHandlingService mockFileHandlingService;
     private ObservableList<Book> books;
 
     @BeforeEach
     public void setUp() {
         try {
-            mockDbController = new MockDatabaseController();
-            mockDbController.setCannedDatabase(new ArrayList<Book>());
-            booksController = new BooksController(mockDbController);
+            mockFileHandlingService = mock(FileHandlingService.class);
+            when(mockFileHandlingService.readObjectFromFile(any(String.class))).thenReturn(new ArrayList<Book>());
+            booksController = new BooksController(mockFileHandlingService);
             books = FXCollections.observableArrayList();
         } catch (IOException ex) {
             fail("Failed to set up databases: " + ex.getMessage());
+        }
+        catch (ClassNotFoundException ignored) {
         }
     }
 
