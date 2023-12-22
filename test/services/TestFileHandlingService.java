@@ -124,7 +124,7 @@ public class TestFileHandlingService {
             File file = new File(path);
             boolean result = file.delete();
             result = file.createNewFile();
-        
+
             assertTrue(file.exists());
             assertFalse(file.isDirectory());
 

@@ -59,6 +59,6 @@ public class BillController {
                 .append(i)
                 .append(".txt");
 
-        fileHandlingService.writeFileContents(builder.toString(), bill.getTextBill());
+        fileHandlingService.writeFileContents(builder.toString(), bill.toString());
     }
 }

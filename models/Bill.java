@@ -13,10 +13,6 @@ public class Bill {
     private final double totalPrice;
     private final int nBooks;
 
-    public String getTextBill() {
-        return textBill;
-    }
-
     public String getUsername() {
         return username;
     }

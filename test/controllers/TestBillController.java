@@ -170,7 +170,7 @@ public class TestBillController {
         when(bill.getUsername()).thenReturn("librarian");
         when(bill.getNBooks()).thenReturn(2);
         when(bill.getTotalPrice()).thenReturn(1000.0);
-        when(bill.getTextBill()).thenReturn("Bill text");
+        when(bill.toString()).thenReturn("Bill text");
 
         String[] cannedDirectoryContents = {};
 
@@ -193,7 +193,7 @@ public class TestBillController {
         when(bill.getUsername()).thenReturn("librarian");
         when(bill.getNBooks()).thenReturn(2);
         when(bill.getTotalPrice()).thenReturn(1000.0);
-        when(bill.getTextBill()).thenReturn("Bill text");
+        when(bill.toString()).thenReturn("Bill text");
 
         String[] cannedDirectoryContents = new String[] {
                 "21-12-2023.librarian2.1.1000,0.0.txt",
