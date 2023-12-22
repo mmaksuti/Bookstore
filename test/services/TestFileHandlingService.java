@@ -126,7 +126,7 @@ public class TestFileHandlingService {
             assertTrue(result);
             result = file.createNewFile();
             assertTrue(result);
-            
+
             assertTrue(file.exists());
             assertFalse(file.isDirectory());
 
