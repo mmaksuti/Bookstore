@@ -7,19 +7,20 @@ import javafx.collections.ObservableList;
 import main.Author;
 import main.Book;
 import main.Genre;
+import services.FileHandlingService;
 
 public class BooksController {
     private String DATABASE = "booksDatabase.dat";
     private ObservableList<Book> books;
-    private DatabaseController dbController;
+    private FileHandlingService fileHandlingService;
 
-    public BooksController(DatabaseController dbController) throws IOException {
-        this.dbController = dbController;
+    public BooksController(FileHandlingService fileHandlingService) throws IOException {
+        this.fileHandlingService = fileHandlingService;
         readFromFile(DATABASE);
     }
 
-    public BooksController(DatabaseController dbController, String database) throws IOException {
-        this.dbController = dbController;
+    public BooksController(FileHandlingService fileHandlingService, String database) throws IOException {
+        this.fileHandlingService = fileHandlingService;
         DATABASE = database;
         readFromFile(DATABASE);
     }
@@ -92,7 +93,8 @@ public class BooksController {
         if (quantity < 0) {
             throw new IllegalArgumentException("Quantity cannot be negative");
         }
-        if(price<=0){
+
+        if (price <= 0) {
             throw new IllegalArgumentException("Price must be positive");
         }
 
@@ -116,7 +118,7 @@ public class BooksController {
 
     public void readFromFile(String file) throws IOException, IllegalStateException {
         try {
-            ArrayList<Book> arrayList = (ArrayList<Book>)dbController.readObjectFromFile(file);
+            ArrayList<Book> arrayList = (ArrayList<Book>)fileHandlingService.readObjectFromFile(file);
             books = FXCollections.observableArrayList(arrayList);
         }
         catch (FileNotFoundException e) {
@@ -125,7 +127,7 @@ public class BooksController {
         }
         catch (ClassNotFoundException e) {
             System.out.println("ClassNotFoundException");
-            boolean deleted = dbController.deleteFile(file);
+            boolean deleted = fileHandlingService.deleteFile(file);
             if (!deleted) {
                 throw new IllegalStateException("Failed to delete corrupted database");
             }
@@ -133,6 +135,6 @@ public class BooksController {
     }
 
     public void writeToFile(String file) throws IOException {
-        dbController.writeObjectToFile(file, new ArrayList<Book>(books));
+        fileHandlingService.writeObjectToFile(file, new ArrayList<Book>(books));
     }
 }

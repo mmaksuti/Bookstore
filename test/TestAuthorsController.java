@@ -6,47 +6,55 @@ import java.util.ArrayList;
 import controllers.AuthorsController;
 import controllers.BooksController;
 
-import controllers.FileDatabaseController;
+import services.FileHandlingService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import main.Author;
-import main.Book;
-import main.Gender;
-import main.UserConfirmation;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
+import main.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
-import test.mocks.MockDatabaseController;
 
 import static org.junit.jupiter.api.Assertions.*;
-
-import org.mockito.Mockito.*;
+import static org.mockito.Mockito.*;
 
 public class TestAuthorsController {
     public AuthorsController authorsController;
-    public BooksController booksController;
-    public MockDatabaseController mockDbController;
+    public BooksController mockBooksController;
+    public FileHandlingService mockFileHandlingService;
 
     public ObservableList<Book> books = FXCollections.observableArrayList();
 
-//    public static final String TEST_AUTHORS_DATABASE = "test/testAuthorsDatabase.dat";
-//    public static final String TEST_BOOKS_DATABASE = "test/testBooksDatabase.dat";
+    public String DATABASE = "database";
 
-    // set up the database files
     @BeforeEach
     public void setUp()  {
         try {
-            mockDbController = new MockDatabaseController();
-            mockDbController.setCannedDatabase(new ArrayList<Author>());
-            authorsController = new AuthorsController(mockDbController);
-            booksController = Mockito.mock(BooksController.class);
-            //Mockito.when(booksController.getBooks()).thenReturn(books);
+            mockFileHandlingService = mock(FileHandlingService.class);
+            when(mockFileHandlingService.readObjectFromFile(DATABASE)).thenReturn(new ArrayList<Author>());
+            mockBooksController = mock(BooksController.class);
+
+            authorsController = new AuthorsController(mockFileHandlingService, DATABASE);
         }
         catch (IOException ex) {
             fail("Failed to set up databases: " + ex.getMessage());
         }
+        catch (ClassNotFoundException ignored) {
+        }
+    }
+
+    @Test
+    void test_firstConstructor() {
+        ArrayList<Author> authors = new ArrayList<>();
+        try {
+            when(mockFileHandlingService.readObjectFromFile(any(String.class))).thenReturn(authors);
+            authorsController = new AuthorsController(mockFileHandlingService);
+
+            // it was called once in the setup and once here
+            verify(mockFileHandlingService, times(2)).readObjectFromFile(any(String.class));
+        }
+        catch (IOException|ClassNotFoundException ignored) {
+        }
+
+        assertEquals(authors, authorsController.getAuthors());
     }
 
     @Test
@@ -106,7 +114,6 @@ public class TestAuthorsController {
 
         assertEquals(0, authorsController.getAuthors().size());
     }
-
     @Test
     void test_addAuthorThrowsAuthorExistsException() {
         String firstName = "John";
@@ -126,7 +133,7 @@ public class TestAuthorsController {
     }
 
     @Test
-    void test_updateAuthor() {
+    void test_updateAuthorNoBooks() {
         String firstName = "John";
         String lastName = "Doe";
         Gender gender = Gender.MALE;
@@ -137,11 +144,11 @@ public class TestAuthorsController {
             fail("Failed to add author: " + ex.getMessage());
         }
 
-        Mockito.when(booksController.getBooks()).thenReturn(books);
+        when(mockBooksController.getBooks()).thenReturn(books);
 
         Author author = authorsController.getAuthors().get(0);
         try {
-            authorsController.updateAuthor(author, "Jane", lastName, Gender.FEMALE, booksController);
+            authorsController.updateAuthor(author, "Jane", lastName, Gender.FEMALE, mockBooksController);
         } catch (IOException e) {
             fail("Failed to update author: " + e.getMessage());
         }
@@ -151,7 +158,77 @@ public class TestAuthorsController {
         assertEquals("Jane", author.getFirstName());
         assertEquals(lastName, author.getLastName());
         assertEquals(Gender.FEMALE, author.getGender());
+
+        when(mockBooksController.getBooks()).thenReturn(null);
+
+        try {
+            authorsController.updateAuthor(author, "Jane", "Smith", Gender.FEMALE, mockBooksController);
+        } catch (IOException e) {
+            fail("Failed to update author: " + e.getMessage());
+        }
+
+        assertEquals(1, authorsController.getAuthors().size());
+
+        assertEquals("Jane", author.getFirstName());
+        assertEquals("Smith", author.getLastName());
+        assertEquals(Gender.FEMALE, author.getGender());
+
+        try {
+            authorsController.updateAuthor(author, "Jane", "Smith", Gender.MALE, mockBooksController);
+        } catch (IOException e) {
+            fail("Failed to update author: " + e.getMessage());
+        }
+
+        assertEquals(1, authorsController.getAuthors().size());
+
+        assertEquals("Jane", author.getFirstName());
+        assertEquals("Smith", author.getLastName());
+        assertEquals(Gender.MALE, author.getGender());
     }
+
+    @Test
+    void test_updateAuthorWithBooks() {
+        try {
+            authorsController.addAuthor("John", "Doe", Gender.MALE);
+            authorsController.addAuthor("Jane", "Doe", Gender.FEMALE);
+        } catch (IOException ex) {
+            fail("Failed to add author: " + ex.getMessage());
+        }
+
+        Author author1_copy = new Author("John", "Doe", Gender.MALE);
+        Author author2_copy = new Author("Jane", "Doe", Gender.FEMALE);
+
+        Author author1 = authorsController.getAuthors().get(0);
+        Author author2 = authorsController.getAuthors().get(1);
+        Author author3 = new Author("John", "Smith", Gender.MALE);
+
+        Book book1 = new Book("book1", "", "", 1.0, author1_copy, new ArrayList<>(), 1, true);
+        Book book2 = new Book("book2", "", "", 1.0, author2_copy, new ArrayList<>(), 1, true);
+        Book book3 = new Book("book3", "", "", 1.0, author3, new ArrayList<>(), 1, true);
+        books.add(book1);
+        books.add(book2);
+        books.add(book3);
+
+        when(mockBooksController.getBooks()).thenReturn(books);
+
+        try {
+            authorsController.updateAuthor(author1, "John", "Smith", Gender.MALE, mockBooksController);
+        } catch (IOException e) {
+            fail("Failed to update author: " + e.getMessage());
+        }
+
+        assertEquals(author1, book1.getAuthor());
+        assertEquals(author2_copy, book2.getAuthor());
+
+        try {
+            authorsController.updateAuthor(author2, "Jane", "Smith", Gender.FEMALE, mockBooksController);
+        } catch (IOException e) {
+            fail("Failed to update author: " + e.getMessage());
+        }
+
+        assertEquals(author2, book2.getAuthor());
+    }
+
 
     @Test
     void test_updateAuthorThrowsFillInAllValuesException() {
@@ -165,23 +242,23 @@ public class TestAuthorsController {
             fail("Failed to add author: " + ex.getMessage());
         }
 
-        Mockito.when(booksController.getBooks()).thenReturn(books);
+        when(mockBooksController.getBooks()).thenReturn(books);
 
         Author author = authorsController.getAuthors().get(0);
 
         IllegalArgumentException exc = assertThrows(IllegalArgumentException.class,
-                () -> authorsController.updateAuthor(author, "", lastName, gender, booksController));
+                () -> authorsController.updateAuthor(author, "", lastName, gender, mockBooksController));
         assertEquals("Please fill in all fields", exc.getMessage());
 
         exc = assertThrows(IllegalArgumentException.class,
-                () -> authorsController.updateAuthor(author, firstName, "", gender, booksController));
+                () -> authorsController.updateAuthor(author, firstName, "", gender, mockBooksController));
         assertEquals("Please fill in all fields", exc.getMessage());
 
         exc = assertThrows(IllegalArgumentException.class,
-                () -> authorsController.updateAuthor(author, firstName, lastName, null, booksController));
+                () -> authorsController.updateAuthor(author, firstName, lastName, null, mockBooksController));
         assertEquals("Please fill in all fields", exc.getMessage());
 
-        assertEquals("John", author.getFirstName());
+        assertEquals(firstName, author.getFirstName());
         assertEquals(lastName, author.getLastName());
         assertEquals(Gender.MALE, author.getGender());
     }
@@ -203,7 +280,7 @@ public class TestAuthorsController {
         Author author = authorsController.getAuthors().get(1);
 
         IllegalArgumentException exc = assertThrows(IllegalArgumentException.class,
-                () -> authorsController.updateAuthor(author, "John", "Doe", Gender.FEMALE, booksController));
+                () -> authorsController.updateAuthor(author, "John", "Doe", Gender.FEMALE, mockBooksController));
         assertEquals("Author already exists", exc.getMessage());
     }
 
@@ -219,11 +296,11 @@ public class TestAuthorsController {
             fail("Failed to add author: " + ex.getMessage());
         }
 
-        Mockito.when(booksController.getBooks()).thenReturn(books);
+        when(mockBooksController.getBooks()).thenReturn(books);
 
         Author author = authorsController.getAuthors().get(0);
         try {
-            authorsController.removeAuthor(booksController, author, null);
+            authorsController.removeAuthor(mockBooksController, author, null);
         }
         catch (IOException ex) {
             fail("Failed to remove author: " + ex.getMessage());
@@ -246,17 +323,27 @@ public class TestAuthorsController {
 
 
         Author author = authorsController.getAuthors().get(0);
+        Author author2 = new Author("John", "Smith", Gender.FEMALE);
+        Author author3 = new Author("Jane", lastName, Gender.MALE);
 
-        Book testBook = new Book("", "", "", 1.0, author, new ArrayList<>(), 1, true);
-        books.add(testBook);
-        Mockito.when(booksController.getBooks()).thenReturn(books);
+        Book book1 = new Book("book1", "", "", 1.0, author2, new ArrayList<>(), 1, true);
+        Book book2 = new Book("book2", "", "", 1.0, author3, new ArrayList<>(), 1, true);
+        Book book3 = new Book("book3", "", "", 1.0, author, new ArrayList<>(), 1, true);
+        Book book4 = new Book("book4", "", "", 1.0, author, new ArrayList<>(), 1, true);
+
+        books.add(book1);
+        books.add(book2);
+        books.add(book3);
+        books.add(book4);
+
+        when(mockBooksController.getBooks()).thenReturn(books);
 
         UserConfirmation mockedConfirmation = (header, message) -> {
             return false;
         };
 
         try {
-            authorsController.removeAuthor(booksController, author, mockedConfirmation);
+            authorsController.removeAuthor(mockBooksController, author, mockedConfirmation);
         }
         catch (IOException ex) {
             fail("Failed to remove author: " + ex.getMessage());
@@ -277,19 +364,20 @@ public class TestAuthorsController {
             fail("Failed to add author: " + ex.getMessage());
         }
 
-
         Author author = authorsController.getAuthors().get(0);
 
-        Book testBook = new Book("", "", "", 1.0, author, new ArrayList<>(), 1, true);
-        books.add(testBook);
-        Mockito.when(booksController.getBooks()).thenReturn(books);
+        Book book1 = new Book("book1", "", "", 1.0, author, new ArrayList<>(), 1, true);
+        Book book2 = new Book("book2", "", "", 1.0, author, new ArrayList<>(), 1, true);
+        books.add(book1);
+        books.add(book2);
+        when(mockBooksController.getBooks()).thenReturn(books);
 
         UserConfirmation mockedConfirmation = (header, message) -> {
             return true;
         };
 
         try {
-            authorsController.removeAuthor(booksController, author, mockedConfirmation);
+            authorsController.removeAuthor(mockBooksController, author, mockedConfirmation);
         }
         catch (IOException ex) {
             fail("Failed to remove author: " + ex.getMessage());
@@ -297,6 +385,4 @@ public class TestAuthorsController {
 
         assertEquals(0, authorsController.getAuthors().size());
     }
-
-    // etc.
 }

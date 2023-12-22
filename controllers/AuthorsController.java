@@ -9,19 +9,20 @@ import main.Author;
 import main.Book;
 import main.Gender;
 import main.UserConfirmation;
+import services.FileHandlingService;
 
 public class AuthorsController {
     public String DATABASE = "authorsDatabase.dat";
     private ObservableList <Author> authors;
-    private DatabaseController dbController;
+    private FileHandlingService fileHandlingService;
 
-    public AuthorsController(DatabaseController dbController) throws IOException {
-        this.dbController = dbController;
+    public AuthorsController(FileHandlingService fileHandlingService) throws IOException {
+        this.fileHandlingService = fileHandlingService;
         readFromFile(DATABASE);
     }
 
-    public AuthorsController(DatabaseController dbController, String database) throws IOException {
-        this.dbController = dbController;
+    public AuthorsController(FileHandlingService fileHandlingService, String database) throws IOException {
+        this.fileHandlingService = fileHandlingService;
         DATABASE = database;
         readFromFile(DATABASE);
     }
@@ -50,12 +51,10 @@ public class AuthorsController {
         authors.set(index, author);
         writeToFile(DATABASE);
 
-        if (nameChanged) {
-            ObservableList<Book> books = booksController.getBooks();
+        ObservableList<Book> books = booksController.getBooks();
 
-            if (!books.isEmpty()) {
-                booksController.updateBook(books.get(0)); // trigger update on the books ObservableList
-            }
+        if (nameChanged && books != null && !books.isEmpty()) {
+            booksController.updateBook(books.get(0)); // trigger update on the books ObservableList
 
             for (Book book : books) {
                 if (book.getAuthor().getFirstName().equals(oldFirstName) && book.getAuthor().getLastName().equals(oldLastName)) {
@@ -91,10 +90,6 @@ public class AuthorsController {
     }
 
     public void removeAuthor(BooksController booksController, Author author, UserConfirmation confirmation) throws IOException {
-        if (author == null) {
-            return;
-        }
-
         boolean removeAll = false;
         boolean firstTime = true;
 
@@ -125,7 +120,7 @@ public class AuthorsController {
 
     private void readFromFile(String file) throws IOException, IllegalStateException {
         try {
-            ArrayList<Author> arrayList = (ArrayList<Author>)dbController.readObjectFromFile(file);
+            ArrayList<Author> arrayList = (ArrayList<Author>)fileHandlingService.readObjectFromFile(file);
             authors = FXCollections.observableArrayList(arrayList);
         }
         catch (FileNotFoundException e) {
@@ -134,7 +129,7 @@ public class AuthorsController {
         }
         catch (ClassNotFoundException e) {
             System.out.println("ClassNotFoundException");
-            boolean deleted = dbController.deleteFile(file);
+            boolean deleted = fileHandlingService.deleteFile(file);
             if (!deleted) {
                 throw new IllegalStateException("Failed to delete corrupted database");
             }
@@ -142,6 +137,6 @@ public class AuthorsController {
     }
 
     private void writeToFile(String file) throws IOException {
-        dbController.writeObjectToFile(file, new ArrayList<Author>(authors));
+        fileHandlingService.writeObjectToFile(file, new ArrayList<Author>(authors));
     }
 }

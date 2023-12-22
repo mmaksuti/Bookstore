@@ -55,7 +55,10 @@ public class LibrarianScene extends Scene implements UserScene {
         });
 
         Button logoutButton = new Button("Log out");
-        logoutButton.setOnAction(e -> loginController.logout());
+        logoutButton.setOnAction(e -> {
+            loginController.logout();
+            System.exit(0);
+        });
 
         logoutHBox.getChildren().addAll(sellBooksButton, logoutButton);
         border.setBottom(logoutHBox);

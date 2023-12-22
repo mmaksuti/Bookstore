@@ -8,17 +8,13 @@ import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import exceptions.UnauthenticatedException;
-import main.Bill;
+import services.FileHandlingService;
 import stages.ManageAuthorsStage;
 import stages.ManageBooksStage;
 import stages.LibrariansStatisticsStage;
 import stages.ManageUsersStage;
 import stages.SalesStatisticsStage;
 import stages.SellBooksStage;
-
-import java.io.IOException;
-
-import static java.lang.System.exit;
 
 public class AdministratorScene extends Scene implements UserScene {
     MenuBar menuBar = new MenuBar();
@@ -35,7 +31,7 @@ public class AdministratorScene extends Scene implements UserScene {
         return "Administrator";
     }
 
-    public AdministratorScene(LoginController loginController, BillController billController, AuthorsController authorsController, BooksController booksController, LibrarianController librarianController, DatabaseController dbController) {
+    public AdministratorScene(LoginController loginController, BillController billController, AuthorsController authorsController, BooksController booksController, LibrarianController librarianController, FileHandlingService fileHandlingService) {
         super(new BorderPane(), 300, 200);
 
         BorderPane border = (BorderPane) getRoot();
@@ -56,7 +52,7 @@ public class AdministratorScene extends Scene implements UserScene {
         });
         
         salesStatistics.setOnAction(e -> {
-            SalesStatisticsStage salesStatisticsStage = new SalesStatisticsStage(dbController);
+            SalesStatisticsStage salesStatisticsStage = new SalesStatisticsStage(fileHandlingService);
             salesStatisticsStage.show();
         });
 
@@ -98,6 +94,7 @@ public class AdministratorScene extends Scene implements UserScene {
         Button logoutButton = new Button("Log out");
         logoutButton.setOnAction(e -> {
             loginController.logout();
+            System.exit(0);
         });
 
         logoutHBox.getChildren().addAll(sellBooksButton, logoutButton);
