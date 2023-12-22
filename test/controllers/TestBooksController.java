@@ -398,4 +398,14 @@ public class TestBooksController {
         catch (IOException|ClassNotFoundException ignored) {
         }
     }
+
+    @Test
+    void testWriteToFile() {
+        try {
+            booksController.writeToFile(DATABASE);
+            verify(mockFileHandlingService, times(1)).writeObjectToFile(eq(DATABASE), any(ArrayList.class));
+        }
+        catch (IOException ignored) {
+        }
+    }
 }

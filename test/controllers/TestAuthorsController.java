@@ -388,4 +388,46 @@ public class TestAuthorsController {
 
         assertEquals(0, authorsController.getAuthors().size());
     }
+
+    @Test
+    void test_readFromFile() {
+        ArrayList<Author> authors = new ArrayList<>();
+        Author author = new Author("John", "Doe", Gender.MALE);
+        authors.add(author);
+
+        try {
+            when(mockFileHandlingService.readObjectFromFile(DATABASE)).thenReturn(authors);
+            authorsController.readFromFile(DATABASE);
+            verify(mockFileHandlingService, times(2)).readObjectFromFile(DATABASE);
+            assertEquals(authors, authorsController.getAuthors());
+
+            when(mockFileHandlingService.readObjectFromFile(DATABASE)).thenThrow(new FileNotFoundException());
+            authorsController.readFromFile(DATABASE);
+            assertEquals(0, authorsController.getAuthors().size());
+
+            reset(mockFileHandlingService);
+            when(mockFileHandlingService.readObjectFromFile(DATABASE)).thenReturn(authors);
+            when(mockFileHandlingService.readObjectFromFile(DATABASE)).thenThrow(new ClassNotFoundException());
+            when(mockFileHandlingService.deleteFile(DATABASE)).thenReturn(false);
+            IllegalStateException exc = assertThrows(IllegalStateException.class, () -> authorsController.readFromFile(DATABASE));
+            assertEquals("Failed to delete corrupted database", exc.getMessage());
+            verify(mockFileHandlingService, times(1)).deleteFile(DATABASE);
+
+            when(mockFileHandlingService.deleteFile(DATABASE)).thenReturn(true);
+            authorsController.readFromFile(DATABASE);
+            assertEquals(0, authorsController.getAuthors().size());
+        }
+        catch (IOException|ClassNotFoundException ignored) {
+        }
+    }
+
+    @Test
+    void testWriteToFile() {
+        try {
+            authorsController.writeToFile(DATABASE);
+            verify(mockFileHandlingService, times(1)).writeObjectToFile(eq(DATABASE), any(ArrayList.class));
+        }
+        catch (IOException ignored) {
+        }
+    }
 }

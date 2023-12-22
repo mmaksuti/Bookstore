@@ -322,6 +322,7 @@ public class LoginController {
             if (!deleted) {
                 throw new IllegalStateException("Failed to delete corrupted database");
             }
+            users = FXCollections.observableArrayList();
         }
     }
     

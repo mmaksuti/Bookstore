@@ -118,7 +118,7 @@ public class AuthorsController {
         }
     }
 
-    private void readFromFile(String file) throws IOException, IllegalStateException {
+    public void readFromFile(String file) throws IOException, IllegalStateException {
         try {
             ArrayList<Author> arrayList = (ArrayList<Author>)fileHandlingService.readObjectFromFile(file);
             authors = FXCollections.observableArrayList(arrayList);
@@ -133,10 +133,11 @@ public class AuthorsController {
             if (!deleted) {
                 throw new IllegalStateException("Failed to delete corrupted database");
             }
+            authors = FXCollections.observableArrayList();
         }
     }
 
-    private void writeToFile(String file) throws IOException {
+    public void writeToFile(String file) throws IOException {
         fileHandlingService.writeObjectToFile(file, new ArrayList<Author>(authors));
     }
 }
