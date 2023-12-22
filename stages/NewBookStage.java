@@ -1,7 +1,7 @@
 package stages;
 import javafx.stage.Stage;
-import main.Author;
-import main.Genre;
+import models.Author;
+import enums.Genre;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;

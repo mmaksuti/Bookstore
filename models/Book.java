@@ -1,4 +1,6 @@
-package main;
+package models;
+import enums.Genre;
+
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;

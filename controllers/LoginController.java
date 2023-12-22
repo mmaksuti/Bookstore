@@ -5,9 +5,11 @@ import java.util.ArrayList;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import main.*;
+import enums.*;
 import exceptions.LastAdministratorException;
 import exceptions.UnauthenticatedException;
+import models.Librarian;
+import models.User;
 import services.FileHandlingService;
 
 import java.io.FileNotFoundException;

@@ -1,7 +1,6 @@
 package stages;
 import javafx.stage.Stage;
-import main.AccessLevel;
-import main.User;
+import enums.AccessLevel;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;

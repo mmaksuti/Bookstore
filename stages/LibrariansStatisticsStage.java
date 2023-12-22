@@ -9,7 +9,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import main.Librarian;
+import models.Librarian;
 
 public class LibrariansStatisticsStage extends Stage {
     public LibrariansStatisticsStage(LibrarianController librarianController) {

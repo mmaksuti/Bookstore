@@ -1,4 +1,6 @@
-package main;
+package models;
+import enums.Gender;
+
 import java.io.Serial;
 import java.io.Serializable;
 

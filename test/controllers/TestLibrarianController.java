@@ -1,13 +1,13 @@
-package test;
+package test.controllers;
 
 import controllers.BillController;
 import controllers.LibrarianController;
 import controllers.LoginController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import main.AccessLevel;
-import main.Librarian;
-import main.User;
+import enums.AccessLevel;
+import models.Librarian;
+import models.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;

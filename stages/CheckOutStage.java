@@ -22,8 +22,8 @@ import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import main.Bill;
-import main.Book;
+import models.Bill;
+import models.Book;
 import exceptions.UnauthenticatedException;
 
 public class CheckOutStage extends Stage {

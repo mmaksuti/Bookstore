@@ -1,11 +1,9 @@
 package stages;
 import javafx.stage.Stage;
-import main.Author;
-import main.Book;
-import main.Gender;
+import models.Author;
+import enums.Gender;
 import controllers.AuthorsController;
 import controllers.BooksController;
-import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;

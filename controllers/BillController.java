@@ -1,7 +1,7 @@
 package controllers;
 
-import main.Bill;
-import main.Librarian;
+import models.Bill;
+import models.Librarian;
 import services.FileHandlingService;
 
 import java.io.IOException;

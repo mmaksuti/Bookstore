@@ -1,4 +1,4 @@
-package test;
+package test.controllers;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -6,10 +6,13 @@ import java.util.ArrayList;
 import controllers.AuthorsController;
 import controllers.BooksController;
 
+import interfaces.UserConfirmation;
+import models.Author;
+import models.Book;
 import services.FileHandlingService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import main.*;
+import enums.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
