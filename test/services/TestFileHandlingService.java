@@ -123,8 +123,10 @@ public class TestFileHandlingService {
         try {
             File file = new File(path);
             boolean result = file.delete();
+            assertTrue(result);
             result = file.createNewFile();
-
+            assertTrue(result);
+            
             assertTrue(file.exists());
             assertFalse(file.isDirectory());
 
