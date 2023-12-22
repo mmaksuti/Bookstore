@@ -56,21 +56,6 @@ public class FileHandlingService {
         return true;
     }
 
-//    public boolean pathIsDirectory(String path) {
-//        File f = new File(path);
-//        return f.isDirectory();
-//    }
-//
-//    public boolean pathExists(String path) {
-//        File f = new File(path);
-//        return f.exists();
-//    }
-//
-//    public boolean createDirectory(String path) {
-//        File f = new File(path);
-//        return f.mkdir();
-//    }
-
     public String[] listDirectory(String path) {
         File f = new File(path);
         return f.list();
