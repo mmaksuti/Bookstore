@@ -422,7 +422,7 @@ public class TestAuthorsController {
     }
 
     @Test
-    void testWriteToFile() {
+    void test_writeToFile() {
         try {
             authorsController.writeToFile(DATABASE);
             verify(mockFileHandlingService, times(1)).writeObjectToFile(eq(DATABASE), any(ArrayList.class));

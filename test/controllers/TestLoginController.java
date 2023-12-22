@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import controllers.BillController;
 import controllers.LoginController;
 
+import models.Author;
 import models.Book;
 import models.Librarian;
 import models.User;
@@ -774,6 +775,27 @@ public class TestLoginController {
         assertThrows(UnauthenticatedException.class, () -> loginController.getLoggedUsername());
 
         verify(mockFileHandlingService, times(2)).deleteFile(SESSION);
+
+        try {
+            when(mockFileHandlingService.readFileContents(SESSION)).thenThrow(new IOException());
+        }
+        catch (IOException ignored) {
+        }
+
+        assertFalse(loginController.loginWithSavedSession());
+        assertThrows(UnauthenticatedException.class, () -> loginController.getLoggedUsername());
+    }
+
+    @Test
+    void test_loginWithSavedSessionNoSession() {
+        try {
+            when(mockFileHandlingService.readFileContents(SESSION)).thenThrow(new FileNotFoundException());
+        }
+        catch (IOException ignored) {
+        }
+
+        assertFalse(loginController.loginWithSavedSession());
+        assertThrows(UnauthenticatedException.class, () -> loginController.getLoggedUsername());
     }
 
     @Test
@@ -878,5 +900,47 @@ public class TestLoginController {
         }
 
         assertThrows(UnauthenticatedException.class, () -> loginController.getLoggedAccessLevel());
+    }
+
+    @Test
+    void test_readFromFile() {
+        ArrayList<User> users = new ArrayList<>();
+        User user = new User(firstName, lastName, username, password, email, phone, salary, birthday, role);
+        users.add(user);
+
+        try {
+            when(mockFileHandlingService.readObjectFromFile(DATABASE)).thenReturn(users);
+            loginController.readFromFile(DATABASE);
+            verify(mockFileHandlingService, times(2)).readObjectFromFile(DATABASE);
+            assertEquals(users, loginController.getUsers());
+
+            when(mockFileHandlingService.readObjectFromFile(DATABASE)).thenThrow(new FileNotFoundException());
+            loginController.readFromFile(DATABASE);
+            assertEquals(0, loginController.getUsers().size());
+
+            reset(mockFileHandlingService);
+            when(mockFileHandlingService.readObjectFromFile(DATABASE)).thenReturn(users);
+            when(mockFileHandlingService.readObjectFromFile(DATABASE)).thenThrow(new ClassNotFoundException());
+            when(mockFileHandlingService.deleteFile(DATABASE)).thenReturn(false);
+            IllegalStateException exc = assertThrows(IllegalStateException.class, () -> loginController.readFromFile(DATABASE));
+            assertEquals("Failed to delete corrupted database", exc.getMessage());
+            verify(mockFileHandlingService, times(1)).deleteFile(DATABASE);
+
+            when(mockFileHandlingService.deleteFile(DATABASE)).thenReturn(true);
+            loginController.readFromFile(DATABASE);
+            assertEquals(0, loginController.getUsers().size());
+        }
+        catch (IOException|ClassNotFoundException ignored) {
+        }
+    }
+
+    @Test
+    void test_writeToFile() {
+        try {
+            loginController.writeToFile(DATABASE);
+            verify(mockFileHandlingService, times(1)).writeObjectToFile(eq(DATABASE), any(ArrayList.class));
+        }
+        catch (IOException ignored) {
+        }
     }
 }

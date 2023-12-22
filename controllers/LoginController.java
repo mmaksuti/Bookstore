@@ -307,7 +307,7 @@ public class LoginController {
         writeToFile(DATABASE);
     }
     
-    private void readFromFile(String file) throws IOException, IllegalStateException {
+    public void readFromFile(String file) throws IOException, IllegalStateException {
         try {
             ArrayList<User> arrayList = (ArrayList<User>)fileHandlingService.readObjectFromFile(file);
             users = FXCollections.observableArrayList(arrayList);
@@ -325,8 +325,8 @@ public class LoginController {
             users = FXCollections.observableArrayList();
         }
     }
-    
-    private void writeToFile(String file) throws IOException {
+
+    public void writeToFile(String file) throws IOException {
         fileHandlingService.writeObjectToFile(file, new ArrayList<User>(users));
     }
     
