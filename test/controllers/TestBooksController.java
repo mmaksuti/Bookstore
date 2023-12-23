@@ -61,6 +61,8 @@ public class TestBooksController {
         String description = "Test Book";
         boolean isPaperback = true;
         ArrayList<Genre> genres = new ArrayList<>();
+        genres.add(Genre.ACTION);
+
         int quantity = 10;
 
         try {

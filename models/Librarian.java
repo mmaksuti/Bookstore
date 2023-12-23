@@ -17,13 +17,11 @@ public class Librarian extends User {
     }
 
     public Librarian(User user, BillController billController) throws IllegalArgumentException {
-        super(user.getFirstName(), user.getLastName(), user.getUsername(), user.getPassword(), user.getEmail(), user.getPhone(), user.getSalary(), user.getBirthday(), AccessLevel.LIBRARIAN);
+        this(user.getFirstName(), user.getLastName(), user.getUsername(), user.getPassword(), user.getEmail(), user.getPhone(), user.getSalary(), user.getBirthday(), billController);
 
         if (user.getAccessLevel() != AccessLevel.LIBRARIAN) {
             throw new IllegalArgumentException("User is not a librarian");
         }
-
-        this.billController = billController;
     }
 
     public int getNumberOfBills() {
@@ -32,7 +30,7 @@ public class Librarian extends User {
         String[] fileList = billController.loadBills();
         for (String fileName : fileList) {
             String[] parts = fileName.split("\\.");
-            if (parts.length > 1 && parts[1].equals(username)) {
+            if (parts.length > 3 && parts[1].equals(username)) {
                 numberOfBills++;
             }
         }
