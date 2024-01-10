@@ -136,7 +136,7 @@ public class TestAuthorsController {
     }
 
     @Test
-    void test_updateAuthorNoBooks() {
+    void test_updateAuthor() {
         String firstName = "John";
         String lastName = "Doe";
         Gender gender = Gender.MALE;
@@ -187,49 +187,6 @@ public class TestAuthorsController {
         assertEquals("Jane", author.getFirstName());
         assertEquals("Smith", author.getLastName());
         assertEquals(Gender.MALE, author.getGender());
-    }
-
-    @Test
-    void test_updateAuthorWithBooks() {
-        try {
-            authorsController.addAuthor("John", "Doe", Gender.MALE);
-            authorsController.addAuthor("Jane", "Doe", Gender.FEMALE);
-        } catch (IOException ex) {
-            fail("Failed to add author: " + ex.getMessage());
-        }
-
-        Author author1_copy = new Author("John", "Doe", Gender.MALE);
-        Author author2_copy = new Author("Jane", "Doe", Gender.FEMALE);
-
-        Author author1 = authorsController.getAuthors().get(0);
-        Author author2 = authorsController.getAuthors().get(1);
-        Author author3 = new Author("John", "Smith", Gender.MALE);
-
-        Book book1 = new Book("book1", "", "", 1.0, author1_copy, new ArrayList<>(), 1, true);
-        Book book2 = new Book("book2", "", "", 1.0, author2_copy, new ArrayList<>(), 1, true);
-        Book book3 = new Book("book3", "", "", 1.0, author3, new ArrayList<>(), 1, true);
-        books.add(book1);
-        books.add(book2);
-        books.add(book3);
-
-        when(mockBooksController.getBooks()).thenReturn(books);
-
-        try {
-            authorsController.updateAuthor(author1, "John", "Smith", Gender.MALE, mockBooksController);
-        } catch (IOException e) {
-            fail("Failed to update author: " + e.getMessage());
-        }
-
-        assertEquals(author1, book1.getAuthor());
-        assertEquals(author2_copy, book2.getAuthor());
-
-        try {
-            authorsController.updateAuthor(author2, "Jane", "Smith", Gender.FEMALE, mockBooksController);
-        } catch (IOException e) {
-            fail("Failed to update author: " + e.getMessage());
-        }
-
-        assertEquals(author2, book2.getAuthor());
     }
 
     @Test

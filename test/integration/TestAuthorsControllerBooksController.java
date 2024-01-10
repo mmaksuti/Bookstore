@@ -150,21 +150,23 @@ public class TestAuthorsControllerBooksController {
 
         Author author1 = authorsController.getAuthors().get(0);
         Author author2 = authorsController.getAuthors().get(1);
-        Author author3 = new Author("John", "Smith", Gender.MALE);
 
         try {
             booksController.addBook("book1", author1_copy, "123-1234567890", 1.0, "Description", true, new ArrayList<>(), 1);
             booksController.addBook("book2", author2_copy, "123-1234567891", 1.0, "Description", true, new ArrayList<>(), 1);
-            booksController.addBook("book3", author3, "123-1234567892", 1.0, "Description", true, new ArrayList<>(), 1);
+
+            Book book1 = booksController.getBooks().get(0);
+            Book book2 = booksController.getBooks().get(1);
 
             authorsController.updateAuthor(author1, "John", "Smith", Gender.MALE, booksController);
 
-            // ...
+            assertEquals(author1, book1.getAuthor());
+            assertEquals(author2_copy, book2.getAuthor());
+
+            verify(stubFileHandlingService, times(2+1)).writeObjectToFile(eq(authorsDATABASE), any(ArrayList.class));
+            verify(stubFileHandlingService, times(2+1)).writeObjectToFile(eq(booksDATABASE), any(ArrayList.class));
         }
         catch (IOException ignored) {
         }
-
-
-
     }
 }
