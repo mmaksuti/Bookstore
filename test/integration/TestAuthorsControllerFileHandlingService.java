@@ -10,24 +10,22 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
 import services.FileHandlingService;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class TestAuthorsControllers {
+public class TestAuthorsControllerFileHandlingService {
 
     public AuthorsController authorsController;
     public FileHandlingService fileHandlingService;
+    public BooksController stubBooksController;
+    public ObservableList<Book> books;
 
     @TempDir
     static File tempDir;
@@ -42,6 +40,8 @@ public class TestAuthorsControllers {
             DATABASE = tempDir.getAbsolutePath() + "/authorsDatabase.dat";
 
             authorsController = new AuthorsController(fileHandlingService, DATABASE);
+            stubBooksController = mock(BooksController.class);
+            books = FXCollections.observableArrayList();
         }
         catch (IOException ex) {
             fail("Failed to set up databases: " + ex.getMessage());
@@ -53,8 +53,44 @@ public class TestAuthorsControllers {
         fileHandlingService.deleteFile(DATABASE);
     }
 
-    // the class was already tested fully isolated in unit testing, so start by testing the integration
-    // with the real FileHandlingService
+    @Test
+    void testConstructorNoAuthors() {
+        try {
+            ArrayList<Author> authors = new ArrayList<>();
+            fileHandlingService.writeObjectToFile(DATABASE, authors);
+            authorsController = new AuthorsController(fileHandlingService, DATABASE);
+            assertEquals(0, authorsController.getAuthors().size());
+        }
+        catch (IOException ex) {
+            fail("Failed to set up databases: " + ex.getMessage());
+        }
+    }
+
+    @Test
+    void testConstructorWithAuthors() {
+        try {
+            ArrayList<Author> authors = new ArrayList<>();
+
+            Author author1 = new Author("John", "Doe", Gender.MALE);
+            Author author2 = new Author("Jane", "Doe", Gender.MALE);
+            authors.add(author1);
+            authors.add(author2);
+
+            fileHandlingService.writeObjectToFile(DATABASE, authors);
+            authorsController = new AuthorsController(fileHandlingService, DATABASE);
+            assertEquals(2, authorsController.getAuthors().size());
+            author1 = authorsController.getAuthors().get(0);
+            author2 = authorsController.getAuthors().get(1);
+            assertEquals("John", author1.getFirstName());
+            assertEquals("Doe", author1.getLastName());
+            assertEquals("Jane", author2.getFirstName());
+            assertEquals("Doe", author2.getLastName());
+        }
+        catch (IOException ex) {
+            fail("Failed to set up databases: " + ex.getMessage());
+        }
+    }
+
     @Test
     void testAddAuthor() {
         try {
@@ -77,41 +113,32 @@ public class TestAuthorsControllers {
     }
 
     @Test
-    void testRemoveAuthorNoBooks() {
-
-    }
-
-    private static Stream<Arguments> provideStubsAndImplementations() {
-        BooksController booksController = null;
-        BooksController stubBooksController = mock(BooksController.class);
-        ObservableList<Book> books = FXCollections.observableArrayList();
-        FileHandlingService fileHandlingService = new FileHandlingService();
-        String DATABASE = tempDir.getAbsolutePath() + "/booksDatabase.dat";
-
-        when(stubBooksController.getBooks()).thenReturn(books);
-
+    void testRemoveAuthor() {
         try {
-            booksController = new BooksController(fileHandlingService, DATABASE);
+            authorsController.addAuthor("John", "Doe", Gender.MALE);
+
+            ArrayList<Author> authors = (ArrayList<Author>)fileHandlingService.readObjectFromFile(DATABASE);
+            assertEquals(1, authors.size());
+
+            when(stubBooksController.getBooks()).thenReturn(books);
+
+            Author author = authors.get(0);
+            authorsController.removeAuthor(stubBooksController, author, null);
         }
         catch (IOException ex) {
-            fail("Failed to load databases: " + ex.getMessage());
+            fail("Failed to remove author: " + ex.getMessage());
         }
-
-        return Stream.of(
-                Arguments.of(stubBooksController),
-                Arguments.of(booksController)
-        );
+        catch (ClassNotFoundException ex) {
+            fail("Failed to load database: " + ex.getMessage());
+        }
     }
 
-    // test with a stub first, then replace with the real implementation
-    @ParameterizedTest
-    @MethodSource("provideStubsAndImplementations")
-    void testUpdateAuthorNoBooks(BooksController booksController) {
+    void testUpdateAuthor() {
         try {
             authorsController.addAuthor("John", "Doe", Gender.MALE);
 
             Author author = authorsController.getAuthors().get(0);
-            authorsController.updateAuthor(author, "Jane", "Doe", Gender.FEMALE, booksController);
+            authorsController.updateAuthor(author, "Jane", "Doe", Gender.FEMALE, stubBooksController);
 
             ArrayList<Author> authors = (ArrayList<Author>)fileHandlingService.readObjectFromFile(DATABASE);
             assertEquals(1, authors.size());

@@ -232,7 +232,6 @@ public class TestAuthorsController {
         assertEquals(author2, book2.getAuthor());
     }
 
-
     @Test
     void test_updateAuthorThrowsFillInAllValuesException() {
         String firstName = "John";
@@ -323,7 +322,6 @@ public class TestAuthorsController {
         } catch (IOException ex) {
             fail("Failed to add author: " + ex.getMessage());
         }
-
 
         Author author = authorsController.getAuthors().get(0);
         Author author2 = new Author("John", "Smith", Gender.FEMALE);

@@ -116,6 +116,10 @@ public class AuthorsController {
             authors.remove(author);
             writeToFile(DATABASE);
         }
+
+        if (removeAll) {
+            booksController.writeToFile(booksController.getDATABASE());
+        }
     }
 
     public void readFromFile(String file) throws IOException, IllegalStateException {

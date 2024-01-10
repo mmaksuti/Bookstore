@@ -315,9 +315,10 @@ public class LoginController {
         catch (FileNotFoundException e) {
             System.out.println("No database saved");
             users = FXCollections.observableArrayList();
+            addUser("Marko", "Maksuti", "admin", "admin", "admin@gmail.com", "+355676578272", 1000, LocalDate.of(1999, 1, 1), AccessLevel.ADMINISTRATOR);
         }
         catch (ClassNotFoundException e) {
-            System.out.println("ClassNotFoundException");
+            System.out.println("ClassNotFoundException: " + file);
             boolean deleted = fileHandlingService.deleteFile(file);
             if (!deleted) {
                 throw new IllegalStateException("Failed to delete corrupted database");

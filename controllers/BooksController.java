@@ -14,6 +14,10 @@ public class BooksController {
     private ObservableList<Book> books;
     private FileHandlingService fileHandlingService;
 
+    public String getDATABASE() {
+        return DATABASE;
+    }
+
     public BooksController(FileHandlingService fileHandlingService) throws IOException {
         this.fileHandlingService = fileHandlingService;
         readFromFile(DATABASE);
