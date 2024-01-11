@@ -4,18 +4,15 @@ import java.io.*;
 
 public class FileHandlingService {
     public Object readObjectFromFile(String file) throws IOException, IllegalStateException, ClassNotFoundException {
-        FileInputStream fis = new FileInputStream(file);
-        ObjectInputStream ois = new ObjectInputStream(fis);
-        Object obj = ois.readObject();
-        ois.close();
-        return obj;
+        try (FileInputStream fis = new FileInputStream(file); ObjectInputStream ois = new ObjectInputStream(fis)) {
+            return ois.readObject();
+        }
     }
 
     public void writeObjectToFile(String file, Object obj) throws IOException {
-        FileOutputStream fos = new FileOutputStream(file);
-        ObjectOutputStream oos = new ObjectOutputStream(fos);
-        oos.writeObject(obj);
-        oos.close();
+        try (FileOutputStream fos = new FileOutputStream(file); ObjectOutputStream oos = new ObjectOutputStream(fos)) {
+            oos.writeObject(obj);
+        }
     }
 
     public boolean deleteFile(String file) {

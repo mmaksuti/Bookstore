@@ -92,6 +92,19 @@ public class TestAuthorsControllerFileHandlingService {
     }
 
     @Test
+    void testConstructorInvalidDatabase() {
+        try {
+            fileHandlingService.writeFileContents(DATABASE, "invalid database");
+            authorsController = new AuthorsController(fileHandlingService, DATABASE);
+            assertEquals(0, authorsController.getAuthors().size());
+            assertFalse(new File(DATABASE).exists());
+        }
+        catch (IOException ex) {
+            fail("Failed to set up databases: " + ex.getMessage());
+        }
+    }
+
+    @Test
     void testAddAuthor() {
         try {
             authorsController.addAuthor("John", "Doe", Gender.MALE);
