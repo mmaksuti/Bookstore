@@ -11,22 +11,23 @@ import java.util.Locale;
 public class Statistics {
     private String stringStatistics;
     private FileHandlingService fileHandlingService;
+    private String BILLS = "bills";
 
     private static boolean isWithinRange(LocalDate testDate, LocalDate startDate, LocalDate endDate) {
         return !(testDate.isBefore(startDate) || testDate.isAfter(endDate));
     }
 
-    public Statistics(FileHandlingService fileHandlingService, LocalDate from, LocalDate to) {
+    public Statistics(FileHandlingService fileHandlingService, LocalDate from, LocalDate to, String BILLS) {
         this.fileHandlingService = fileHandlingService;
 
         stringStatistics = "No bills\nTotal money earned: 0";
         double totalMoney = 0;
 
-        if (!fileHandlingService.ensureDirectory("bills")) {
+        if (!fileHandlingService.ensureDirectory(BILLS)) {
             throw new IllegalStateException("bills not a directory");
         }
         else {
-            String[] fileList = fileHandlingService.listDirectory("bills");
+            String[] fileList = fileHandlingService.listDirectory(BILLS);
             if (fileList == null) {
                 return; // should never happen
             }
@@ -73,6 +74,10 @@ public class Statistics {
                 stringStatistics = stringStatisticsBuilder.toString();
             }
         }
+    }
+
+    public Statistics(FileHandlingService fileHandlingService, LocalDate from, LocalDate to) {
+        this(fileHandlingService, from, to, "bills");
     }
 
     @Override

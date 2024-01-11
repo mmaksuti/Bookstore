@@ -127,8 +127,8 @@ public class BooksController {
             System.out.println("No database saved");
             books = FXCollections.observableArrayList();
         }
-        catch (ClassNotFoundException e) {
-            System.out.println("ClassNotFoundException");
+        catch (Exception e) {
+            System.out.println("Invalid database");
             boolean deleted = fileHandlingService.deleteFile(file);
             if (!deleted) {
                 throw new IllegalStateException("Failed to delete corrupted database");

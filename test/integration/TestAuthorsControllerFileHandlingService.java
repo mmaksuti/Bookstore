@@ -22,10 +22,10 @@ import static org.mockito.Mockito.when;
 
 public class TestAuthorsControllerFileHandlingService {
 
-    public AuthorsController authorsController;
-    public FileHandlingService fileHandlingService;
-    public BooksController stubBooksController;
-    public ObservableList<Book> books;
+    AuthorsController authorsController;
+    FileHandlingService fileHandlingService;
+    BooksController stubBooksController;
+    ObservableList<Book> books;
 
     @TempDir
     static File tempDir;

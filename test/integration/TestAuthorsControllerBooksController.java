@@ -3,17 +3,12 @@ import controllers.AuthorsController;
 import controllers.BooksController;
 import enums.Gender;
 import interfaces.UserConfirmation;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import models.Author;
 import models.Book;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.io.TempDir;
 import services.FileHandlingService;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
