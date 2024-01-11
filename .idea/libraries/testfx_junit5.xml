@@ -1,0 +1,14 @@
+<component name="libraryTable">
+  <library name="testfx.junit5" type="repository">
+    <properties maven-id="org.testfx:testfx-junit5:4.0.17" />
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/testfx-junit5-4.0.17.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/testfx-core-4.0.17.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/org.osgi.core-6.0.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/hamcrest-2.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/assertj-core-3.13.2.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
