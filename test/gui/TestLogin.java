@@ -36,6 +36,7 @@ public class TestLogin extends ApplicationTest {
             librarianController = new LibrarianController(loginController, billController);
         }
         catch (IOException ex) {
+            fail("Failed to load databases: " + ex.getMessage());
         }
 
         LoginScene login = new LoginScene(loginController, billController, authorsController, booksController, librarianController, fileHandlingService);

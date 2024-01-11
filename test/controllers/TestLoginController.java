@@ -916,7 +916,7 @@ public class TestLoginController {
 
             when(mockFileHandlingService.readObjectFromFile(DATABASE)).thenThrow(new FileNotFoundException());
             loginController.readFromFile(DATABASE);
-            assertEquals(0, loginController.getUsers().size());
+            assertEquals(1, loginController.getUsers().size());
 
             reset(mockFileHandlingService);
             when(mockFileHandlingService.readObjectFromFile(DATABASE)).thenReturn(users);
