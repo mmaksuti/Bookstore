@@ -1,11 +1,4 @@
 package test.integration;
-import controllers.AuthorsController;
-import controllers.BooksController;
-import enums.Gender;
-import interfaces.UserConfirmation;
-import javafx.collections.FXCollections;
-import models.Author;
-import models.Book;
 import models.Statistics;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -15,10 +8,8 @@ import services.FileHandlingService;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
 
 public class TestStatisticsFileHandlingService {
     Statistics statistics;
