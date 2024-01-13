@@ -7,11 +7,16 @@ import src.services.FileHandlingService;
 import java.io.IOException;
 
 public class BillController {
-    private final String BILLS = "bills";
+    private String BILLS = "bills";
     private FileHandlingService fileHandlingService;
 
     public BillController(FileHandlingService fileHandlingService) {
         this.fileHandlingService = fileHandlingService;
+    }
+
+    public BillController(FileHandlingService fileHandlingService, String billsPath) {
+        this.fileHandlingService = fileHandlingService;
+        this.BILLS = billsPath;
     }
 
     public String[] loadBills() {

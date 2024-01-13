@@ -1,4 +1,4 @@
-package test.controllers;
+package test.unit.controllers;
 
 import java.io.*;
 import java.time.LocalDate;
@@ -686,6 +686,21 @@ public class TestLoginController {
         }
 
         boolean authenticated = loginController.login(username, "wrongpassword");
+        assertFalse(authenticated);
+
+        assertThrows(UnauthenticatedException.class, () -> loginController.getLoggedUsername());
+    }
+
+    @Test
+    void test_loginWrongUsername() {
+        try {
+            loginController.addUser(firstName, lastName, username, password, email, phone, salary, birthday, role);
+        }
+        catch (IOException ex) {
+            fail("Failed to add user: " + ex.getMessage());
+        }
+
+        boolean authenticated = loginController.login("wrongusername", "wrongpassword");
         assertFalse(authenticated);
 
         assertThrows(UnauthenticatedException.class, () -> loginController.getLoggedUsername());
