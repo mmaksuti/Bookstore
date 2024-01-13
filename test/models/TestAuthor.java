@@ -1,7 +1,7 @@
 package test.models;
 
-import enums.Gender;
-import models.Author;
+import src.enums.Gender;
+import src.models.Author;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

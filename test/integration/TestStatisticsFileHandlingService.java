@@ -1,9 +1,9 @@
 package test.integration;
-import models.Statistics;
+import src.models.Statistics;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
-import services.FileHandlingService;
+import src.services.FileHandlingService;
 
 import java.io.File;
 import java.io.IOException;

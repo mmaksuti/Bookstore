@@ -1,16 +1,16 @@
 package test.integration;
-import controllers.AuthorsController;
-import controllers.BooksController;
-import enums.Gender;
+import src.controllers.AuthorsController;
+import src.controllers.BooksController;
+import src.enums.Gender;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import models.Author;
-import models.Book;
+import src.models.Author;
+import src.models.Book;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
-import services.FileHandlingService;
+import src.services.FileHandlingService;
 
 import java.io.File;
 import java.io.IOException;

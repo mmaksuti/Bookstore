@@ -1,7 +1,7 @@
 package test.models;
 
-import models.Bill;
-import models.Book;
+import src.models.Bill;
+import src.models.Book;
 import org.junit.jupiter.api.Test;
 
 import java.text.SimpleDateFormat;

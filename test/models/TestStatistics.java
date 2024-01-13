@@ -1,9 +1,9 @@
 package test.models;
 
-import models.Statistics;
+import src.models.Statistics;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import services.FileHandlingService;
+import src.services.FileHandlingService;
 
 import java.time.LocalDate;
 

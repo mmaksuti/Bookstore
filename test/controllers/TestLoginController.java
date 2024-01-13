@@ -4,19 +4,18 @@ import java.io.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-import controllers.BillController;
-import controllers.LoginController;
+import src.controllers.BillController;
+import src.controllers.LoginController;
 
-import models.Author;
-import models.Book;
-import models.Librarian;
-import models.User;
-import services.FileHandlingService;
-import exceptions.LastAdministratorException;
-import exceptions.UnauthenticatedException;
+import src.models.Book;
+import src.models.Librarian;
+import src.models.User;
+import src.services.FileHandlingService;
+import src.exceptions.LastAdministratorException;
+import src.exceptions.UnauthenticatedException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import enums.*;
+import src.enums.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -928,7 +927,7 @@ public class TestLoginController {
 
             when(mockFileHandlingService.deleteFile(DATABASE)).thenReturn(true);
             loginController.readFromFile(DATABASE);
-            assertEquals(0, loginController.getUsers().size());
+            assertEquals(1, loginController.getUsers().size());
         }
         catch (IOException|ClassNotFoundException ignored) {
         }

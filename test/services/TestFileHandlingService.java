@@ -2,13 +2,11 @@ package test.services;
 
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.io.TempDir;
-import services.FileHandlingService;
+import src.services.FileHandlingService;
 
 import java.io.File;
-import java.io.FileInputStream;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class TestFileHandlingService {

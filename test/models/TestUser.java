@@ -1,6 +1,6 @@
 package test.models;
 
-import models.User;
+import src.models.User;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

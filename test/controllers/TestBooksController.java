@@ -1,11 +1,11 @@
 package test.controllers;
 
-import controllers.BooksController;
-import services.FileHandlingService;
-import models.Author;
-import models.Book;
-import enums.Gender;
-import enums.Genre;
+import src.controllers.BooksController;
+import src.services.FileHandlingService;
+import src.models.Author;
+import src.models.Book;
+import src.enums.Gender;
+import src.enums.Genre;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

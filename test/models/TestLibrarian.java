@@ -1,10 +1,10 @@
 package test.models;
 
-import controllers.BillController;
-import enums.AccessLevel;
-import models.Librarian;
+import src.controllers.BillController;
+import src.enums.AccessLevel;
+import src.models.Librarian;
 
-import models.User;
+import src.models.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;

@@ -1,19 +1,18 @@
 package test.gui;
 
-import controllers.*;
-import exceptions.UnauthenticatedException;
+import src.controllers.*;
+import src.exceptions.UnauthenticatedException;
 import org.junit.jupiter.api.Test;
 import org.testfx.framework.junit5.ApplicationTest;
 
 import javafx.stage.Stage;
 import javafx.scene.control.*;
 
-import scenes.LoginScene;
-import services.FileHandlingService;
+import src.scenes.LoginScene;
+import src.services.FileHandlingService;
 
 import java.io.IOException;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;

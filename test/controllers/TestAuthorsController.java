@@ -3,16 +3,16 @@ package test.controllers;
 import java.io.*;
 import java.util.ArrayList;
 
-import controllers.AuthorsController;
-import controllers.BooksController;
+import src.controllers.AuthorsController;
+import src.controllers.BooksController;
 
-import interfaces.UserConfirmation;
-import models.Author;
-import models.Book;
-import services.FileHandlingService;
+import src.interfaces.UserConfirmation;
+import src.models.Author;
+import src.models.Book;
+import src.services.FileHandlingService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import enums.*;
+import src.enums.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

@@ -1,13 +1,13 @@
 package test.integration;
-import controllers.AuthorsController;
-import controllers.BooksController;
-import enums.Gender;
-import interfaces.UserConfirmation;
-import models.Author;
-import models.Book;
+import src.controllers.AuthorsController;
+import src.controllers.BooksController;
+import src.enums.Gender;
+import src.interfaces.UserConfirmation;
+import src.models.Author;
+import src.models.Book;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import services.FileHandlingService;
+import src.services.FileHandlingService;
 
 import java.io.IOException;
 import java.util.ArrayList;

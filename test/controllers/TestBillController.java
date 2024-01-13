@@ -1,9 +1,9 @@
 package test.controllers;
 
-import controllers.BillController;
-import services.FileHandlingService;
-import models.Bill;
-import models.Librarian;
+import src.controllers.BillController;
+import src.services.FileHandlingService;
+import src.models.Bill;
+import src.models.Librarian;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
