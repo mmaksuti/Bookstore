@@ -73,7 +73,7 @@ public class TestEditUserStage extends ApplicationTest {
         TextField tf = iterator.next();
         tf.clear();
         clickOn(tf).write("John");
-        
+
         iterator.next();
 
         tf = iterator.next();
