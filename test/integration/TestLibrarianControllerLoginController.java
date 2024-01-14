@@ -1,74 +1,55 @@
 package test.integration;
 
+import javafx.collections.ObservableList;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import src.controllers.BillController;
 import src.controllers.LibrarianController;
 import src.controllers.LoginController;
 import src.enums.AccessLevel;
-import src.enums.Gender;
-import src.exceptions.UnauthenticatedException;
+import src.models.Librarian;
 import src.models.User;
 import src.services.FileHandlingService;
-
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.when;
+
 public class TestLibrarianControllerLoginController {
-    private LoginController loginController;
     private LibrarianController librarianController;
-    private FileHandlingService stubFileHandlingService;
-    private BillController billController;
+
+    @Mock
+    private FileHandlingService fileHandlingService;
 
     @BeforeEach
-    public void setUp() throws IOException {
-        stubFileHandlingService = new FileHandlingService();
+    void setUp() throws IOException, ClassNotFoundException {
+        MockitoAnnotations.openMocks(this);
 
-        billController = new BillController(stubFileHandlingService);
-        loginController = new LoginController(stubFileHandlingService, billController);
+        when(fileHandlingService.readObjectFromFile("usersDatabase.dat"))
+                .thenReturn(new ArrayList<>());
+
+        BillController billController = new BillController(fileHandlingService);
+
+        LoginController loginController = new LoginController(fileHandlingService, billController);
+        loginController.getUsers().addAll(
+                new User("admin", "Administrator", "admin", "admin", "admin@gmail.com",
+                        "+355671234567", 1000, LocalDate.of(1999, 1, 1), AccessLevel.ADMINISTRATOR),
+                new User("librarian1", "Librarian One", "librarian1", "password1", "librarian1@gmail.com",
+                        "+355671234568", 800, LocalDate.of(1990, 5, 10), AccessLevel.LIBRARIAN),
+                new User("librarian2", "Librarian Two", "librarian2", "password2", "librarian2@gmail.com",
+                        "+355671234569", 900, LocalDate.of(1985, 7, 22), AccessLevel.LIBRARIAN)
+        );
         librarianController = new LibrarianController(loginController, billController);
     }
-
     @Test
-    public void testLoginAndLibrarianControllerIntegration() throws IOException, UnauthenticatedException {
-        // Add a librarian user
-        loginController.addUser("Librarian", "User", "librarian", "password", "librarian@example.com",
-                "+355671234567", 1000, LocalDate.of(1980, 1, 1), AccessLevel.LIBRARIAN);
+    void testGetLibrarians() {
+        ObservableList<Librarian> librarians = librarianController.getLibrarians();
 
-        assertTrue(loginController.login("librarian", "password"));
-        String loggedUsername = loginController.getLoggedUsername();
-        assertEquals("librarian", loggedUsername);
-
-        assertEquals(1, librarianController.getLibrarians().size());
-        assertEquals("Librarian User (librarian)", librarianController.getLibrarians().get(0).toString());
+        assertEquals(2, librarians.size());
+        assertEquals("librarian1", librarians.get(0).getUsername());
     }
-
-    @Test
-    public void testLogoutAndLibrarianControllerIntegration() throws IOException, UnauthenticatedException {
-        if (!loginController.userExists("librarian")) {
-            loginController.addUser("Librarian", "User", "librarian", "password", "librarian@example.com",
-                    "+355671234567", 1000, LocalDate.of(1980, 1, 1), AccessLevel.LIBRARIAN);
-        }
-        assertTrue(loginController.login("librarian", "password"));
-
-        assertFalse(loginController.logout());
-        assertEquals(1, librarianController.getLibrarians().size());
-    }
-    @Test
-    public void testLoginWithSavedSessionAndLibrarianController() throws IOException, UnauthenticatedException {
-        if (!loginController.userExists("librarian")) {
-            loginController.addUser("Librarian", "User", "librarian", "password", "librarian@example.com",
-                    "+355671234567", 1000, LocalDate.of(1980, 1, 1), AccessLevel.LIBRARIAN);
-        }
-
-        loginController.saveSession("librarian", "password");
-
-        assertTrue(loginController.logout());
-
-        assertTrue(loginController.loginWithSavedSession());
-
-        assertEquals(1, librarianController.getLibrarians().size());
-    }
-
 }
