@@ -1,14 +1,12 @@
 package test.integration;
-import src.controllers.AuthorsController;
+
 import src.controllers.BillController;
-import src.controllers.BooksController;
 import src.controllers.LoginController;
-import src.enums.Gender;
+import src.exceptions.UnauthenticatedException;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import src.exceptions.UnauthenticatedException;
-import src.models.Author;
-import src.models.Book;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -90,5 +88,67 @@ public class TestLoginControllerFileHandlingService {
         catch (IOException ex) {
             fail("Failed to write to file: " + ex.getMessage());
         }
+    }
+
+    @Test
+    void testLoginWithSavedSession() {
+        String session = "admin\nadmin";
+        try {
+            fileHandlingService.writeFileContents(SESSION, session);
+        } catch (IOException e) {
+            fail("Failed to write to file: " + e.getMessage());
+        }
+
+        try {
+            assertTrue(loginController.loginWithSavedSession());
+            assertEquals("admin", loginController.getLoggedUsername());
+        }
+        catch (UnauthenticatedException ex) {
+            fail("Not logged in: " + ex.getMessage());
+        }
+    }
+
+    @Test
+    void testLoginWithSavedSessionInvalidSession() {
+        String session = "invalidsession";
+        try {
+            fileHandlingService.writeFileContents(SESSION, session);
+        } catch (IOException e) {
+            fail("Failed to write to file: " + e.getMessage());
+        }
+
+        assertFalse(loginController.loginWithSavedSession());
+        assertThrows(UnauthenticatedException.class, () -> loginController.getLoggedUsername());
+        assertFalse((new File(SESSION)).exists());
+    }
+
+    @Test
+    void testConstructorNoUsers() {
+
+    }
+
+    @Test
+    void testConstructorWithUsers() {
+
+    }
+
+    @Test
+    void testConstructorInvalidDatabase() {
+
+    }
+
+    @Test
+    void testAddUser() {
+
+    }
+
+    @Test
+    void testUpdateUser() {
+
+    }
+
+    @Test
+    void testRemoveUser() {
+
     }
 }
