@@ -146,6 +146,7 @@ public class TestAuthorsControllerFileHandlingService {
         }
     }
 
+    @Test
     void testUpdateAuthor() {
         try {
             authorsController.addAuthor("John", "Doe", Gender.MALE);

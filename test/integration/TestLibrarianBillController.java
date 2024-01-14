@@ -1,27 +1,13 @@
 package test.integration;
-import src.controllers.AuthorsController;
 import src.controllers.BillController;
-import src.controllers.BooksController;
-import src.enums.Gender;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import src.models.Author;
-import src.models.Book;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.io.TempDir;
 import src.models.Librarian;
 import src.services.FileHandlingService;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-
 
 public class TestLibrarianBillController {
     FileHandlingService stubFileHandlingService;

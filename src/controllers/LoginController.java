@@ -112,7 +112,6 @@ public class LoginController {
             if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
                 currentUser = user;
                 authenticated = true;
-                //System.out.println("Successfully logged in as " + username + " with access level " + user.getAccessLevel());
             }
         }
         return authenticated;
