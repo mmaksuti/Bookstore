@@ -43,6 +43,38 @@ public class TestBooksControllerFileHandlingService {
     public void tearDown() {
         fileHandlingService.deleteFile(DATABASE);
     }
+    @Test
+    void testConstructorNoDatabase() {
+        try {
+            fileHandlingService.deleteFile(DATABASE); // Ensure database file doesn't exist
+            booksController = new BooksController(fileHandlingService);
+            assertEquals(0, booksController.getBooks().size());
+        } catch (IOException ex) {
+            fail("Failed to set up databases: " + ex.getMessage());
+        }
+    }
+
+    @Test
+    void testConstructorWithDatabase() {
+        try {
+            booksController = new BooksController(fileHandlingService, DATABASE);
+            assertEquals(0, booksController.getBooks().size()); // Assuming initial database is empty
+        } catch (IOException ex) {
+            fail("Failed to set up databases: " + ex.getMessage());
+        }
+    }
+
+    @Test
+    void testConstructorInvalidDatabase() {
+        try {
+            fileHandlingService.writeFileContents(DATABASE, "invalid database");
+            booksController = new BooksController(fileHandlingService, DATABASE);
+            assertEquals(0, booksController.getBooks().size());
+            assertFalse(new File(DATABASE).exists());
+        } catch (IOException ex) {
+            fail("Failed to set up databases: " + ex.getMessage());
+        }
+    }
 
     @Test
     void testAddBook() {
@@ -50,7 +82,7 @@ public class TestBooksControllerFileHandlingService {
             booksController.addBook("Test Book", new src.models.Author("John", "Doe", Gender.MALE),
                     "123-4-567-34567-4", 29.99, "A test book", true, new ArrayList<>(), 10);
 
-            ObservableList<Book> books = booksController.getBooks();
+            ArrayList<Book> books= (ArrayList<Book>)fileHandlingService.readObjectFromFile(DATABASE);
             assertEquals(1, books.size());
 
             Book addedBook = books.get(0);
@@ -63,6 +95,8 @@ public class TestBooksControllerFileHandlingService {
             assertEquals(10, addedBook.getQuantity());
         } catch (IOException ex) {
             fail("Failed to add book: " + ex.getMessage());
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
     }
 

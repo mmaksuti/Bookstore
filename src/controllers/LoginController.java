@@ -20,7 +20,7 @@ public class LoginController {
     private String SESSION = "login.txt";
     private ObservableList <User> users;
     
-    private boolean authenticated = false;
+    public boolean authenticated = false;
     private User currentUser;
     
     private final SimpleStringProperty welcomeMessage = new SimpleStringProperty();
@@ -117,7 +117,7 @@ public class LoginController {
         }
         return authenticated;
     }
-    
+
     public boolean logout() {
         if (!authenticated) {
             // should never happen
@@ -136,7 +136,7 @@ public class LoginController {
         currentUser = null;
         return true;
     }
-    
+
     public boolean loginWithSavedSession() {
         if (authenticated) {
             System.out.println("Already logged in");
