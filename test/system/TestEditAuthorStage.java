@@ -1,50 +1,57 @@
 package test.system;
 
+import javafx.application.Platform;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 import org.testfx.api.FxToolkit;
 import org.testfx.framework.junit5.ApplicationTest;
+import org.testfx.util.WaitForAsyncUtils;
 import src.controllers.AuthorsController;
 import src.controllers.BooksController;
 import src.enums.Gender;
 import src.models.Author;
 import src.services.FileHandlingService;
 import src.stages.EditAuthorStage;
-
 import javafx.scene.control.*;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Iterator;
-
+import java.util.List;
 import java.util.Set;
-
 import java.util.concurrent.TimeoutException;
-
 import static org.junit.jupiter.api.Assertions.*;
-import static org.testfx.api.FxAssert.verifyThat;
-import static org.testfx.util.NodeQueryUtils.hasText;
+
 
 public class TestEditAuthorStage extends ApplicationTest {
-    AuthorsController authorsController;
-    BooksController booksController;
+    AuthorsController authorsController=null;
+    BooksController booksController=null;
     FileHandlingService fileHandlingService = new FileHandlingService();
-
-    private Author testAuthor;
+    @TempDir
+    File tempDir;
 
     @Override
     public void start(Stage stage) {
+        EditAuthorStage editAuthorStage = null;
         try {
-            FileHandlingService fileHandlingService = new FileHandlingService();
-            authorsController = new AuthorsController(fileHandlingService, "testAuthorsDatabase.dat");
-            booksController = new BooksController(fileHandlingService, "testBooksDatabase.dat");
+            String authorsDatabase = tempDir.getAbsolutePath() + "/authorsDatabase.dat";
+            String booksDatabase = tempDir.getAbsolutePath() + "/booksDatabase.dat";
 
-            testAuthor = new Author("John", "Doe", Gender.MALE);
-            authorsController.getAuthors().add(testAuthor);
+            authorsController = new AuthorsController(fileHandlingService, authorsDatabase);
+            booksController = new BooksController(fileHandlingService, booksDatabase);
 
-            EditAuthorStage editAuthorStage = new EditAuthorStage(authorsController, booksController, testAuthor);
-            editAuthorStage.show();
-        } catch (Exception e) {
-            e.printStackTrace();
+            Author author = new Author("John", "Doe", Gender.MALE);
+            authorsController.addAuthor(author.getFirstName(), author.getLastName(), author.getGender());
+
+            editAuthorStage = new EditAuthorStage(authorsController, booksController, author);
+        } catch (IOException ex) {
+            fail("Failed to load databases: " + ex.getMessage());
         }
+
+        stage.setScene(editAuthorStage.getScene());
+        stage.show();
     }
 
     @Override
@@ -72,5 +79,31 @@ public class TestEditAuthorStage extends ApplicationTest {
             e.printStackTrace();
         }
     }
+    @Test
+    void testEditAuthor() {
+        Set<TextField> textFields = lookup(".text-field").queryAllAs(TextField.class);
+        Iterator<TextField> iterator = textFields.iterator();
 
+        Platform.runLater(() -> {
+            TextField tf = iterator.next();
+            tf.clear();
+            clickOn(tf).write("John");
+
+            tf = iterator.next();
+            tf.clear();
+            clickOn(tf).write("Doe");
+
+            ComboBox<Gender> genderComboBox = lookup(".combo-box").queryComboBox();
+            genderComboBox.getSelectionModel().select(Gender.FEMALE);
+
+            clickOn(".button");
+        });
+
+        WaitForAsyncUtils.waitForFxEvents();
+
+        Author author = authorsController.getAuthors().get(0);
+        assertEquals("John", author.getFirstName());
+        assertEquals("Doe", author.getLastName());
+        assertEquals(Gender.MALE, author.getGender());
+    }
 }
