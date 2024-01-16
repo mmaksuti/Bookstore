@@ -66,7 +66,7 @@ public class TestNewUserStage extends ApplicationTest {
         AccessLevel accessLevel = AccessLevel.LIBRARIAN;
         clickOn(".combo-box").clickOn(accessLevel.toString());
 
-        clickOn(".button");
+        clickOn("Add User");
 
         Set<Label> labels = lookup(".label").queryAllAs(Label.class);
         Label lastLabel = null;
@@ -93,7 +93,7 @@ public class TestNewUserStage extends ApplicationTest {
 
     @Test
     public void testAddUserInvalidFields() {
-        clickOn(".button");
+        clickOn("Add User");
 
         Set<Label> labels = lookup(".label").queryAllAs(Label.class);
         Label lastLabel = null;

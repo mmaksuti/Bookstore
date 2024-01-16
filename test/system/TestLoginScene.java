@@ -52,7 +52,7 @@ public class TestLoginScene extends ApplicationTest {
         clickOn(iterator.next()).write("admin");
         clickOn(iterator.next()).write("admin");
 
-        clickOn(".button");
+        clickOn("Login");
 
         try {
             assertEquals("admin", loginController.getLoggedUsername());

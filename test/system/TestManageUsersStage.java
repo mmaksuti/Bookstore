@@ -2,7 +2,6 @@ package test.system;
 
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
@@ -10,9 +9,7 @@ import org.testfx.framework.junit5.ApplicationTest;
 import src.controllers.LoginController;
 import src.models.User;
 import src.services.FileHandlingService;
-import src.stages.EditUserStage;
 import src.stages.ManageUsersStage;
-import src.stages.NewUserStage;
 import src.enums.AccessLevel;
 
 import javafx.scene.control.*;
@@ -65,11 +62,7 @@ public class TestManageUsersStage extends ApplicationTest {
         TableRow<User> row = lookup(".table-row-cell").query();
         clickOn(row);
 
-        Set<Button> buttons = lookup(".button").queryAllAs(Button.class);
-        Iterator<Button> buttonIterator = buttons.iterator();
-        buttonIterator.next();
-
-        clickOn(buttonIterator.next());
+        clickOn("Remove user");
 
         Node dialogPane = lookup(".dialog-pane").query();
         assertEquals("Cannot delete the last administrator", ((DialogPane) dialogPane).getContentText());
@@ -95,11 +88,7 @@ public class TestManageUsersStage extends ApplicationTest {
 
         clickOn(iterator.next());
 
-        Set<Button> buttons = lookup(".button").queryAllAs(Button.class);
-        Iterator<Button> buttonIterator = buttons.iterator();
-        buttonIterator.next();
-
-        clickOn(buttonIterator.next());
+        clickOn("Remove user");
 
         assertFalse(users.contains(user));
     }

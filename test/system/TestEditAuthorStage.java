@@ -80,7 +80,7 @@ public class TestEditAuthorStage extends ApplicationTest {
         type(javafx.scene.input.KeyCode.DOWN);
         type(javafx.scene.input.KeyCode.ENTER);
 
-        clickOn(".button");
+        clickOn("Edit author");
 
         Author author = authorsController.getAuthors().get(0);
         assertEquals("Jane", author.getFirstName());

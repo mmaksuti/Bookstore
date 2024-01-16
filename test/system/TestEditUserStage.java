@@ -84,7 +84,7 @@ public class TestEditUserStage extends ApplicationTest {
         tf.clear();
         clickOn(tf).write("password");
 
-        clickOn(".button");
+        clickOn("Save changes");
 
         User user = loginController.getUsers().get(0);
         assertEquals("John", user.getFirstName());
@@ -93,7 +93,7 @@ public class TestEditUserStage extends ApplicationTest {
 
     @Test
     void testEditUserInvalidFields() {
-        clickOn(".button");
+        clickOn("Save changes");
 
         Set<Label> labels = lookup(".label").queryAllAs(Label.class);
         Label lastLabel = null;
