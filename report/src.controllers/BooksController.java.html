@@ -1,0 +1,2721 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <link rel="stylesheet" type="text/css" href="../style.css">
+</head>
+<body>
+
+
+<h1>BooksController.java</h1>
+
+<table class="src">
+
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_1'/>
+1
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_1'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>package src.controllers;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_2'/>
+2
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_2'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import java.io.*;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_3'/>
+3
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_3'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import java.util.ArrayList;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_4'/>
+4
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_4'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_5'/>
+5
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_5'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import javafx.collections.FXCollections;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_6'/>
+6
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_6'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import javafx.collections.ObservableList;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_7'/>
+7
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_7'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import src.models.Author;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_8'/>
+8
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_8'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import src.models.Book;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_9'/>
+9
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_9'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import src.enums.Genre;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_10'/>
+10
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_10'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import src.services.FileHandlingService;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_11'/>
+11
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_11'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_12'/>
+12
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_12'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>public class BooksController {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_13'/>
+13
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_13'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    private String DATABASE = &#34;booksDatabase.dat&#34;;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_14'/>
+14
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_14'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    private ObservableList&#60;Book&#62; books;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_15'/>
+15
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_15'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    private final FileHandlingService fileHandlingService;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_16'/>
+16
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_16'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_17'/>
+17
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_17'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    public String getDATABASE() {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_18'/>
+18
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_18'>1</a>
+<span>
+
+1. getDATABASE : replaced return value with &#34;&#34; for src/controllers/BooksController::getDATABASE &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        return DATABASE;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_19'/>
+19
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_19'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_20'/>
+20
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_20'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_21'/>
+21
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_21'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    public BooksController(FileHandlingService fileHandlingService) throws IOException {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_22'/>
+22
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_22'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        this.fileHandlingService = fileHandlingService;</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_23'/>
+23
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_23'>1</a>
+<span>
+
+1. &#60;init&#62; : removed call to src/controllers/BooksController::readFromFile &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        readFromFile(DATABASE);</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_24'/>
+24
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_24'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_25'/>
+25
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_25'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_26'/>
+26
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_26'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    public BooksController(FileHandlingService fileHandlingService, String database) throws IOException {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_27'/>
+27
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_27'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        this.fileHandlingService = fileHandlingService;</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_28'/>
+28
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_28'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        DATABASE = database;</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_29'/>
+29
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_29'>1</a>
+<span>
+
+1. &#60;init&#62; : removed call to src/controllers/BooksController::readFromFile &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        readFromFile(DATABASE);</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_30'/>
+30
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_30'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_31'/>
+31
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_31'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_32'/>
+32
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_32'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    public ObservableList&#60;Book&#62; getBooks() {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_33'/>
+33
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_33'>1</a>
+<span>
+
+1. getBooks : replaced return value with null for src/controllers/BooksController::getBooks &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        return books;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_34'/>
+34
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_34'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_35'/>
+35
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_35'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_36'/>
+36
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_36'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    public boolean bookExists(String isbn13) {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_37'/>
+37
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_37'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        for (Book book : books) {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_38'/>
+38
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_38'>1</a>
+<span>
+
+1. bookExists : negated conditional &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            if (book.getIsbn13().equals(isbn13)) {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_39'/>
+39
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_39'>1</a>
+<span>
+
+1. bookExists : replaced boolean return with false for src/controllers/BooksController::bookExists &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>                return true;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_40'/>
+40
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_40'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>            }</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_41'/>
+41
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_41'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        }</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_42'/>
+42
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_42'>1</a>
+<span>
+
+1. bookExists : replaced boolean return with true for src/controllers/BooksController::bookExists &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        return false;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_43'/>
+43
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_43'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_44'/>
+44
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_44'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_45'/>
+45
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_45'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    public void updateBook(Book book) throws IOException {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_46'/>
+46
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_46'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        int index = books.indexOf(book);</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_47'/>
+47
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_47'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        books.set(index, book);</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_48'/>
+48
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_48'>1</a>
+<span>
+
+1. updateBook : removed call to src/controllers/BooksController::writeToFile &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        writeToFile(DATABASE);</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_49'/>
+49
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_49'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_50'/>
+50
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_50'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_51'/>
+51
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_51'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    private static boolean validIsbn13(String isbn13) {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_52'/>
+52
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_52'>3</a>
+<span>
+
+1. validIsbn13 : negated conditional &rarr; KILLED<br/>
+
+2. validIsbn13 : replaced boolean return with true for src/controllers/BooksController::validIsbn13 &rarr; KILLED<br/>
+
+3. validIsbn13 : negated conditional &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        return isbn13.matches(&#34;[0-9]{3}-[0-9]-[0-9]{3}-[0-9]{5}-[0-9]&#34;) || isbn13.matches(&#34;[0-9]{3}-[0-9]{10}&#34;);</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_53'/>
+53
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_53'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_54'/>
+54
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_54'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_55'/>
+55
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_55'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    public void updateBook(Book book, String title, Author author, String isbn13, double price, String description, boolean isPaperback, ArrayList&#60;Genre&#62; genres, int quantity) throws IOException {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_56'/>
+56
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_56'>4</a>
+<span>
+
+1. updateBook : negated conditional &rarr; KILLED<br/>
+
+2. updateBook : negated conditional &rarr; KILLED<br/>
+
+3. updateBook : negated conditional &rarr; KILLED<br/>
+
+4. updateBook : negated conditional &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        if (title.isBlank() || author == null || isbn13.isBlank() || description.isBlank()) {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_57'/>
+57
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_57'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>            throw new IllegalArgumentException(&#34;Please fill in all fields&#34;);</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_58'/>
+58
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_58'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_59'/>
+59
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_59'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_60'/>
+60
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_60'>2</a>
+<span>
+
+1. updateBook : negated conditional &rarr; KILLED<br/>
+
+2. updateBook : changed conditional boundary &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        if (price &#60;= 0) {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_61'/>
+61
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_61'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>            throw new IllegalArgumentException(&#34;Price must be positive&#34;);</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_62'/>
+62
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_62'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_63'/>
+63
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_63'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_64'/>
+64
+</td>
+<td class='survived'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_64'>2</a>
+<span>
+
+1. updateBook : changed conditional boundary &rarr; SURVIVED<br/>
+
+2. updateBook : negated conditional &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='survived'>        if (quantity &#60; 0) {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_65'/>
+65
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_65'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>            throw new IllegalArgumentException(&#34;Quantity cannot be negative&#34;);</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_66'/>
+66
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_66'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_67'/>
+67
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_67'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_68'/>
+68
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_68'>1</a>
+<span>
+
+1. updateBook : negated conditional &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        if (!validIsbn13(isbn13)) {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_69'/>
+69
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_69'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>            throw new IllegalArgumentException(&#34;Invalid ISBN13&#34;);</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_70'/>
+70
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_70'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_71'/>
+71
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_71'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_72'/>
+72
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_72'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        String oldIsbn13 = book.getIsbn13();</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_73'/>
+73
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_73'>1</a>
+<span>
+
+1. updateBook : negated conditional &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        boolean isbn13Changed = !isbn13.equals(oldIsbn13);</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_74'/>
+74
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_74'>2</a>
+<span>
+
+1. updateBook : negated conditional &rarr; KILLED<br/>
+
+2. updateBook : negated conditional &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        if (isbn13Changed &#38;&#38; bookExists(isbn13)) {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_75'/>
+75
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_75'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>            throw new IllegalArgumentException(&#34;A book with the same ISBN13 already exists&#34;);</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_76'/>
+76
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_76'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_77'/>
+77
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_77'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_78'/>
+78
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_78'>1</a>
+<span>
+
+1. updateBook : removed call to src/models/Book::setTitle &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        book.setTitle(title);</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_79'/>
+79
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_79'>1</a>
+<span>
+
+1. updateBook : removed call to src/models/Book::setAuthor &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        book.setAuthor(author);</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_80'/>
+80
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_80'>1</a>
+<span>
+
+1. updateBook : removed call to src/models/Book::setIsbn13 &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        book.setIsbn13(isbn13);</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_81'/>
+81
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_81'>1</a>
+<span>
+
+1. updateBook : removed call to src/models/Book::setPrice &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        book.setPrice(price);</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_82'/>
+82
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_82'>1</a>
+<span>
+
+1. updateBook : removed call to src/models/Book::setDescription &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        book.setDescription(description);</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_83'/>
+83
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_83'>1</a>
+<span>
+
+1. updateBook : removed call to src/models/Book::setPaperback &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        book.setPaperback(isPaperback);</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_84'/>
+84
+</td>
+<td class='survived'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_84'>1</a>
+<span>
+
+1. updateBook : removed call to src/models/Book::setGenres &rarr; SURVIVED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='survived'>        book.setGenres(genres);</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_85'/>
+85
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_85'>1</a>
+<span>
+
+1. updateBook : removed call to src/models/Book::setQuantity &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        book.setQuantity(quantity);</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_86'/>
+86
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_86'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_87'/>
+87
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_87'>1</a>
+<span>
+
+1. updateBook : removed call to src/controllers/BooksController::updateBook &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        updateBook(book);</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_88'/>
+88
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_88'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_89'/>
+89
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_89'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_90'/>
+90
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_90'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    public void addBook(String title, Author author, String isbn13, double price, String description, boolean isPaperback, ArrayList&#60;Genre&#62; genres, int quantity) throws IOException {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_91'/>
+91
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_91'>4</a>
+<span>
+
+1. addBook : negated conditional &rarr; KILLED<br/>
+
+2. addBook : negated conditional &rarr; KILLED<br/>
+
+3. addBook : negated conditional &rarr; KILLED<br/>
+
+4. addBook : negated conditional &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        if (title.isBlank() || author == null || isbn13.isBlank() || description.isBlank()) {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_92'/>
+92
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_92'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>            throw new IllegalArgumentException(&#34;Please fill in all fields&#34;);</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_93'/>
+93
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_93'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_94'/>
+94
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_94'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_95'/>
+95
+</td>
+<td class='survived'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_95'>2</a>
+<span>
+
+1. addBook : changed conditional boundary &rarr; SURVIVED<br/>
+
+2. addBook : negated conditional &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='survived'>        if (quantity &#60; 0) {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_96'/>
+96
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_96'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>            throw new IllegalArgumentException(&#34;Quantity cannot be negative&#34;);</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_97'/>
+97
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_97'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_98'/>
+98
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_98'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_99'/>
+99
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_99'>2</a>
+<span>
+
+1. addBook : negated conditional &rarr; KILLED<br/>
+
+2. addBook : changed conditional boundary &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        if (price &#60;= 0) {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_100'/>
+100
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_100'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>            throw new IllegalArgumentException(&#34;Price must be positive&#34;);</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_101'/>
+101
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_101'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_102'/>
+102
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_102'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_103'/>
+103
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_103'>1</a>
+<span>
+
+1. addBook : negated conditional &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        if (bookExists(isbn13)) {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_104'/>
+104
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_104'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>            throw new IllegalArgumentException(&#34;A book with the same ISBN13 already exists&#34;);</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_105'/>
+105
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_105'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_106'/>
+106
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_106'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_107'/>
+107
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_107'>1</a>
+<span>
+
+1. addBook : negated conditional &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        if (!validIsbn13(isbn13)) {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_108'/>
+108
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_108'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>            throw new IllegalArgumentException(&#34;Invalid ISBN13&#34;);</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_109'/>
+109
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_109'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_110'/>
+110
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_110'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_111'/>
+111
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_111'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        Book newBook = new Book(isbn13, title, description, price, author, genres, quantity, isPaperback);</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_112'/>
+112
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_112'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        books.add(newBook);</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_113'/>
+113
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_113'>1</a>
+<span>
+
+1. addBook : removed call to src/controllers/BooksController::writeToFile &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        writeToFile(DATABASE);</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_114'/>
+114
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_114'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_115'/>
+115
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_115'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_116'/>
+116
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_116'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    public void removeBook(Book book) throws IOException {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_117'/>
+117
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_117'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        books.remove(book);</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_118'/>
+118
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_118'>1</a>
+<span>
+
+1. removeBook : removed call to src/controllers/BooksController::writeToFile &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        writeToFile(DATABASE);</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_119'/>
+119
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_119'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_120'/>
+120
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_120'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_121'/>
+121
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_121'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    public void readFromFile(String file) throws IOException, IllegalStateException {</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_122'/>
+122
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_122'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        try {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_123'/>
+123
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_123'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>            ArrayList&#60;Book&#62; arrayList = (ArrayList&#60;Book&#62;)fileHandlingService.readObjectFromFile(file);</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_124'/>
+124
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_124'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>            books = FXCollections.observableArrayList(arrayList);</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_125'/>
+125
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_125'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        }</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_126'/>
+126
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_126'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        catch (FileNotFoundException e) {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_127'/>
+127
+</td>
+<td class='survived'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_127'>1</a>
+<span>
+
+1. readFromFile : removed call to java/io/PrintStream::println &rarr; SURVIVED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='survived'>            System.out.println(&#34;No database saved&#34;);</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_128'/>
+128
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_128'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>            books = FXCollections.observableArrayList();</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_129'/>
+129
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_129'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        }</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_130'/>
+130
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_130'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        catch (Exception e) {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_131'/>
+131
+</td>
+<td class='survived'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_131'>1</a>
+<span>
+
+1. readFromFile : removed call to java/io/PrintStream::println &rarr; SURVIVED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='survived'>            System.out.println(&#34;Invalid database&#34;);</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_132'/>
+132
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_132'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>            boolean deleted = fileHandlingService.deleteFile(file);</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_133'/>
+133
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_133'>1</a>
+<span>
+
+1. readFromFile : negated conditional &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            if (!deleted) {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_134'/>
+134
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_134'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>                throw new IllegalStateException(&#34;Failed to delete corrupted database&#34;);</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_135'/>
+135
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_135'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>            }</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_136'/>
+136
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_136'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>            books = FXCollections.observableArrayList();</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_137'/>
+137
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_137'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        }</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_138'/>
+138
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_138'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_139'/>
+139
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_139'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_140'/>
+140
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_140'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    public void writeToFile(String file) throws IOException {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_141'/>
+141
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_141'>1</a>
+<span>
+
+1. writeToFile : removed call to src/services/FileHandlingService::writeObjectToFile &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        fileHandlingService.writeObjectToFile(file, new ArrayList&#60;Book&#62;(books));</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_142'/>
+142
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_142'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2eebce87_143'/>
+143
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_143'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>}</span></pre></td></tr>
+
+
+
+<tr><td></td><td></td><td><h2>Mutations</h2></td></tr>
+
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@2eebce87_18'>18</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_18'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>getDATABASE<br/><b>Killed by : </b>test.integration.TestAuthorsControllerBooksController.[engine:junit-jupiter]/[class:test.integration.TestAuthorsControllerBooksController]/[method:testRemoveAuthorConfirmIsTrue()]</span></span> replaced return value with &#34;&#34; for src/controllers/BooksController::getDATABASE &rarr; KILLED</p> 
+</td>
+</tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@2eebce87_23'>23</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_23'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>&#60;init&#62;<br/><b>Killed by : </b>test.unit.controllers.TestBooksController.[engine:junit-jupiter]/[class:test.unit.controllers.TestBooksController]/[method:testFirstConstructor()]</span></span> removed call to src/controllers/BooksController::readFromFile &rarr; KILLED</p> 
+</td>
+</tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@2eebce87_29'>29</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_29'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>&#60;init&#62;<br/><b>Killed by : </b>test.unit.controllers.TestBooksController.[engine:junit-jupiter]/[class:test.unit.controllers.TestBooksController]/[method:testWriteToFile()]</span></span> removed call to src/controllers/BooksController::readFromFile &rarr; KILLED</p> 
+</td>
+</tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@2eebce87_33'>33</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_33'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>getBooks<br/><b>Killed by : </b>test.unit.controllers.TestBooksController.[engine:junit-jupiter]/[class:test.unit.controllers.TestBooksController]/[method:testFirstConstructor()]</span></span> replaced return value with null for src/controllers/BooksController::getBooks &rarr; KILLED</p> 
+</td>
+</tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@2eebce87_38'>38</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_38'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>bookExists<br/><b>Killed by : </b>test.unit.controllers.TestBooksController.[engine:junit-jupiter]/[class:test.unit.controllers.TestBooksController]/[method:testUpdateBookThrowsISBNExistsException()]</span></span> negated conditional &rarr; KILLED</p> 
+</td>
+</tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@2eebce87_39'>39</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_39'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>bookExists<br/><b>Killed by : </b>test.unit.controllers.TestBooksController.[engine:junit-jupiter]/[class:test.unit.controllers.TestBooksController]/[method:testUpdateBookThrowsISBNExistsException()]</span></span> replaced boolean return with false for src/controllers/BooksController::bookExists &rarr; KILLED</p> 
+</td>
+</tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@2eebce87_42'>42</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_42'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>bookExists<br/><b>Killed by : </b>test.unit.controllers.TestBooksController.[engine:junit-jupiter]/[class:test.unit.controllers.TestBooksController]/[method:testAddBookThrowsBookExistsException()]</span></span> replaced boolean return with true for src/controllers/BooksController::bookExists &rarr; KILLED</p> 
+</td>
+</tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@2eebce87_48'>48</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_48'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>updateBook<br/><b>Killed by : </b>test.integration.TestBooksControllerFileHandlingService.[engine:junit-jupiter]/[class:test.integration.TestBooksControllerFileHandlingService]/[method:testUpdateBook()]</span></span> removed call to src/controllers/BooksController::writeToFile &rarr; KILLED</p> 
+</td>
+</tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@2eebce87_52'>52</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_52'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>validIsbn13<br/><b>Killed by : </b>test.unit.controllers.TestBooksController.[engine:junit-jupiter]/[class:test.unit.controllers.TestBooksController]/[method:testUpdateBook()]</span></span> negated conditional &rarr; KILLED</p> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>validIsbn13<br/><b>Killed by : </b>test.unit.controllers.TestBooksController.[engine:junit-jupiter]/[class:test.unit.controllers.TestBooksController]/[method:testAddBookInvalidBook()]</span></span> replaced boolean return with true for src/controllers/BooksController::validIsbn13 &rarr; KILLED</p> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>validIsbn13<br/><b>Killed by : </b>test.unit.controllers.TestBooksController.[engine:junit-jupiter]/[class:test.unit.controllers.TestBooksController]/[method:testAddBookThrowsBookExistsException()]</span></span> negated conditional &rarr; KILLED</p> 
+</td>
+</tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@2eebce87_56'>56</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_56'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>updateBook<br/><b>Killed by : </b>test.unit.controllers.TestBooksController.[engine:junit-jupiter]/[class:test.unit.controllers.TestBooksController]/[method:testUpdateBook()]</span></span> negated conditional &rarr; KILLED</p> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>updateBook<br/><b>Killed by : </b>test.unit.controllers.TestBooksController.[engine:junit-jupiter]/[class:test.unit.controllers.TestBooksController]/[method:testUpdateBook()]</span></span> negated conditional &rarr; KILLED</p> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>updateBook<br/><b>Killed by : </b>test.unit.controllers.TestBooksController.[engine:junit-jupiter]/[class:test.unit.controllers.TestBooksController]/[method:testUpdateBook()]</span></span> negated conditional &rarr; KILLED</p> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>updateBook<br/><b>Killed by : </b>test.unit.controllers.TestBooksController.[engine:junit-jupiter]/[class:test.unit.controllers.TestBooksController]/[method:testUpdateBook()]</span></span> negated conditional &rarr; KILLED</p> 
+</td>
+</tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@2eebce87_60'>60</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_60'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>updateBook<br/><b>Killed by : </b>test.unit.controllers.TestBooksController.[engine:junit-jupiter]/[class:test.unit.controllers.TestBooksController]/[method:testUpdateBook()]</span></span> negated conditional &rarr; KILLED</p> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>updateBook<br/><b>Killed by : </b>test.unit.controllers.TestBooksController.[engine:junit-jupiter]/[class:test.unit.controllers.TestBooksController]/[method:testUpdateBookInvalidBook()]</span></span> changed conditional boundary &rarr; KILLED</p> 
+</td>
+</tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@2eebce87_64'>64</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_64'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>updateBook<br/><b>Killed by : </b>test.unit.controllers.TestBooksController.[engine:junit-jupiter]/[class:test.unit.controllers.TestBooksController]/[method:testUpdateBook()]</span></span> negated conditional &rarr; KILLED</p> <p class='SURVIVED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>updateBook<br/><b>Killed by : </b>none</span></span> changed conditional boundary &rarr; SURVIVED</p> 
+</td>
+</tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@2eebce87_68'>68</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_68'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>updateBook<br/><b>Killed by : </b>test.unit.controllers.TestBooksController.[engine:junit-jupiter]/[class:test.unit.controllers.TestBooksController]/[method:testUpdateBook()]</span></span> negated conditional &rarr; KILLED</p> 
+</td>
+</tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@2eebce87_73'>73</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_73'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>updateBook<br/><b>Killed by : </b>test.unit.controllers.TestBooksController.[engine:junit-jupiter]/[class:test.unit.controllers.TestBooksController]/[method:testUpdateBook()]</span></span> negated conditional &rarr; KILLED</p> 
+</td>
+</tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@2eebce87_74'>74</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_74'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>updateBook<br/><b>Killed by : </b>test.unit.controllers.TestBooksController.[engine:junit-jupiter]/[class:test.unit.controllers.TestBooksController]/[method:testUpdateBook()]</span></span> negated conditional &rarr; KILLED</p> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>updateBook<br/><b>Killed by : </b>test.unit.controllers.TestBooksController.[engine:junit-jupiter]/[class:test.unit.controllers.TestBooksController]/[method:testUpdateBookThrowsBookExistsException()]</span></span> negated conditional &rarr; KILLED</p> 
+</td>
+</tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@2eebce87_78'>78</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_78'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>updateBook<br/><b>Killed by : </b>test.unit.controllers.TestBooksController.[engine:junit-jupiter]/[class:test.unit.controllers.TestBooksController]/[method:testUpdateBook()]</span></span> removed call to src/models/Book::setTitle &rarr; KILLED</p> 
+</td>
+</tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@2eebce87_79'>79</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_79'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>updateBook<br/><b>Killed by : </b>test.integration.TestBooksControllerFileHandlingService.[engine:junit-jupiter]/[class:test.integration.TestBooksControllerFileHandlingService]/[method:testUpdateBook()]</span></span> removed call to src/models/Book::setAuthor &rarr; KILLED</p> 
+</td>
+</tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@2eebce87_80'>80</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_80'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>updateBook<br/><b>Killed by : </b>test.unit.controllers.TestBooksController.[engine:junit-jupiter]/[class:test.unit.controllers.TestBooksController]/[method:testUpdateBookThrowsBookExistsException()]</span></span> removed call to src/models/Book::setIsbn13 &rarr; KILLED</p> 
+</td>
+</tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@2eebce87_81'>81</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_81'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>updateBook<br/><b>Killed by : </b>test.unit.controllers.TestBooksController.[engine:junit-jupiter]/[class:test.unit.controllers.TestBooksController]/[method:testUpdateBook()]</span></span> removed call to src/models/Book::setPrice &rarr; KILLED</p> 
+</td>
+</tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@2eebce87_82'>82</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_82'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>updateBook<br/><b>Killed by : </b>test.unit.controllers.TestBooksController.[engine:junit-jupiter]/[class:test.unit.controllers.TestBooksController]/[method:testUpdateBook()]</span></span> removed call to src/models/Book::setDescription &rarr; KILLED</p> 
+</td>
+</tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@2eebce87_83'>83</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_83'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>updateBook<br/><b>Killed by : </b>test.unit.controllers.TestBooksController.[engine:junit-jupiter]/[class:test.unit.controllers.TestBooksController]/[method:testUpdateBook()]</span></span> removed call to src/models/Book::setPaperback &rarr; KILLED</p> 
+</td>
+</tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@2eebce87_84'>84</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_84'/> 
+
+<p class='SURVIVED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>updateBook<br/><b>Killed by : </b>none</span></span> removed call to src/models/Book::setGenres &rarr; SURVIVED</p> 
+</td>
+</tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@2eebce87_85'>85</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_85'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>updateBook<br/><b>Killed by : </b>test.unit.controllers.TestBooksController.[engine:junit-jupiter]/[class:test.unit.controllers.TestBooksController]/[method:testUpdateBook()]</span></span> removed call to src/models/Book::setQuantity &rarr; KILLED</p> 
+</td>
+</tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@2eebce87_87'>87</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_87'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>updateBook<br/><b>Killed by : </b>test.integration.TestBooksControllerFileHandlingService.[engine:junit-jupiter]/[class:test.integration.TestBooksControllerFileHandlingService]/[method:testUpdateBook()]</span></span> removed call to src/controllers/BooksController::updateBook &rarr; KILLED</p> 
+</td>
+</tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@2eebce87_91'>91</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_91'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>addBook<br/><b>Killed by : </b>test.unit.controllers.TestBooksController.[engine:junit-jupiter]/[class:test.unit.controllers.TestBooksController]/[method:testAddBookThrowsBookExistsException()]</span></span> negated conditional &rarr; KILLED</p> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>addBook<br/><b>Killed by : </b>test.unit.controllers.TestBooksController.[engine:junit-jupiter]/[class:test.unit.controllers.TestBooksController]/[method:testAddBookThrowsBookExistsException()]</span></span> negated conditional &rarr; KILLED</p> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>addBook<br/><b>Killed by : </b>test.unit.controllers.TestBooksController.[engine:junit-jupiter]/[class:test.unit.controllers.TestBooksController]/[method:testAddBookThrowsBookExistsException()]</span></span> negated conditional &rarr; KILLED</p> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>addBook<br/><b>Killed by : </b>test.unit.controllers.TestBooksController.[engine:junit-jupiter]/[class:test.unit.controllers.TestBooksController]/[method:testAddBookThrowsBookExistsException()]</span></span> negated conditional &rarr; KILLED</p> 
+</td>
+</tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@2eebce87_95'>95</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_95'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>addBook<br/><b>Killed by : </b>test.unit.controllers.TestBooksController.[engine:junit-jupiter]/[class:test.unit.controllers.TestBooksController]/[method:testAddBookThrowsBookExistsException()]</span></span> negated conditional &rarr; KILLED</p> <p class='SURVIVED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>addBook<br/><b>Killed by : </b>none</span></span> changed conditional boundary &rarr; SURVIVED</p> 
+</td>
+</tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@2eebce87_99'>99</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_99'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>addBook<br/><b>Killed by : </b>test.unit.controllers.TestBooksController.[engine:junit-jupiter]/[class:test.unit.controllers.TestBooksController]/[method:testAddBookThrowsBookExistsException()]</span></span> negated conditional &rarr; KILLED</p> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>addBook<br/><b>Killed by : </b>test.unit.controllers.TestBooksController.[engine:junit-jupiter]/[class:test.unit.controllers.TestBooksController]/[method:testAddBookInvalidBook()]</span></span> changed conditional boundary &rarr; KILLED</p> 
+</td>
+</tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@2eebce87_103'>103</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_103'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>addBook<br/><b>Killed by : </b>test.unit.controllers.TestBooksController.[engine:junit-jupiter]/[class:test.unit.controllers.TestBooksController]/[method:testAddBookThrowsBookExistsException()]</span></span> negated conditional &rarr; KILLED</p> 
+</td>
+</tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@2eebce87_107'>107</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_107'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>addBook<br/><b>Killed by : </b>test.unit.controllers.TestBooksController.[engine:junit-jupiter]/[class:test.unit.controllers.TestBooksController]/[method:testAddBookThrowsBookExistsException()]</span></span> negated conditional &rarr; KILLED</p> 
+</td>
+</tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@2eebce87_113'>113</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_113'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>addBook<br/><b>Killed by : </b>test.integration.TestBooksControllerFileHandlingService.[engine:junit-jupiter]/[class:test.integration.TestBooksControllerFileHandlingService]/[method:testConstructorWithBooks()]</span></span> removed call to src/controllers/BooksController::writeToFile &rarr; KILLED</p> 
+</td>
+</tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@2eebce87_118'>118</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_118'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>removeBook<br/><b>Killed by : </b>test.integration.TestBooksControllerFileHandlingService.[engine:junit-jupiter]/[class:test.integration.TestBooksControllerFileHandlingService]/[method:testRemoveBook()]</span></span> removed call to src/controllers/BooksController::writeToFile &rarr; KILLED</p> 
+</td>
+</tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@2eebce87_127'>127</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_127'/> 
+
+<p class='SURVIVED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>readFromFile<br/><b>Killed by : </b>none</span></span> removed call to java/io/PrintStream::println &rarr; SURVIVED</p> 
+</td>
+</tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@2eebce87_131'>131</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_131'/> 
+
+<p class='SURVIVED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>readFromFile<br/><b>Killed by : </b>none</span></span> removed call to java/io/PrintStream::println &rarr; SURVIVED</p> 
+</td>
+</tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@2eebce87_133'>133</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_133'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>readFromFile<br/><b>Killed by : </b>test.integration.TestBooksControllerFileHandlingService.[engine:junit-jupiter]/[class:test.integration.TestBooksControllerFileHandlingService]/[method:testConstructorInvalidDatabase()]</span></span> negated conditional &rarr; KILLED</p> 
+</td>
+</tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@2eebce87_141'>141</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@2eebce87_141'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>writeToFile<br/><b>Killed by : </b>test.unit.controllers.TestBooksController.[engine:junit-jupiter]/[class:test.unit.controllers.TestBooksController]/[method:testWriteToFile()]</span></span> removed call to src/services/FileHandlingService::writeObjectToFile &rarr; KILLED</p> 
+</td>
+</tr>
+
+</table>
+
+
+<h2>Active mutators</h2>
+<ul>
+
+<li class='mutator'>CONDITIONALS_BOUNDARY</li>
+
+<li class='mutator'>EMPTY_RETURNS</li>
+
+<li class='mutator'>FALSE_RETURNS</li>
+
+<li class='mutator'>INCREMENTS</li>
+
+<li class='mutator'>INVERT_NEGS</li>
+
+<li class='mutator'>MATH</li>
+
+<li class='mutator'>NEGATE_CONDITIONALS</li>
+
+<li class='mutator'>NULL_RETURNS</li>
+
+<li class='mutator'>PRIMITIVE_RETURNS</li>
+
+<li class='mutator'>TRUE_RETURNS</li>
+
+<li class='mutator'>VOID_METHOD_CALLS</li>
+
+</ul>
+
+<h2>Tests examined</h2>
+<ul>
+<li>test.unit.controllers.TestBooksController.[engine:junit-jupiter]/[class:test.unit.controllers.TestBooksController]/[method:testAddBookThrowsBookExistsException()] (1 ms)</li><li>test.unit.controllers.TestBooksController.[engine:junit-jupiter]/[class:test.unit.controllers.TestBooksController]/[method:testUpdateBookThrowsISBNExistsException()] (1 ms)</li><li>test.unit.controllers.TestBooksController.[engine:junit-jupiter]/[class:test.unit.controllers.TestBooksController]/[method:testAddBook()] (1 ms)</li><li>test.unit.controllers.TestBooksController.[engine:junit-jupiter]/[class:test.unit.controllers.TestBooksController]/[method:testRemoveBook()] (1 ms)</li><li>test.unit.controllers.TestBooksController.[engine:junit-jupiter]/[class:test.unit.controllers.TestBooksController]/[method:testUpdateBook()] (2 ms)</li><li>test.integration.TestBooksControllerFileHandlingService.[engine:junit-jupiter]/[class:test.integration.TestBooksControllerFileHandlingService]/[method:testRemoveBook()] (4 ms)</li><li>test.unit.controllers.TestBooksController.[engine:junit-jupiter]/[class:test.unit.controllers.TestBooksController]/[method:testUpdateBookThrowsBookExistsException()] (2 ms)</li><li>test.unit.controllers.TestBooksController.[engine:junit-jupiter]/[class:test.unit.controllers.TestBooksController]/[method:testAddBookInvalidBook()] (8 ms)</li><li>test.unit.controllers.TestBooksController.[engine:junit-jupiter]/[class:test.unit.controllers.TestBooksController]/[method:testUpdateBookInvalidBook()] (5 ms)</li><li>test.unit.controllers.TestBooksController.[engine:junit-jupiter]/[class:test.unit.controllers.TestBooksController]/[method:testUpdateBookThrowsFillInAllValuesException()] (7 ms)</li><li>test.integration.TestBooksControllerFileHandlingService.[engine:junit-jupiter]/[class:test.integration.TestBooksControllerFileHandlingService]/[method:testUpdateBook()] (5 ms)</li><li>test.integration.TestBooksControllerFileHandlingService.[engine:junit-jupiter]/[class:test.integration.TestBooksControllerFileHandlingService]/[method:testConstructorWithBooks()] (9 ms)</li><li>test.integration.TestBooksControllerFileHandlingService.[engine:junit-jupiter]/[class:test.integration.TestBooksControllerFileHandlingService]/[method:testAddBook()] (10 ms)</li><li>test.integration.TestAuthorsControllerBooksController.[engine:junit-jupiter]/[class:test.integration.TestAuthorsControllerBooksController]/[method:testRemoveAuthorConfirmIsTrue()] (10 ms)</li><li>test.integration.TestAuthorsControllerBooksController.[engine:junit-jupiter]/[class:test.integration.TestAuthorsControllerBooksController]/[method:testUpdateAuthor()] (11 ms)</li><li>test.integration.TestAuthorsControllerBooksController.[engine:junit-jupiter]/[class:test.integration.TestAuthorsControllerBooksController]/[method:testRemoveAuthorConfirmIsFalse()] (2051 ms)</li><li>test.system.TestCheckOutStage.[engine:junit-jupiter]/[class:test.system.TestCheckOutStage]/[method:testCheckOutWithInvalidQuantity()] (2453 ms)</li><li>test.system.TestCheckOutStage.[engine:junit-jupiter]/[class:test.system.TestCheckOutStage]/[method:testCheckOut()] (4245 ms)</li><li>test.system.TestNewBookStage.[engine:junit-jupiter]/[class:test.system.TestNewBookStage]/[method:testAddBook()] (9269 ms)</li><li>test.integration.TestBooksControllerFileHandlingService.[engine:junit-jupiter]/[class:test.integration.TestBooksControllerFileHandlingService]/[method:testConstructorInvalidDatabase()] (4 ms)</li><li>test.unit.controllers.TestBooksController.[engine:junit-jupiter]/[class:test.unit.controllers.TestBooksController]/[method:testReadFromFile()] (15 ms)</li><li>test.unit.controllers.TestBooksController.[engine:junit-jupiter]/[class:test.unit.controllers.TestBooksController]/[method:testWriteToFile()] (1 ms)</li><li>test.unit.controllers.TestBooksController.[engine:junit-jupiter]/[class:test.unit.controllers.TestBooksController]/[method:testAddBookThrowsFillInAllFieldsException()] (9 ms)</li><li>test.unit.controllers.TestBooksController.[engine:junit-jupiter]/[class:test.unit.controllers.TestBooksController]/[method:testFirstConstructor()] (2 ms)</li><li>test.integration.TestBooksControllerFileHandlingService.[engine:junit-jupiter]/[class:test.integration.TestBooksControllerFileHandlingService]/[method:testConstructorNoBooks()] (3 ms)</li><li>test.integration.TestBooksControllerFileHandlingService.[engine:junit-jupiter]/[class:test.integration.TestBooksControllerFileHandlingService]/[method:testConstructorNoDatabase()] (11 ms)</li><li>test.system.TestEditAuthorStage.[engine:junit-jupiter]/[class:test.system.TestEditAuthorStage]/[method:testEditAuthor()] (2333 ms)</li><li>test.system.TestNewBookStage.[engine:junit-jupiter]/[class:test.system.TestNewBookStage]/[method:testAddBookInvalidFields()] (545 ms)</li><li>test.system.TestEditAuthorStage.[engine:junit-jupiter]/[class:test.system.TestEditAuthorStage]/[method:testFieldsAreCorrect()] (763 ms)</li><li>test.system.TestLoginScene.[engine:junit-jupiter]/[class:test.system.TestLoginScene]/[method:testLogin()] (2366 ms)</li>
+</ul>
+
+<br/>
+
+Report generated by <a href='https://pitest.org'>PIT</a> 1.15.2
+
+</body>
+</html>

@@ -1,0 +1,1150 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <link rel="stylesheet" type="text/css" href="../style.css">
+</head>
+<body>
+
+
+<h1>FileHandlingService.java</h1>
+
+<table class="src">
+
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4ff66917_1'/>
+1
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4ff66917_1'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>package src.services;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4ff66917_2'/>
+2
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4ff66917_2'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4ff66917_3'/>
+3
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4ff66917_3'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import java.io.*;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4ff66917_4'/>
+4
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4ff66917_4'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4ff66917_5'/>
+5
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4ff66917_5'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>public class FileHandlingService {</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4ff66917_6'/>
+6
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4ff66917_6'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    public Object readObjectFromFile(String file) throws IOException, IllegalStateException, ClassNotFoundException {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4ff66917_7'/>
+7
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4ff66917_7'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        try (FileInputStream fis = new FileInputStream(file); ObjectInputStream ois = new ObjectInputStream(fis)) {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4ff66917_8'/>
+8
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4ff66917_8'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>            return ois.readObject();</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4ff66917_9'/>
+9
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4ff66917_9'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4ff66917_10'/>
+10
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4ff66917_10'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4ff66917_11'/>
+11
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4ff66917_11'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4ff66917_12'/>
+12
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4ff66917_12'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    public void writeObjectToFile(String file, Object obj) throws IOException {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4ff66917_13'/>
+13
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4ff66917_13'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        try (FileOutputStream fos = new FileOutputStream(file); ObjectOutputStream oos = new ObjectOutputStream(fos)) {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4ff66917_14'/>
+14
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4ff66917_14'>1</a>
+<span>
+
+1. writeObjectToFile : removed call to java/io/ObjectOutputStream::writeObject &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            oos.writeObject(obj);</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4ff66917_15'/>
+15
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4ff66917_15'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        }</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4ff66917_16'/>
+16
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4ff66917_16'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4ff66917_17'/>
+17
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4ff66917_17'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4ff66917_18'/>
+18
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4ff66917_18'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    public boolean deleteFile(String file) {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4ff66917_19'/>
+19
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4ff66917_19'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        File f = new File(file);</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4ff66917_20'/>
+20
+</td>
+<td class='survived'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4ff66917_20'>2</a>
+<span>
+
+1. deleteFile : replaced boolean return with true for src/services/FileHandlingService::deleteFile &rarr; SURVIVED<br/>
+
+2. deleteFile : replaced boolean return with false for src/services/FileHandlingService::deleteFile &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='survived'>        return f.delete();</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4ff66917_21'/>
+21
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4ff66917_21'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4ff66917_22'/>
+22
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4ff66917_22'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4ff66917_23'/>
+23
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4ff66917_23'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    public String readFileContents(String file) throws IOException {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4ff66917_24'/>
+24
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4ff66917_24'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        FileInputStream fis = new FileInputStream(file);</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4ff66917_25'/>
+25
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4ff66917_25'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        InputStreamReader isr = new InputStreamReader(fis);</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4ff66917_26'/>
+26
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4ff66917_26'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        BufferedReader br = new BufferedReader(isr);</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4ff66917_27'/>
+27
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4ff66917_27'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        String line = br.readLine();</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4ff66917_28'/>
+28
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4ff66917_28'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        StringBuilder contents = new StringBuilder();</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4ff66917_29'/>
+29
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4ff66917_29'>1</a>
+<span>
+
+1. readFileContents : negated conditional &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        while (line != null) {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4ff66917_30'/>
+30
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4ff66917_30'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>            contents.append(line).append(&#34;\n&#34;);</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4ff66917_31'/>
+31
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4ff66917_31'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>            line = br.readLine();</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4ff66917_32'/>
+32
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4ff66917_32'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        }</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4ff66917_33'/>
+33
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4ff66917_33'>1</a>
+<span>
+
+1. readFileContents : removed call to java/io/BufferedReader::close &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        br.close();</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4ff66917_34'/>
+34
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4ff66917_34'>1</a>
+<span>
+
+1. readFileContents : replaced return value with &#34;&#34; for src/services/FileHandlingService::readFileContents &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        return contents.toString();</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4ff66917_35'/>
+35
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4ff66917_35'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4ff66917_36'/>
+36
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4ff66917_36'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4ff66917_37'/>
+37
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4ff66917_37'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    public void writeFileContents(String file, String contents) throws IOException {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4ff66917_38'/>
+38
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4ff66917_38'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        FileOutputStream fos = new FileOutputStream(file);</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4ff66917_39'/>
+39
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4ff66917_39'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        OutputStreamWriter osw = new OutputStreamWriter(fos);</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4ff66917_40'/>
+40
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4ff66917_40'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        BufferedWriter bw = new BufferedWriter(osw);</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4ff66917_41'/>
+41
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4ff66917_41'>1</a>
+<span>
+
+1. writeFileContents : removed call to java/io/BufferedWriter::write &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        bw.write(contents);</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4ff66917_42'/>
+42
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4ff66917_42'>1</a>
+<span>
+
+1. writeFileContents : removed call to java/io/BufferedWriter::close &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        bw.close();</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4ff66917_43'/>
+43
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4ff66917_43'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4ff66917_44'/>
+44
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4ff66917_44'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4ff66917_45'/>
+45
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4ff66917_45'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    public boolean ensureDirectory(String path) {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4ff66917_46'/>
+46
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4ff66917_46'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        File f = new File(path);</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4ff66917_47'/>
+47
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4ff66917_47'>1</a>
+<span>
+
+1. ensureDirectory : negated conditional &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        if (!f.exists()) {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4ff66917_48'/>
+48
+</td>
+<td class='survived'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4ff66917_48'>2</a>
+<span>
+
+1. ensureDirectory : replaced boolean return with true for src/services/FileHandlingService::ensureDirectory &rarr; SURVIVED<br/>
+
+2. ensureDirectory : replaced boolean return with false for src/services/FileHandlingService::ensureDirectory &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='survived'>            return f.mkdir();</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4ff66917_49'/>
+49
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4ff66917_49'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        }</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4ff66917_50'/>
+50
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4ff66917_50'>1</a>
+<span>
+
+1. ensureDirectory : negated conditional &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        else if (!f.isDirectory()) {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4ff66917_51'/>
+51
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4ff66917_51'>3</a>
+<span>
+
+1. ensureDirectory : negated conditional &rarr; KILLED<br/>
+
+2. ensureDirectory : negated conditional &rarr; KILLED<br/>
+
+3. ensureDirectory : replaced boolean return with true for src/services/FileHandlingService::ensureDirectory &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            return f.delete() &#38;&#38; f.mkdir();</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4ff66917_52'/>
+52
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4ff66917_52'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        }</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4ff66917_53'/>
+53
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4ff66917_53'>1</a>
+<span>
+
+1. ensureDirectory : replaced boolean return with false for src/services/FileHandlingService::ensureDirectory &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        return true;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4ff66917_54'/>
+54
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4ff66917_54'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4ff66917_55'/>
+55
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4ff66917_55'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4ff66917_56'/>
+56
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4ff66917_56'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    public String[] listDirectory(String path) {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4ff66917_57'/>
+57
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4ff66917_57'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        File f = new File(path);</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4ff66917_58'/>
+58
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4ff66917_58'>1</a>
+<span>
+
+1. listDirectory : replaced return value with null for src/services/FileHandlingService::listDirectory &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        return f.list();</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4ff66917_59'/>
+59
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4ff66917_59'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4ff66917_60'/>
+60
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4ff66917_60'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>}</span></pre></td></tr>
+
+
+
+<tr><td></td><td></td><td><h2>Mutations</h2></td></tr>
+
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4ff66917_14'>14</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4ff66917_14'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>writeObjectToFile<br/><b>Killed by : </b>test.integration.TestAuthorsControllerFileHandlingService.[engine:junit-jupiter]/[class:test.integration.TestAuthorsControllerFileHandlingService]/[method:testAddAuthor()]</span></span> removed call to java/io/ObjectOutputStream::writeObject &rarr; KILLED</p> 
+</td>
+</tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4ff66917_20'>20</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4ff66917_20'/> 
+
+<p class='SURVIVED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>deleteFile<br/><b>Killed by : </b>none</span></span> replaced boolean return with true for src/services/FileHandlingService::deleteFile &rarr; SURVIVED</p> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>deleteFile<br/><b>Killed by : </b>test.integration.TestBooksControllerFileHandlingService.[engine:junit-jupiter]/[class:test.integration.TestBooksControllerFileHandlingService]/[method:testConstructorInvalidDatabase()]</span></span> replaced boolean return with false for src/services/FileHandlingService::deleteFile &rarr; KILLED</p> 
+</td>
+</tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4ff66917_29'>29</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4ff66917_29'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>readFileContents<br/><b>Killed by : </b>test.unit.services.TestFileHandlingService.[engine:junit-jupiter]/[class:test.unit.services.TestFileHandlingService]/[method:test_readFileContents()]</span></span> negated conditional &rarr; KILLED</p> 
+</td>
+</tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4ff66917_33'>33</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4ff66917_33'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>readFileContents<br/><b>Killed by : </b>test.unit.services.TestFileHandlingService.[engine:junit-jupiter]/[class:test.unit.services.TestFileHandlingService]/[method:test_readFileContents()]</span></span> removed call to java/io/BufferedReader::close &rarr; KILLED</p> 
+</td>
+</tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4ff66917_34'>34</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4ff66917_34'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>readFileContents<br/><b>Killed by : </b>test.unit.services.TestFileHandlingService.[engine:junit-jupiter]/[class:test.unit.services.TestFileHandlingService]/[method:test_readFileContents()]</span></span> replaced return value with &#34;&#34; for src/services/FileHandlingService::readFileContents &rarr; KILLED</p> 
+</td>
+</tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4ff66917_41'>41</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4ff66917_41'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>writeFileContents<br/><b>Killed by : </b>test.integration.TestLoginControllerFileHandlingService.[engine:junit-jupiter]/[class:test.integration.TestLoginControllerFileHandlingService]/[method:testSaveSession()]</span></span> removed call to java/io/BufferedWriter::write &rarr; KILLED</p> 
+</td>
+</tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4ff66917_42'>42</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4ff66917_42'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>writeFileContents<br/><b>Killed by : </b>test.integration.TestBooksControllerFileHandlingService.[engine:junit-jupiter]/[class:test.integration.TestBooksControllerFileHandlingService]/[method:testConstructorInvalidDatabase()]</span></span> removed call to java/io/BufferedWriter::close &rarr; KILLED</p> 
+</td>
+</tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4ff66917_47'>47</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4ff66917_47'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>ensureDirectory<br/><b>Killed by : </b>test.unit.services.TestFileHandlingService.[engine:junit-jupiter]/[class:test.unit.services.TestFileHandlingService]/[method:test_ensureDirectoryNotExists()]</span></span> negated conditional &rarr; KILLED</p> 
+</td>
+</tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4ff66917_48'>48</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4ff66917_48'/> 
+
+<p class='SURVIVED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>ensureDirectory<br/><b>Killed by : </b>none</span></span> replaced boolean return with true for src/services/FileHandlingService::ensureDirectory &rarr; SURVIVED</p> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>ensureDirectory<br/><b>Killed by : </b>test.unit.services.TestFileHandlingService.[engine:junit-jupiter]/[class:test.unit.services.TestFileHandlingService]/[method:test_ensureDirectoryNotExists()]</span></span> replaced boolean return with false for src/services/FileHandlingService::ensureDirectory &rarr; KILLED</p> 
+</td>
+</tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4ff66917_50'>50</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4ff66917_50'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>ensureDirectory<br/><b>Killed by : </b>test.integration.TestStatisticsFileHandlingService.[engine:junit-jupiter]/[class:test.integration.TestStatisticsFileHandlingService]/[method:testConstructorDirectoryIsFile()]</span></span> negated conditional &rarr; KILLED</p> 
+</td>
+</tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4ff66917_51'>51</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4ff66917_51'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>ensureDirectory<br/><b>Killed by : </b>test.integration.TestStatisticsFileHandlingService.[engine:junit-jupiter]/[class:test.integration.TestStatisticsFileHandlingService]/[method:testConstructorDirectoryIsFile()]</span></span> negated conditional &rarr; KILLED</p> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>ensureDirectory<br/><b>Killed by : </b>test.integration.TestStatisticsFileHandlingService.[engine:junit-jupiter]/[class:test.integration.TestStatisticsFileHandlingService]/[method:testConstructorDirectoryIsFile()]</span></span> negated conditional &rarr; KILLED</p> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>ensureDirectory<br/><b>Killed by : </b>test.unit.services.TestFileHandlingService.[engine:junit-jupiter]/[class:test.unit.services.TestFileHandlingService]/[method:test_ensureDirectoryExistsAsFile()]</span></span> replaced boolean return with true for src/services/FileHandlingService::ensureDirectory &rarr; KILLED</p> 
+</td>
+</tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4ff66917_53'>53</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4ff66917_53'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>ensureDirectory<br/><b>Killed by : </b>test.unit.services.TestFileHandlingService.[engine:junit-jupiter]/[class:test.unit.services.TestFileHandlingService]/[method:test_ensureDirectoryExistsAsFile()]</span></span> replaced boolean return with false for src/services/FileHandlingService::ensureDirectory &rarr; KILLED</p> 
+</td>
+</tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4ff66917_58'>58</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4ff66917_58'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>listDirectory<br/><b>Killed by : </b>test.unit.services.TestFileHandlingService.[engine:junit-jupiter]/[class:test.unit.services.TestFileHandlingService]/[method:test_listDirectory()]</span></span> replaced return value with null for src/services/FileHandlingService::listDirectory &rarr; KILLED</p> 
+</td>
+</tr>
+
+</table>
+
+
+<h2>Active mutators</h2>
+<ul>
+
+<li class='mutator'>CONDITIONALS_BOUNDARY</li>
+
+<li class='mutator'>EMPTY_RETURNS</li>
+
+<li class='mutator'>FALSE_RETURNS</li>
+
+<li class='mutator'>INCREMENTS</li>
+
+<li class='mutator'>INVERT_NEGS</li>
+
+<li class='mutator'>MATH</li>
+
+<li class='mutator'>NEGATE_CONDITIONALS</li>
+
+<li class='mutator'>NULL_RETURNS</li>
+
+<li class='mutator'>PRIMITIVE_RETURNS</li>
+
+<li class='mutator'>TRUE_RETURNS</li>
+
+<li class='mutator'>VOID_METHOD_CALLS</li>
+
+</ul>
+
+<h2>Tests examined</h2>
+<ul>
+<li>test.unit.services.TestFileHandlingService.[engine:junit-jupiter]/[class:test.unit.services.TestFileHandlingService]/[method:test_ensureDirectoryNotExists()] (1 ms)</li><li>test.integration.TestStatisticsFileHandlingService.[engine:junit-jupiter]/[class:test.integration.TestStatisticsFileHandlingService]/[method:testConstructorDirectoryDoesntExist()] (1 ms)</li><li>test.system.TestCheckOutStage.[engine:junit-jupiter]/[class:test.system.TestCheckOutStage]/[method:testCheckOutWithInvalidQuantity()] (2453 ms)</li><li>test.system.TestCheckOutStage.[engine:junit-jupiter]/[class:test.system.TestCheckOutStage]/[method:testCheckOut()] (4245 ms)</li><li>test.integration.TestStatisticsFileHandlingService.[engine:junit-jupiter]/[class:test.integration.TestStatisticsFileHandlingService]/[method:testConstructorDirectoryIsFile()] (2 ms)</li><li>test.unit.services.TestFileHandlingService.[engine:junit-jupiter]/[class:test.unit.services.TestFileHandlingService]/[method:test_ensureDirectoryExistsAsFile()] (12 ms)</li><li>test.integration.TestStatisticsFileHandlingService.[engine:junit-jupiter]/[class:test.integration.TestStatisticsFileHandlingService]/[method:testConstructorDirectoryExists()] (26 ms)</li><li>test.unit.services.TestFileHandlingService.[engine:junit-jupiter]/[class:test.unit.services.TestFileHandlingService]/[method:test_readFileContents()] (2 ms)</li><li>test.integration.TestLoginControllerFileHandlingService.[engine:junit-jupiter]/[class:test.integration.TestLoginControllerFileHandlingService]/[method:testSaveSession()] (7 ms)</li><li>test.integration.TestLoginControllerFileHandlingService.[engine:junit-jupiter]/[class:test.integration.TestLoginControllerFileHandlingService]/[method:testLoginWithSavedSession()] (7 ms)</li><li>test.integration.TestLoginControllerFileHandlingService.[engine:junit-jupiter]/[class:test.integration.TestLoginControllerFileHandlingService]/[method:testLoginWithSavedSessionInvalidSession()] (9 ms)</li><li>test.integration.TestLoginControllerFileHandlingService.[engine:junit-jupiter]/[class:test.integration.TestLoginControllerFileHandlingService]/[method:testLogout()] (10 ms)</li><li>test.integration.TestAuthorsControllerFileHandlingService.[engine:junit-jupiter]/[class:test.integration.TestAuthorsControllerFileHandlingService]/[method:testConstructorNoAuthors()] (3 ms)</li><li>test.integration.TestBooksControllerFileHandlingService.[engine:junit-jupiter]/[class:test.integration.TestBooksControllerFileHandlingService]/[method:testConstructorNoBooks()] (3 ms)</li><li>test.integration.TestAuthorsControllerFileHandlingService.[engine:junit-jupiter]/[class:test.integration.TestAuthorsControllerFileHandlingService]/[method:testAddAuthor()] (4 ms)</li><li>test.unit.services.TestFileHandlingService.[engine:junit-jupiter]/[class:test.unit.services.TestFileHandlingService]/[method:test_writeObjectFromFile()] (9 ms)</li><li>test.integration.TestBooksControllerFileHandlingService.[engine:junit-jupiter]/[class:test.integration.TestBooksControllerFileHandlingService]/[method:testRemoveBook()] (4 ms)</li><li>test.integration.TestAuthorsControllerFileHandlingService.[engine:junit-jupiter]/[class:test.integration.TestAuthorsControllerFileHandlingService]/[method:testRemoveAuthor()] (10 ms)</li><li>test.integration.TestBooksControllerFileHandlingService.[engine:junit-jupiter]/[class:test.integration.TestBooksControllerFileHandlingService]/[method:testUpdateBook()] (5 ms)</li><li>test.integration.TestBooksControllerFileHandlingService.[engine:junit-jupiter]/[class:test.integration.TestBooksControllerFileHandlingService]/[method:testConstructorWithBooks()] (9 ms)</li><li>test.integration.TestBooksControllerFileHandlingService.[engine:junit-jupiter]/[class:test.integration.TestBooksControllerFileHandlingService]/[method:testAddBook()] (10 ms)</li><li>test.integration.TestLoginControllerFileHandlingService.[engine:junit-jupiter]/[class:test.integration.TestLoginControllerFileHandlingService]/[method:testConstructorNoDatabase()] (12 ms)</li><li>test.integration.TestLoginControllerFileHandlingService.[engine:junit-jupiter]/[class:test.integration.TestLoginControllerFileHandlingService]/[method:testAddUser()] (12 ms)</li><li>test.integration.TestLoginControllerFileHandlingService.[engine:junit-jupiter]/[class:test.integration.TestLoginControllerFileHandlingService]/[method:testConstructorWithUsers()] (16 ms)</li><li>test.integration.TestLoginControllerFileHandlingService.[engine:junit-jupiter]/[class:test.integration.TestLoginControllerFileHandlingService]/[method:testRemoveUser()] (16 ms)</li><li>test.integration.TestAuthorsControllerFileHandlingService.[engine:junit-jupiter]/[class:test.integration.TestAuthorsControllerFileHandlingService]/[method:testConstructorWithAuthors()] (31 ms)</li><li>test.integration.TestLoginControllerFileHandlingService.[engine:junit-jupiter]/[class:test.integration.TestLoginControllerFileHandlingService]/[method:testUpdateUser()] (18 ms)</li><li>test.integration.TestLoginControllerFileHandlingService.[engine:junit-jupiter]/[class:test.integration.TestLoginControllerFileHandlingService]/[method:testConstructorInvalidDatabase()] (48 ms)</li><li>test.system.TestEditUserStage.[engine:junit-jupiter]/[class:test.system.TestEditUserStage]/[method:testFieldsAreCorrect()] (374 ms)</li><li>test.system.TestLibrariansStatisticsStage.[engine:junit-jupiter]/[class:test.system.TestLibrariansStatisticsStage]/[method:testTableViewListener()] (441 ms)</li><li>test.system.TestNewBookStage.[engine:junit-jupiter]/[class:test.system.TestNewBookStage]/[method:testAddBookInvalidFields()] (545 ms)</li><li>test.system.TestManageUsersStage.[engine:junit-jupiter]/[class:test.system.TestManageUsersStage]/[method:testTableViewListener()] (674 ms)</li><li>test.system.TestEditUserStage.[engine:junit-jupiter]/[class:test.system.TestEditUserStage]/[method:testEditUserInvalidFields()] (698 ms)</li><li>test.system.TestEditAuthorStage.[engine:junit-jupiter]/[class:test.system.TestEditAuthorStage]/[method:testFieldsAreCorrect()] (763 ms)</li><li>test.system.TestNewUserStage.[engine:junit-jupiter]/[class:test.system.TestNewUserStage]/[method:testAddUserInvalidFields()] (774 ms)</li><li>test.system.TestManageUsersStage.[engine:junit-jupiter]/[class:test.system.TestManageUsersStage]/[method:testRemoveUserOnlyOneAdmin()] (1748 ms)</li><li>test.system.TestManageUsersStage.[engine:junit-jupiter]/[class:test.system.TestManageUsersStage]/[method:testRemoveUser()] (1771 ms)</li><li>test.system.TestNewAuthorStage.[engine:junit-jupiter]/[class:test.system.TestNewAuthorStage]/[method:testAddAuthor()] (2257 ms)</li><li>test.system.TestEditAuthorStage.[engine:junit-jupiter]/[class:test.system.TestEditAuthorStage]/[method:testEditAuthor()] (2333 ms)</li><li>test.system.TestEditUserStage.[engine:junit-jupiter]/[class:test.system.TestEditUserStage]/[method:testEditUser()] (3760 ms)</li><li>test.system.TestNewUserStage.[engine:junit-jupiter]/[class:test.system.TestNewUserStage]/[method:testAddUser()] (7935 ms)</li><li>test.system.TestNewBookStage.[engine:junit-jupiter]/[class:test.system.TestNewBookStage]/[method:testAddBook()] (9269 ms)</li><li>test.unit.services.TestFileHandlingService.[engine:junit-jupiter]/[class:test.unit.services.TestFileHandlingService]/[method:test_deleteFile()] (2 ms)</li><li>test.integration.TestAuthorsControllerFileHandlingService.[engine:junit-jupiter]/[class:test.integration.TestAuthorsControllerFileHandlingService]/[method:testConstructorNoDatabase()] (2 ms)</li><li>test.integration.TestBooksControllerFileHandlingService.[engine:junit-jupiter]/[class:test.integration.TestBooksControllerFileHandlingService]/[method:testConstructorInvalidDatabase()] (4 ms)</li><li>test.integration.TestBooksControllerFileHandlingService.[engine:junit-jupiter]/[class:test.integration.TestBooksControllerFileHandlingService]/[method:testConstructorNoDatabase()] (11 ms)</li><li>test.integration.TestAuthorsControllerFileHandlingService.[engine:junit-jupiter]/[class:test.integration.TestAuthorsControllerFileHandlingService]/[method:testConstructorInvalidDatabase()] (77 ms)</li><li>test.unit.services.TestFileHandlingService.[engine:junit-jupiter]/[class:test.unit.services.TestFileHandlingService]/[method:test_writeFileContents()] (7 ms)</li><li>test.system.TestLoginScene.[engine:junit-jupiter]/[class:test.system.TestLoginScene]/[method:testLogin()] (2366 ms)</li><li>test.unit.services.TestFileHandlingService.[engine:junit-jupiter]/[class:test.unit.services.TestFileHandlingService]/[method:test_listDirectory()] (4 ms)</li>
+</ul>
+
+<br/>
+
+Report generated by <a href='https://pitest.org'>PIT</a> 1.15.2
+
+</body>
+</html>
