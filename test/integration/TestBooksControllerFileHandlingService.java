@@ -43,17 +43,17 @@ public class TestBooksControllerFileHandlingService {
     public void tearDown() {
         fileHandlingService.deleteFile(DATABASE);
     }
+
     @Test
     void testConstructorNoDatabase() {
         try {
-            fileHandlingService.deleteFile(DATABASE); // Ensure database file doesn't exist
+            assertFalse(new File(DATABASE).exists());
             booksController = new BooksController(fileHandlingService);
             assertEquals(0, booksController.getBooks().size());
         } catch (IOException ex) {
             fail("Failed to set up databases: " + ex.getMessage());
         }
     }
-
 
     @Test
     void testConstructorInvalidDatabase() {
@@ -65,6 +65,14 @@ public class TestBooksControllerFileHandlingService {
         } catch (IOException ex) {
             fail("Failed to set up databases: " + ex.getMessage());
         }
+    }
+
+    @Test
+    void testConstructorNoBooks() {
+    }
+
+    @Test
+    void testConstructorWithBooks() {
     }
 
     @Test
@@ -102,6 +110,8 @@ public class TestBooksControllerFileHandlingService {
 
             Book book = books.get(0);
             booksController.removeBook(book);
+
+            assertEquals(0, booksController.getBooks().size());
         } catch (IOException ex) {
             fail("Failed to remove book: " + ex.getMessage());
         }

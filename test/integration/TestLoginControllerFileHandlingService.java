@@ -7,6 +7,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 import src.controllers.BillController;
+import src.controllers.BooksController;
 import src.controllers.LoginController;
 import src.enums.AccessLevel;
 import src.exceptions.LastAdministratorException;
@@ -121,12 +122,22 @@ public class TestLoginControllerFileHandlingService {
 
     @Test
     void testConstructorNoDatabase() {
-        assertFalse(new File(DATABASE).exists());
-        assertFalse(loginController.getUsers().isEmpty(), "Expected an empty user list in the absence of a database.");
+        try {
+            fileHandlingService.deleteFile(DATABASE);
+            assertFalse(new File(DATABASE).exists());
+            loginController = new LoginController(fileHandlingService, stubBillController, DATABASE, SESSION);
+            assertEquals(1, loginController.getUsers().size(), "Expected a user list with the default user in the absence of a database.");
+        } catch (IOException ex) {
+            fail("Failed to set up databases: " + ex.getMessage());
+        }
     }
 
     @Test
     void testConstructorInvalidDatabase() {
+    }
+
+    @Test
+    void testConstructorWithUsers() {
     }
 
     @Test

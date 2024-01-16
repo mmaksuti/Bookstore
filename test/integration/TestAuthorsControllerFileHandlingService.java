@@ -54,6 +54,18 @@ public class TestAuthorsControllerFileHandlingService {
     }
 
     @Test
+    void testConstructorNoDatabase() {
+        try {
+            assertFalse(new File(DATABASE).exists());
+            authorsController = new AuthorsController(fileHandlingService, DATABASE);
+            assertEquals(0, authorsController.getAuthors().size());
+        }
+        catch (IOException ex) {
+            fail("Failed to set up databases: " + ex.getMessage());
+        }
+    }
+
+    @Test
     void testConstructorNoAuthors() {
         try {
             ArrayList<Author> authors = new ArrayList<>();
