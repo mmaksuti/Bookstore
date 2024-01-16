@@ -17,7 +17,7 @@ import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class TestLogin extends ApplicationTest {
+public class TestLoginScene extends ApplicationTest {
     BillController billController = null;
     LoginController loginController = null;
     AuthorsController authorsController = null;
