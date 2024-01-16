@@ -1,4 +1,4 @@
-package test.models;
+package test.unit.models;
 
 import src.controllers.BillController;
 import src.enums.AccessLevel;

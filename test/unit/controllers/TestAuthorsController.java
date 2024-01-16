@@ -1,4 +1,4 @@
-package test.controllers;
+package test.unit.controllers;
 
 import java.io.*;
 import java.util.ArrayList;

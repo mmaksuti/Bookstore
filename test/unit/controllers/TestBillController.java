@@ -1,4 +1,4 @@
-package test.controllers;
+package test.unit.controllers;
 
 import src.controllers.BillController;
 import src.services.FileHandlingService;

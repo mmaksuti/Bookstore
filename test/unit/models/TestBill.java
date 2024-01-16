@@ -1,4 +1,4 @@
-package test.models;
+package test.unit.models;
 
 import src.models.Bill;
 import src.models.Book;

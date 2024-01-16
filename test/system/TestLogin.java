@@ -1,4 +1,4 @@
-package test.gui;
+package test.system;
 
 import src.controllers.*;
 import src.exceptions.UnauthenticatedException;
