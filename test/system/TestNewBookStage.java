@@ -1,6 +1,5 @@
 package test.system;
 
-import javafx.collections.ObservableList;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import org.junit.jupiter.api.Assertions;
@@ -22,8 +21,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestNewBookStage extends ApplicationTest {
     AuthorsController authorsController = null;

@@ -51,5 +51,6 @@ public class TestLibrarianControllerLoginController {
 
         assertEquals(2, librarians.size());
         assertEquals("librarian1", librarians.get(0).getUsername());
+        assertEquals("librarian2", librarians.get(1).getUsername());
     }
 }
