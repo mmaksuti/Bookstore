@@ -6,22 +6,27 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
+import src.controllers.AuthorsController;
 import src.controllers.BillController;
 import src.controllers.BooksController;
 import src.controllers.LoginController;
 import src.enums.AccessLevel;
+import src.enums.Gender;
 import src.exceptions.LastAdministratorException;
 import src.exceptions.UnauthenticatedException;
+import src.models.Author;
 import src.models.User;
 import src.services.FileHandlingService;
 
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class TestLoginControllerFileHandlingService {
     private FileHandlingService fileHandlingService;
@@ -134,39 +139,113 @@ public class TestLoginControllerFileHandlingService {
 
     @Test
     void testConstructorInvalidDatabase() {
+        try {
+            fileHandlingService.writeFileContents(DATABASE, "invalid database");
+            loginController = new LoginController(fileHandlingService, stubBillController, DATABASE, SESSION);
+            assertEquals(1, loginController.getUsers().size());
+        }
+        catch (IOException ex) {
+            fail("Failed to set up databases: " + ex.getMessage());
+        }
     }
 
     @Test
     void testConstructorWithUsers() {
+        try {
+            ArrayList<User> users = new ArrayList<>();
+
+            User user1 = new User("John", "Doe", "johndoe", "password", "johndoe@gmail.com", "+355671234567", 1000, LocalDate.of(1990, 1, 1), AccessLevel.LIBRARIAN);
+            User user2 = new User("Jane", "Doe", "janedoe", "password", "janedoe@gmail.com", "+355671234569", 1000, LocalDate.of(1990, 1, 1), AccessLevel.LIBRARIAN);
+            users.add(user1);
+            users.add(user2);
+
+            fileHandlingService.writeObjectToFile(DATABASE, users);
+            loginController = new LoginController(fileHandlingService, stubBillController, DATABASE, SESSION);
+            assertEquals(2, loginController.getUsers().size());
+
+            user1 = loginController.getUsers().get(0);
+            user2 = loginController.getUsers().get(1);
+            assertEquals("John", user1.getFirstName());
+            assertEquals("Doe", user1.getLastName());
+            assertEquals("johndoe", user1.getUsername());
+            assertEquals("+355671234567", user1.getPhone());
+
+            assertEquals("Jane", user2.getFirstName());
+            assertEquals("Doe", user2.getLastName());
+            assertEquals("janedoe", user2.getUsername());
+            assertEquals("+355671234569", user2.getPhone());
+        }
+        catch (IOException ex) {
+            fail("Failed to set up databases: " + ex.getMessage());
+        }
     }
 
     @Test
     void testAddUser() {
+        try {
+            loginController.addUser("John", "Doe", "johndoe", "password", "johndoe@gmail.com", "+355671234567", 1000, LocalDate.of(1990, 1, 1), AccessLevel.LIBRARIAN);
+            ArrayList<User> users = (ArrayList<User>)fileHandlingService.readObjectFromFile(DATABASE);
+            assertEquals(2, users.size());
+
+            User user = users.get(1);
+            assertEquals("John", user.getFirstName());
+            assertEquals("Doe", user.getLastName());
+            assertEquals("johndoe", user.getUsername());
+            assertEquals("+355671234567", user.getPhone());
+        }
+        catch (IOException ex) {
+            fail("Failed to add user: " + ex.getMessage());
+        }
+        catch (ClassNotFoundException ex) {
+            fail("Failed to load database: " + ex.getMessage());
+        }
     }
 
     @Test
     void testUpdateUser() {
+        try {
+            loginController.login("admin", "admin");
+
+            loginController.addUser("John", "Doe", "johndoe", "password", "johndoe@gmail.com", "+355671234567", 1000, LocalDate.of(1990, 1, 1), AccessLevel.LIBRARIAN);
+            User user = loginController.getUsers().get(1);
+            loginController.updateUser(user, "Jane", "Doe", "janedoe", "password", "janedoe@gmail.com", "+355671234569", 1000, LocalDate.of(1990, 1, 1), AccessLevel.LIBRARIAN);
+
+            ArrayList<User> users = (ArrayList<User>)fileHandlingService.readObjectFromFile(DATABASE);
+            assertEquals(2, users.size());
+
+            user = users.get(1);
+            assertEquals("Jane", user.getFirstName());
+            assertEquals("Doe", user.getLastName());
+            assertEquals("janedoe", user.getUsername());
+            assertEquals("+355671234569", user.getPhone());
+        }
+        catch (IOException ex) {
+            fail("Failed to add user: " + ex.getMessage());
+        }
+        catch (ClassNotFoundException ex) {
+            fail("Failed to load database: " + ex.getMessage());
+        }
+        catch (UnauthenticatedException ignored) {
+        }
     }
 
     @Test
     void testRemoveUser() {
+        try {
+            loginController.addUser("John", "Doe", "johndoe", "password", "johndoe@gmail.com", "+355671234567", 1000, LocalDate.of(1990, 1, 1), AccessLevel.LIBRARIAN);
+            User user = loginController.getUsers().get(1);
+            loginController.removeUser(user);
+
+            ArrayList<User> users = (ArrayList<User>)fileHandlingService.readObjectFromFile(DATABASE);
+            assertEquals(1, users.size());
+        }
+        catch (IOException ex) {
+            fail("Failed to remove author: " + ex.getMessage());
+        }
+        catch (ClassNotFoundException ex) {
+            fail("Failed to load database: " + ex.getMessage());
+        }
+        catch (LastAdministratorException ignored) {
+        }
     }
-//    @Test
-//    void testAddUserAndLogin() throws IOException, UnauthenticatedException {
-//        loginController.addUser("John", "Doe", "john_doe", "password123", "john.doe@email.com", "+355687328237", 2000, LocalDate.of(1990, 1, 1), AccessLevel.LIBRARIAN);
-//        assertTrue(loginController.login("john_doe", "password123"));
-//        assertEquals("john_doe", loginController.getLoggedUsername());
-//        assertEquals(AccessLevel.LIBRARIAN, loginController.getLoggedAccessLevel());
-//    }
-
-//    @Test
-//    void testRemoveUser() throws IOException, UnauthenticatedException, LastAdministratorException {
-//        loginController.login("admin", "admin");
-//        User userToRemove = loginController.getUsers().stream().filter(user -> user.getUsername().equals("john_doe")).findFirst().orElse(null);
-//        assertNotNull(userToRemove);
-//
-//        loginController.removeUser(userToRemove);
-//        assertFalse(loginController.userExists("john_doe"));
-//    }
-
 }

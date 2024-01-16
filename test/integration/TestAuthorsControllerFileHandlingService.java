@@ -141,14 +141,13 @@ public class TestAuthorsControllerFileHandlingService {
     void testRemoveAuthor() {
         try {
             authorsController.addAuthor("John", "Doe", Gender.MALE);
-
-            ArrayList<Author> authors = (ArrayList<Author>)fileHandlingService.readObjectFromFile(DATABASE);
-            assertEquals(1, authors.size());
-
             when(stubBooksController.getBooks()).thenReturn(books);
 
-            Author author = authors.get(0);
+            Author author =  authorsController.getAuthors().get(0);
             authorsController.removeAuthor(stubBooksController, author, null);
+
+            ArrayList<Author> authors = (ArrayList<Author>)fileHandlingService.readObjectFromFile(DATABASE);
+            assertEquals(0, authors.size());
         }
         catch (IOException ex) {
             fail("Failed to remove author: " + ex.getMessage());

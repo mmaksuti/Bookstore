@@ -5,9 +5,11 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
+import src.controllers.AuthorsController;
 import src.controllers.BooksController;
 import src.enums.Gender;
 import src.enums.Genre;
+import src.models.Author;
 import src.models.Book;
 import src.services.FileHandlingService;
 
@@ -69,10 +71,38 @@ public class TestBooksControllerFileHandlingService {
 
     @Test
     void testConstructorNoBooks() {
+        try {
+            ArrayList<Book> books = new ArrayList<>();
+            fileHandlingService.writeObjectToFile(DATABASE, books);
+            booksController = new BooksController(fileHandlingService, DATABASE);
+            assertEquals(0, booksController.getBooks().size());
+        }
+        catch (IOException ex) {
+            fail("Failed to set up databases: " + ex.getMessage());
+        }
     }
 
     @Test
     void testConstructorWithBooks() {
+        try {
+            booksController.addBook("Test Book", new src.models.Author("John", "Doe", Gender.MALE),
+                    "123-4-567-34567-4", 29.99, "A test book", true, new ArrayList<>(), 10);
+            booksController.addBook("Test Book2", new src.models.Author("John", "Doe", Gender.MALE),
+                    "123-4-567-34567-5", 29.99, "A test book", true, new ArrayList<>(), 10);
+
+            booksController = new BooksController(fileHandlingService, DATABASE);
+            assertEquals(2, booksController.getBooks().size());
+            Book book1 = booksController.getBooks().get(0);
+            Book book2 = booksController.getBooks().get(1);
+
+            assertEquals("Test Book", book1.getTitle());
+            assertEquals("123-4-567-34567-4", book1.getIsbn13());
+            assertEquals("Test Book2", book2.getTitle());
+            assertEquals("123-4-567-34567-5", book2.getIsbn13());
+
+        } catch (IOException ex) {
+            fail("Failed to set up databases: " + ex.getMessage());
+        }
     }
 
     @Test
@@ -81,7 +111,7 @@ public class TestBooksControllerFileHandlingService {
             booksController.addBook("Test Book", new src.models.Author("John", "Doe", Gender.MALE),
                     "123-4-567-34567-4", 29.99, "A test book", true, new ArrayList<>(), 10);
 
-            ArrayList<Book> books= (ArrayList<Book>)fileHandlingService.readObjectFromFile(DATABASE);
+            ArrayList<Book> books = (ArrayList<Book>)fileHandlingService.readObjectFromFile(DATABASE);
             assertEquals(1, books.size());
 
             Book addedBook = books.get(0);
@@ -111,9 +141,12 @@ public class TestBooksControllerFileHandlingService {
             Book book = books.get(0);
             booksController.removeBook(book);
 
-            assertEquals(0, booksController.getBooks().size());
+            ArrayList<Book> books_file = (ArrayList<Book>)fileHandlingService.readObjectFromFile(DATABASE);
+            assertEquals(0, books_file.size());
         } catch (IOException ex) {
             fail("Failed to remove book: " + ex.getMessage());
+        } catch (ClassNotFoundException ex) {
+            fail("Failed to load database: " + ex.getMessage());
         }
     }
 
@@ -130,7 +163,8 @@ public class TestBooksControllerFileHandlingService {
             booksController.updateBook(book, "Updated Book", new src.models.Author("Jane", "Doe",Gender.MALE),
                     "123-4-567-34567-4", 39.99, "An updated book", false, new ArrayList<>(), 20);
 
-            Book updatedBook = booksController.getBooks().get(0);
+            ArrayList<Book> books_file = (ArrayList<Book>)fileHandlingService.readObjectFromFile(DATABASE);
+            Book updatedBook = books_file.get(0);
             assertEquals("Updated Book", updatedBook.getTitle());
             assertEquals("Jane Doe", updatedBook.getAuthor().toString());
             assertEquals("123-4-567-34567-4", updatedBook.getIsbn13());
@@ -140,6 +174,8 @@ public class TestBooksControllerFileHandlingService {
             assertEquals(20, updatedBook.getQuantity());
         } catch (IOException ex) {
             fail("Failed to update book: " + ex.getMessage());
+        } catch (ClassNotFoundException ex) {
+            fail("Failed to load database: " + ex.getMessage());
         }
     }
 }

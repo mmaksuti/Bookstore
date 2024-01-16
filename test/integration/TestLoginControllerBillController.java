@@ -4,15 +4,19 @@ import org.junit.jupiter.api.Test;
 import src.controllers.BillController;
 import src.controllers.LoginController;
 import src.enums.AccessLevel;
+import src.exceptions.LastAdministratorException;
 import src.exceptions.UnauthenticatedException;
 import src.models.Bill;
+import src.models.User;
 import src.services.FileHandlingService;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
 public class TestLoginControllerBillController {
     private FileHandlingService stubFileHandlingService;
@@ -22,93 +26,45 @@ public class TestLoginControllerBillController {
     @BeforeEach
     public void setUp() throws IOException {
         stubFileHandlingService = mock(FileHandlingService.class);
-        billController = new BillController(stubFileHandlingService);
-        loginController = new LoginController(stubFileHandlingService, billController);
+
+        ArrayList<User> users = new ArrayList<User>();
+        try {
+            when(stubFileHandlingService.readObjectFromFile("usersDatabase.dat")).thenReturn(users);
+            when(stubFileHandlingService.ensureDirectory("bills")).thenReturn(true);
+            when(stubFileHandlingService.deleteFile(any(String.class))).thenReturn(true);
+        }
+        catch (ClassNotFoundException ignored) {
+        }
+
+        billController = new BillController(stubFileHandlingService, "bills");
+        loginController = new LoginController(stubFileHandlingService, billController, "usersDatabase.dat", "session");
     }
 
     @Test
     public void testRemoveUserIsLibrarian() {
+        try {
+            loginController.addUser("John", "Doe", "johndoe", "password", "johndoe@gmail.com", "+355671234567", 1000, LocalDate.of(1999, 1, 1), AccessLevel.LIBRARIAN);
+            User user1 = loginController.getUsers().get(0);
+
+            String[] billFileNames = {
+                    "01-01-2020.johndoe.0.100.txt",
+                    "01-03-2020.johndoe.0.100.txt",
+                    "01-03-2020.janedoe.0.150.txt",
+                    "01-02-2020.janedoe.0.100.txt",
+            };
+            when(stubFileHandlingService.listDirectory("bills")).thenReturn(billFileNames);
+            loginController.removeUser(user1);
+
+            verify(stubFileHandlingService, times(1)).deleteFile("bills/01-01-2020.johndoe.0.100.txt");
+            verify(stubFileHandlingService, times(1)).deleteFile("bills/01-03-2020.johndoe.0.100.txt");
+            verify(stubFileHandlingService, times(0)).deleteFile("bills/01-03-2020.janedoe.0.150.txt");
+            verify(stubFileHandlingService, times(0)).deleteFile("bills/01-02-2020.janedoe.0.100.txt");
+        }
+        catch (IOException ex) {
+            fail("Failed to add users: " + ex.getMessage());
+        }
+        catch (LastAdministratorException ignored) {
+        }
     }
-
-//    @Test
-//    public void testReadingFromEmptyDatabase() {
-//        assertDoesNotThrow(() -> loginController.readFromFile("emptyDatabase.dat"));
-//        assertEquals(1, loginController.getUsers().size());
-//    }
-//    @Test
-//    public void testAddingNewUser() {
-//        try {
-//            String username = "john_doe";
-//
-//            // Check if the user already exists
-//            if (!loginController.userExists(username)) {
-//                assertDoesNotThrow(() -> loginController.addUser("John", "Doe", username, "password", "john@example.com", "+123456789", 1000, LocalDate.of(1990, 1, 1), AccessLevel.LIBRARIAN));
-//            }
-//
-//            assertTrue(loginController.userExists(username));
-//        } catch (Exception e) {
-//            e.printStackTrace(); // Print the exception details
-//            fail("Unexpected exception thrown: " + e.getClass().getSimpleName() + ": " + e.getMessage());
-//        }
-//    }
-//
-//
-//    @Test
-//    public void testLoggingInAndGettingUserInfo() throws UnauthenticatedException, IOException {
-//        String username = "john_doe";
-//        String password = "password";
-//
-//        // Check if the user already exists
-//        if (!loginController.userExists(username)) {
-//            loginController.addUser("John", "Doe", username, password, "john@example.com", "+355673456789", 1000, LocalDate.of(1990, 1, 1), AccessLevel.LIBRARIAN);
-//        }
-//
-//        assertTrue(loginController.login(username, password));
-//        assertEquals(username, loginController.getLoggedUsername());
-//        assertEquals(AccessLevel.LIBRARIAN, loginController.getLoggedAccessLevel());
-//    }
-//
-//
-//    @Test
-//    public void testUpdatingUserInfo() {
-//        String initialUsername = "john__doe";
-//        String updatedUsername = "jane_doe";
-//
-//        assertDoesNotThrow(() -> loginController.addUser("John", "Doe", initialUsername, "password", "john@example.com", "+355674567789", 1000, LocalDate.of(1990, 1, 1), AccessLevel.LIBRARIAN));
-//        assertTrue(loginController.login(initialUsername, "password"));
-//
-//        assertDoesNotThrow(() -> loginController.updateUser(
-//                loginController.getUsers().get(0),
-//                "Jane",
-//                "Doe",
-//                updatedUsername,  // Use a valid username here
-//                "newpassword",
-//                "jane@example.com",
-//                "+355676546732",
-//                1200,
-//                LocalDate.of(1985, 1, 1),
-//                AccessLevel.ADMINISTRATOR));
-//
-//        assertTrue(loginController.userExists(updatedUsername));
-//    }
-//
-//
-//    @Test
-//    public void testSavingAndLoadingSession() throws IOException {
-//        String username = "john_doe";
-//        String password = "password";
-//
-//        // Check if the user already exists
-//        if (!loginController.userExists(username)) {
-//            loginController.addUser("John", "Doe", username, password, "john@example.com", "+35567456789", 1000, LocalDate.of(1990, 1, 1), AccessLevel.LIBRARIAN);
-//        }
-//
-//        assertTrue(loginController.login(username, password));
-//        assertDoesNotThrow(() -> loginController.saveSession(username, password));
-//
-//        loginController.logout();
-//        assertFalse(loginController.loginWithSavedSession());
-//    }
-
 
 }
