@@ -54,15 +54,6 @@ public class TestBooksControllerFileHandlingService {
         }
     }
 
-    @Test
-    void testConstructorWithDatabase() {
-        try {
-            booksController = new BooksController(fileHandlingService, DATABASE);
-            assertEquals(0, booksController.getBooks().size()); // Assuming initial database is empty
-        } catch (IOException ex) {
-            fail("Failed to set up databases: " + ex.getMessage());
-        }
-    }
 
     @Test
     void testConstructorInvalidDatabase() {

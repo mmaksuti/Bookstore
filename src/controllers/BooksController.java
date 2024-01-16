@@ -12,7 +12,7 @@ import src.services.FileHandlingService;
 public class BooksController {
     private String DATABASE = "booksDatabase.dat";
     private ObservableList<Book> books;
-    private FileHandlingService fileHandlingService;
+    private final FileHandlingService fileHandlingService;
 
     public String getDATABASE() {
         return DATABASE;
