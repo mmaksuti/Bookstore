@@ -114,6 +114,11 @@ public class NewBookStage extends Stage {
 
             String quantity = quantityField.getText();
 
+            if (price.isBlank() || quantity.isBlank()) {
+                status.setText("Please fill in all fields");
+                return;
+            }
+
             double priceValue;
             try {
                 priceValue = Double.parseDouble(price);

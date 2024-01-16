@@ -93,6 +93,11 @@ public class NewUserStage extends Stage {
             String phone = phoneNumberField.getText();
             String salaryString = salaryField.getText();
 
+            if (salaryString.isBlank()) {
+                status.setText("Please fill in all fields");
+                return;
+            }
+            
             int salaryInt;
             try {
                 salaryInt = Integer.parseInt(salaryString);
